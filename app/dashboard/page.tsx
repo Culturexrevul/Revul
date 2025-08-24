@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartTooltip } from "@/components/ui/chart"
 import { TrendingUp, TrendingDown, DollarSign, Percent, Calendar, Plus, Minus, BarChart3 } from "lucide-react"
 import {
   LineChart,
@@ -147,22 +147,25 @@ export default function InvestorDashboardPage() {
     { month: "Apr", value: 14500, roi: 16.0 },
     { month: "May", value: 15100, roi: 20.8 },
     { month: "Jun", value: 15750, roi: 26.0 },
-  ]
+  ].filter((item) => item.value && item.roi !== undefined)
 
   const assetAllocationData = [
-    { category: "Music", value: 5334, percentage: 33.9 },
-    { category: "Art", value: 3458, percentage: 22.0 },
-    { category: "Fashion", value: 3208, percentage: 20.4 },
-    { category: "Film", value: 2400, percentage: 15.2 },
-    { category: "Literature", value: 1620, percentage: 10.3 },
-    { category: "Photography", value: 1400, percentage: 8.9 },
-  ]
+    { category: "Music", value: 5334, percentage: 33.9, name: "Music" },
+    { category: "Art", value: 3458, percentage: 22.0, name: "Art" },
+    { category: "Fashion", value: 3208, percentage: 20.4, name: "Fashion" },
+    { category: "Film", value: 2400, percentage: 15.2, name: "Film" },
+    { category: "Literature", value: 1620, percentage: 10.3, name: "Literature" },
+    { category: "Photography", value: 1400, percentage: 8.9, name: "Photography" },
+  ].filter((item) => item.value && item.category)
 
-  const roiByAssetData = portfolio.map((asset) => ({
-    name: asset.assetName.length > 15 ? asset.assetName.substring(0, 15) + "..." : asset.assetName,
-    roi: asset.roi,
-    value: asset.currentValue,
-  }))
+  const roiByAssetData = portfolio
+    .map((asset) => ({
+      name: asset.assetName.length > 15 ? asset.assetName.substring(0, 15) + "..." : asset.assetName,
+      roi: asset.roi,
+      value: asset.currentValue,
+      label: asset.assetName.length > 15 ? asset.assetName.substring(0, 15) + "..." : asset.assetName,
+    }))
+    .filter((item) => item.roi !== undefined && item.value)
 
   const COLORS = ["#D4AF37", "#2D5016", "#CD853F", "#8B4513", "#DAA520", "#556B2F"]
 
@@ -245,46 +248,53 @@ export default function InvestorDashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="px-4 sm:px-6">
-                <ChartContainer
-                  config={{
-                    value: {
-                      label: "Portfolio Value",
-                      color: "hsl(var(--accent))",
-                    },
-                    roi: {
-                      label: "ROI %",
-                      color: "hsl(var(--secondary))",
-                    },
-                  }}
-                  className="h-48 sm:h-64"
-                >
+                <div className="h-48 sm:h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={portfolioPerformanceData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" fontSize={12} />
-                      <YAxis yAxisId="left" fontSize={12} />
-                      <YAxis yAxisId="right" orientation="right" fontSize={12} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis dataKey="month" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                      <YAxis yAxisId="left" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                      <YAxis yAxisId="right" orientation="right" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                      <ChartTooltip
+                        content={({ active, payload, label }) => {
+                          if (active && payload && payload.length) {
+                            return (
+                              <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
+                                <p className="font-semibold text-foreground">{label}</p>
+                                {payload.map((entry, index) => (
+                                  <p key={index} className="text-sm" style={{ color: entry.color }}>
+                                    {entry.dataKey === "value" ? "Portfolio Value" : "ROI"}:{" "}
+                                    {entry.dataKey === "value"
+                                      ? `$${entry.value?.toLocaleString()}`
+                                      : `${entry.value}%`}
+                                  </p>
+                                ))}
+                              </div>
+                            )
+                          }
+                          return null
+                        }}
+                      />
                       <Line
                         yAxisId="left"
                         type="monotone"
                         dataKey="value"
-                        stroke="var(--color-value)"
+                        stroke="hsl(var(--accent))"
                         strokeWidth={3}
-                        dot={{ fill: "var(--color-value)", strokeWidth: 2, r: 4 }}
+                        dot={{ fill: "hsl(var(--accent))", strokeWidth: 2, r: 4 }}
                       />
                       <Line
                         yAxisId="right"
                         type="monotone"
                         dataKey="roi"
-                        stroke="var(--color-roi)"
+                        stroke="hsl(var(--secondary))"
                         strokeWidth={2}
                         strokeDasharray="5 5"
-                        dot={{ fill: "var(--color-roi)", strokeWidth: 2, r: 3 }}
+                        dot={{ fill: "hsl(var(--secondary))", strokeWidth: 2, r: 3 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
-                </ChartContainer>
+                </div>
               </CardContent>
             </Card>
 
@@ -297,15 +307,7 @@ export default function InvestorDashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="px-4 sm:px-6">
-                <ChartContainer
-                  config={{
-                    value: {
-                      label: "Value",
-                      color: "hsl(var(--accent))",
-                    },
-                  }}
-                  className="h-48 sm:h-64"
-                >
+                <div className="h-48 sm:h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -316,6 +318,7 @@ export default function InvestorDashboardPage() {
                         outerRadius={60}
                         paddingAngle={2}
                         dataKey="value"
+                        nameKey="category"
                       >
                         {assetAllocationData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -339,7 +342,7 @@ export default function InvestorDashboardPage() {
                       />
                     </PieChart>
                   </ResponsiveContainer>
-                </ChartContainer>
+                </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
                   {assetAllocationData.map((item, index) => (
                     <div key={item.category} className="flex items-center space-x-2">
@@ -363,20 +366,20 @@ export default function InvestorDashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="px-4 sm:px-6">
-              <ChartContainer
-                config={{
-                  roi: {
-                    label: "ROI %",
-                    color: "hsl(var(--secondary))",
-                  },
-                }}
-                className="h-48 sm:h-64"
-              >
+              <div className="h-48 sm:h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={roiByAssetData} margin={{ bottom: 40 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} fontSize={10} interval={0} />
-                    <YAxis fontSize={12} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis
+                      dataKey="name"
+                      angle={-45}
+                      textAnchor="end"
+                      height={60}
+                      fontSize={10}
+                      interval={0}
+                      stroke="hsl(var(--muted-foreground))"
+                    />
+                    <YAxis fontSize={12} stroke="hsl(var(--muted-foreground))" />
                     <ChartTooltip
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
@@ -392,10 +395,10 @@ export default function InvestorDashboardPage() {
                         return null
                       }}
                     />
-                    <Bar dataKey="roi" fill="var(--color-roi)" radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="roi" fill="hsl(var(--secondary))" radius={[2, 2, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
-              </ChartContainer>
+              </div>
             </CardContent>
           </Card>
 
