@@ -170,78 +170,81 @@ export default function InvestorDashboardPage() {
     <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-12">
-            <h1 className="font-display font-bold text-4xl lg:text-5xl text-primary mb-4">
+          <div className="mb-8 sm:mb-12">
+            <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-3 sm:mb-4">
               Investor <span className="text-accent">Dashboard</span>
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground">
               Track your cultural asset investments and portfolio performance.
             </p>
           </div>
 
-          {/* Portfolio Overview */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
             <Card className="border-border bg-card shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Total Portfolio Value</p>
-                    <p className="text-2xl font-bold text-foreground">${portfolioStats.totalValue.toLocaleString()}</p>
+              <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mb-2 sm:mb-0">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Portfolio Value</p>
+                    <p className="text-lg sm:text-2xl font-bold text-foreground">
+                      ${portfolioStats.totalValue.toLocaleString()}
+                    </p>
                   </div>
-                  <DollarSign className="h-8 w-8 text-accent" />
+                  <DollarSign className="h-6 w-6 sm:h-8 sm:w-8 text-accent self-end sm:self-auto" />
                 </div>
               </CardContent>
             </Card>
 
             <Card className="border-border bg-card shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Total Return</p>
-                    <p className="text-2xl font-bold text-secondary">+${portfolioStats.totalReturn.toLocaleString()}</p>
+              <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mb-2 sm:mb-0">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Return</p>
+                    <p className="text-lg sm:text-2xl font-bold text-secondary">
+                      +${portfolioStats.totalReturn.toLocaleString()}
+                    </p>
                   </div>
-                  <TrendingUp className="h-8 w-8 text-secondary" />
+                  <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-secondary self-end sm:self-auto" />
                 </div>
               </CardContent>
             </Card>
 
             <Card className="border-border bg-card shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">ROI</p>
-                    <p className="text-2xl font-bold text-terracotta">+{portfolioStats.returnPercentage}%</p>
+              <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mb-2 sm:mb-0">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-1">ROI</p>
+                    <p className="text-lg sm:text-2xl font-bold text-terracotta">+{portfolioStats.returnPercentage}%</p>
                   </div>
-                  <Percent className="h-8 w-8 text-terracotta" />
+                  <Percent className="h-6 w-6 sm:h-8 sm:w-8 text-terracotta self-end sm:self-auto" />
                 </div>
               </CardContent>
             </Card>
 
             <Card className="border-border bg-card shadow-lg">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">Active Assets</p>
-                    <p className="text-2xl font-bold text-foreground">{portfolioStats.activeAssets}</p>
+              <CardContent className="pt-4 sm:pt-6 px-3 sm:px-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mb-2 sm:mb-0">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-1">Active Assets</p>
+                    <p className="text-lg sm:text-2xl font-bold text-foreground">{portfolioStats.activeAssets}</p>
                   </div>
-                  <BarChart3 className="h-8 w-8 text-accent" />
+                  <BarChart3 className="h-6 w-6 sm:h-8 sm:w-8 text-accent self-end sm:self-auto" />
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Portfolio Performance Over Time */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="space-y-6 sm:space-y-8 mb-6 sm:mb-8">
             {/* Portfolio Performance Over Time */}
             <Card className="border-border bg-card shadow-lg">
-              <CardHeader>
-                <CardTitle className="font-display text-xl text-foreground">Portfolio Performance</CardTitle>
-                <CardDescription>Your investment growth over the last 6 months</CardDescription>
+              <CardHeader className="px-4 sm:px-6">
+                <CardTitle className="font-display text-lg sm:text-xl text-foreground">Portfolio Performance</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Your investment growth over the last 6 months
+                </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4 sm:px-6">
                 <ChartContainer
                   config={{
                     value: {
@@ -253,14 +256,14 @@ export default function InvestorDashboardPage() {
                       color: "hsl(var(--secondary))",
                     },
                   }}
-                  className="h-64"
+                  className="h-48 sm:h-64"
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={portfolioPerformanceData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis yAxisId="left" />
-                      <YAxis yAxisId="right" orientation="right" />
+                      <XAxis dataKey="month" fontSize={12} />
+                      <YAxis yAxisId="left" fontSize={12} />
+                      <YAxis yAxisId="right" orientation="right" fontSize={12} />
                       <ChartTooltip content={<ChartTooltipContent />} />
                       <Line
                         yAxisId="left"
@@ -287,11 +290,13 @@ export default function InvestorDashboardPage() {
 
             {/* Asset Allocation */}
             <Card className="border-border bg-card shadow-lg">
-              <CardHeader>
-                <CardTitle className="font-display text-xl text-foreground">Asset Allocation</CardTitle>
-                <CardDescription>Distribution of your investments by category</CardDescription>
+              <CardHeader className="px-4 sm:px-6">
+                <CardTitle className="font-display text-lg sm:text-xl text-foreground">Asset Allocation</CardTitle>
+                <CardDescription className="text-sm sm:text-base">
+                  Distribution of your investments by category
+                </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="px-4 sm:px-6">
                 <ChartContainer
                   config={{
                     value: {
@@ -299,7 +304,7 @@ export default function InvestorDashboardPage() {
                       color: "hsl(var(--accent))",
                     },
                   }}
-                  className="h-64"
+                  className="h-48 sm:h-64"
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -307,8 +312,8 @@ export default function InvestorDashboardPage() {
                         data={assetAllocationData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={40}
-                        outerRadius={80}
+                        innerRadius={30}
+                        outerRadius={60}
                         paddingAngle={2}
                         dataKey="value"
                       >
@@ -335,14 +340,14 @@ export default function InvestorDashboardPage() {
                     </PieChart>
                   </ResponsiveContainer>
                 </ChartContainer>
-                <div className="grid grid-cols-2 gap-2 mt-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
                   {assetAllocationData.map((item, index) => (
                     <div key={item.category} className="flex items-center space-x-2">
                       <div
-                        className="w-3 h-3 rounded-full"
+                        className="w-3 h-3 rounded-full flex-shrink-0"
                         style={{ backgroundColor: COLORS[index % COLORS.length] }}
                       />
-                      <span className="text-sm text-muted-foreground">{item.category}</span>
+                      <span className="text-xs sm:text-sm text-muted-foreground truncate">{item.category}</span>
                     </div>
                   ))}
                 </div>
@@ -350,13 +355,14 @@ export default function InvestorDashboardPage() {
             </Card>
           </div>
 
-          {/* ROI by Asset */}
-          <Card className="border-border bg-card shadow-lg mb-8">
-            <CardHeader>
-              <CardTitle className="font-display text-xl text-foreground">ROI by Asset</CardTitle>
-              <CardDescription>Return on investment for each of your assets</CardDescription>
+          <Card className="border-border bg-card shadow-lg mb-6 sm:mb-8">
+            <CardHeader className="px-4 sm:px-6">
+              <CardTitle className="font-display text-lg sm:text-xl text-foreground">ROI by Asset</CardTitle>
+              <CardDescription className="text-sm sm:text-base">
+                Return on investment for each of your assets
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-4 sm:px-6">
               <ChartContainer
                 config={{
                   roi: {
@@ -364,20 +370,20 @@ export default function InvestorDashboardPage() {
                     color: "hsl(var(--secondary))",
                   },
                 }}
-                className="h-64"
+                className="h-48 sm:h-64"
               >
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={roiByAssetData} margin={{ bottom: 60 }}>
+                  <BarChart data={roiByAssetData} margin={{ bottom: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} fontSize={12} />
-                    <YAxis />
+                    <XAxis dataKey="name" angle={-45} textAnchor="end" height={60} fontSize={10} interval={0} />
+                    <YAxis fontSize={12} />
                     <ChartTooltip
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
                           const data = payload[0].payload
                           return (
                             <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
-                              <p className="font-semibold text-foreground">{label}</p>
+                              <p className="font-semibold text-foreground text-sm">{label}</p>
                               <p className="text-sm text-secondary">ROI: {data.roi}%</p>
                               <p className="text-sm text-muted-foreground">Value: ${data.value.toLocaleString()}</p>
                             </div>
@@ -386,101 +392,112 @@ export default function InvestorDashboardPage() {
                         return null
                       }}
                     />
-                    <Bar dataKey="roi" fill="var(--color-roi)" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="roi" fill="var(--color-roi)" radius={[2, 2, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </ChartContainer>
             </CardContent>
           </Card>
 
-          {/* Portfolio Table */}
           <Card className="border-border bg-card shadow-lg">
-            <CardHeader>
-              <CardTitle className="font-display text-xl text-foreground">Your Assets</CardTitle>
-              <CardDescription>Detailed view of your cultural asset investments</CardDescription>
+            <CardHeader className="px-4 sm:px-6">
+              <CardTitle className="font-display text-lg sm:text-xl text-foreground">Your Assets</CardTitle>
+              <CardDescription className="text-sm sm:text-base">
+                Detailed view of your cultural asset investments
+              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <div className="space-y-4">
-                  {portfolio.map((asset) => (
-                    <div
-                      key={asset.id}
-                      className="border border-border bg-card rounded-lg p-6 hover:shadow-md transition-shadow"
-                    >
-                      <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 items-center">
-                        <div className="lg:col-span-2">
-                          <h3 className="font-semibold text-foreground text-lg mb-1">{asset.assetName}</h3>
+            <CardContent className="px-4 sm:px-6">
+              <div className="space-y-4">
+                {portfolio.map((asset) => (
+                  <div
+                    key={asset.id}
+                    className="border border-border bg-card rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow"
+                  >
+                    <div className="space-y-4">
+                      {/* Asset Info */}
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-foreground text-base sm:text-lg mb-1">{asset.assetName}</h3>
                           <p className="text-sm text-muted-foreground mb-2">by {asset.artist}</p>
                           <Badge variant="outline" className="text-xs border-border">
                             {asset.category}
                           </Badge>
                         </div>
 
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-foreground mb-1">{asset.ownershipPercent}%</div>
-                          <p className="text-sm text-muted-foreground">{asset.sharesOwned} shares</p>
-                        </div>
-
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-accent mb-1">
-                            ${asset.currentValue.toLocaleString()}
-                          </div>
-                          <p className="text-sm text-muted-foreground">Current Value</p>
-                        </div>
-
-                        <div className="text-center">
-                          <div className="flex items-center justify-center space-x-1 mb-1">
-                            {asset.trend === "up" ? (
-                              <TrendingUp className="h-4 w-4 text-secondary" />
-                            ) : (
-                              <TrendingDown className="h-4 w-4 text-destructive" />
-                            )}
-                            <span
-                              className={`font-bold text-lg ${
-                                asset.trend === "up" ? "text-secondary" : "text-destructive"
-                              }`}
-                            >
-                              +{asset.roi}%
-                            </span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">ROI</p>
-                        </div>
-
-                        <div className="text-center">
-                          <div className="text-sm text-muted-foreground mb-1">Last Updated</div>
-                          <div className="text-sm font-medium text-foreground">{asset.lastUpdate}</div>
-                        </div>
-
-                        <div className="flex flex-col space-y-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent"
+                        <div className="flex items-center space-x-1 sm:space-x-2">
+                          {asset.trend === "up" ? (
+                            <TrendingUp className="h-4 w-4 text-secondary" />
+                          ) : (
+                            <TrendingDown className="h-4 w-4 text-destructive" />
+                          )}
+                          <span
+                            className={`font-bold text-base sm:text-lg ${
+                              asset.trend === "up" ? "text-secondary" : "text-destructive"
+                            }`}
                           >
-                            <Plus className="h-4 w-4 mr-1" />
-                            Buy More
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-terracotta text-terracotta hover:bg-terracotta hover:text-terracotta-foreground bg-transparent"
-                          >
-                            <Minus className="h-4 w-4 mr-1" />
-                            Sell Shares
-                          </Button>
+                            +{asset.roi}%
+                          </span>
                         </div>
                       </div>
+
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                        <div className="text-center">
+                          <div className="text-base sm:text-lg font-bold text-foreground mb-1">
+                            {asset.ownershipPercent}%
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground">{asset.sharesOwned} shares</p>
+                        </div>
+
+                        <div className="text-center">
+                          <div className="text-base sm:text-lg font-bold text-accent mb-1">
+                            ${asset.currentValue.toLocaleString()}
+                          </div>
+                          <p className="text-xs sm:text-sm text-muted-foreground">Current Value</p>
+                        </div>
+
+                        <div className="text-center">
+                          <div className="text-xs sm:text-sm text-muted-foreground mb-1">Last Updated</div>
+                          <div className="text-xs sm:text-sm font-medium text-foreground">{asset.lastUpdate}</div>
+                        </div>
+
+                        <div className="text-center">
+                          <div className="text-xs sm:text-sm text-muted-foreground mb-1">Purchase Price</div>
+                          <div className="text-xs sm:text-sm font-medium text-foreground">
+                            ${asset.purchasePrice.toLocaleString()}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent h-10 flex-1"
+                        >
+                          <Plus className="h-4 w-4 mr-1" />
+                          Buy More
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-terracotta text-terracotta hover:bg-terracotta hover:text-terracotta-foreground bg-transparent h-10 flex-1"
+                        >
+                          <Minus className="h-4 w-4 mr-1" />
+                          Sell Shares
+                        </Button>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* Quick Actions */}
-          <div className="mt-8 text-center">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+          <div className="mt-6 sm:mt-8 text-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground h-12">
                 <Link href="/marketplace">
                   <Plus className="h-5 w-5 mr-2" />
                   Discover New Assets
@@ -490,7 +507,7 @@ export default function InvestorDashboardPage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent"
+                className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent h-12"
               >
                 <Link href="/licensing">
                   <Calendar className="h-5 w-5 mr-2" />

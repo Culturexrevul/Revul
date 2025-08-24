@@ -345,21 +345,23 @@ export default function HireCreatorsPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-deep-green to-accent py-16">
+      <section className="bg-gradient-to-r from-deep-green to-accent py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Hire Authentic African Creators</h1>
-          <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
+            Hire Authentic African Creators
+          </h1>
+          <p className="text-base sm:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
             Connect with verified creators and master artisans to bring authentic African culture to your brand. From
             micro-influencers to traditional craftspeople, find the perfect talent for your project.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-deep-green hover:bg-gray-100" onClick={scrollToCreators}>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <Button size="lg" className="bg-white text-deep-green hover:bg-gray-100 h-12" onClick={scrollToCreators}>
               Browse Creators
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-deep-green bg-transparent"
+              className="border-white text-white hover:bg-white hover:text-deep-green bg-transparent h-12"
               onClick={() => setShowPostProjectModal(true)}
             >
               Post a Project
@@ -369,144 +371,151 @@ export default function HireCreatorsPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 bg-white border-b">
+      <section className="py-8 sm:py-12 bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-deep-green">500+</div>
-              <div className="text-gray-600">Verified Creators</div>
+              <div className="text-2xl sm:text-3xl font-bold text-deep-green">500+</div>
+              <div className="text-sm sm:text-base text-muted-foreground">Verified Creators</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-deep-green">50+</div>
-              <div className="text-gray-600">Countries</div>
+              <div className="text-2xl sm:text-3xl font-bold text-deep-green">50+</div>
+              <div className="text-sm sm:text-base text-muted-foreground">Countries</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-deep-green">2M+</div>
-              <div className="text-gray-600">Combined Reach</div>
+              <div className="text-2xl sm:text-3xl font-bold text-deep-green">2M+</div>
+              <div className="text-sm sm:text-base text-muted-foreground">Combined Reach</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-deep-green">98%</div>
-              <div className="text-gray-600">Success Rate</div>
+              <div className="text-2xl sm:text-3xl font-bold text-deep-green">98%</div>
+              <div className="text-sm sm:text-base text-muted-foreground">Success Rate</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Search and Filters */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-6 sm:py-8 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-              <div className="lg:col-span-2">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input
-                    placeholder="Search creators, skills, or specialties..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
-                </div>
+          <div className="bg-card rounded-lg shadow-sm p-4 sm:p-6 border border-border">
+            <div className="space-y-4">
+              {/* Search Bar */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <Input
+                  placeholder="Search creators, skills, or specialties..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 h-12 text-base"
+                />
               </div>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category.value} value={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map((country) => (
-                    <SelectItem key={country.value} value={country.value}>
-                      {country.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Specialty" />
-                </SelectTrigger>
-                <SelectContent>
-                  {specialties.map((specialty) => (
-                    <SelectItem key={specialty.value} value={specialty.value}>
-                      {specialty.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sort by" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
-                  <SelectItem value="followers">Most Followers</SelectItem>
-                  <SelectItem value="projects">Most Projects</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                </SelectContent>
-              </Select>
+
+              {/* Filter Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger className="h-12 text-base">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category.value} value={category.value}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                  <SelectTrigger className="h-12 text-base">
+                    <SelectValue placeholder="Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country.value} value={country.value}>
+                        {country.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
+                  <SelectTrigger className="h-12 text-base">
+                    <SelectValue placeholder="Specialty" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {specialties.map((specialty) => (
+                      <SelectItem key={specialty.value} value={specialty.value}>
+                        {specialty.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="h-12 text-base">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="rating">Highest Rated</SelectItem>
+                    <SelectItem value="followers">Most Followers</SelectItem>
+                    <SelectItem value="projects">Most Projects</SelectItem>
+                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Results */}
-      <section ref={creatorsRef} className="py-12">
+      <section ref={creatorsRef} className="py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">{filteredCreators.length} Creators Found</h2>
-            <div className="text-sm text-gray-600">Showing verified creators with authentic African expertise</div>
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-3">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">{filteredCreators.length} Creators Found</h2>
+            <div className="text-sm text-muted-foreground">
+              Showing verified creators with authentic African expertise
+            </div>
           </div>
 
           {filteredCreators.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
+              <div className="text-muted-foreground mb-4">
                 <Search className="h-12 w-12 mx-auto" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No creators found</h3>
-              <p className="text-gray-600">Try adjusting your search criteria or filters.</p>
+              <h3 className="text-lg font-medium text-foreground mb-2">No creators found</h3>
+              <p className="text-muted-foreground text-sm sm:text-base px-2">
+                Try adjusting your search criteria or filters.
+              </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {filteredCreators.map((creator) => (
-                <Card key={creator.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="relative h-48">
+                <Card key={creator.id} className="overflow-hidden hover:shadow-lg transition-shadow border-border">
+                  <div className="relative h-40 sm:h-48">
                     <Image
                       src={creator.coverImage || "/placeholder.svg"}
                       alt={`${creator.name}'s work`}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute top-4 left-4">
+                    <div className="absolute top-3 left-3">
                       <Badge className={getCategoryColor(creator.category)}>
                         {getCategoryIcon(creator.category)}
-                        <span className="ml-1 capitalize">{creator.category}</span>
+                        <span className="ml-1 capitalize text-xs">{creator.category}</span>
                       </Badge>
                     </div>
                     {creator.hasCreatorId && (
-                      <div className="absolute top-4 right-4">
-                        <Badge className="bg-primary text-primary-foreground">
+                      <div className="absolute top-3 right-3">
+                        <Badge className="bg-primary text-primary-foreground text-xs">
                           <Verified className="h-3 w-3 mr-1" />
-                          Creator ID
+                          <span className="hidden xs:inline">Creator ID</span>
                         </Badge>
                       </div>
                     )}
                   </div>
-                  <CardHeader className="pb-4">
+                  <CardHeader className="pb-3 px-4 sm:px-6">
                     <div className="flex items-start justify-between">
-                      <div className="flex items-center space-x-3">
-                        <Avatar className="h-12 w-12">
+                      <div className="flex items-center space-x-3 min-w-0 flex-1">
+                        <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                           <AvatarImage src={creator.avatar || "/placeholder.svg"} alt={creator.name} />
                           <AvatarFallback>
                             {creator.name
@@ -515,63 +524,65 @@ export default function HireCreatorsPage() {
                               .join("")}
                           </AvatarFallback>
                         </Avatar>
-                        <div>
-                          <h3 className="font-semibold text-lg flex items-center">
-                            {creator.name}
-                            {creator.isVerified && <Verified className="h-4 w-4 text-blue-500 ml-1" />}
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-semibold text-base sm:text-lg flex items-center">
+                            <span className="truncate">{creator.name}</span>
+                            {creator.isVerified && <Verified className="h-4 w-4 text-blue-500 ml-1 flex-shrink-0" />}
                           </h3>
-                          <p className="text-sm text-gray-600">{creator.specialty}</p>
+                          <p className="text-sm text-muted-foreground truncate">{creator.specialty}</p>
                         </div>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="pt-0">
+                  <CardContent className="pt-0 px-4 sm:px-6">
                     <div className="space-y-3">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {creator.location}
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+                        <span className="truncate">{creator.location}</span>
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
                           <Star className="h-4 w-4 text-yellow-400 mr-1" />
                           <span className="font-medium">{creator.rating}</span>
-                          <span className="text-gray-600 ml-1">({creator.reviewCount})</span>
+                          <span className="text-muted-foreground ml-1">({creator.reviewCount})</span>
                         </div>
-                        <div className="text-sm text-gray-600">{creator.followers.toLocaleString()} followers</div>
+                        <div className="text-sm text-muted-foreground">
+                          {creator.followers.toLocaleString()} followers
+                        </div>
                       </div>
 
                       <div className="flex flex-wrap gap-1">
-                        {creator.skills.slice(0, 3).map((skill) => (
+                        {creator.skills.slice(0, 2).map((skill) => (
                           <Badge key={skill} variant="secondary" className="text-xs">
                             {skill}
                           </Badge>
                         ))}
-                        {creator.skills.length > 3 && (
+                        {creator.skills.length > 2 && (
                           <Badge variant="secondary" className="text-xs">
-                            +{creator.skills.length - 3} more
+                            +{creator.skills.length - 2} more
                           </Badge>
                         )}
                       </div>
 
                       <div className="flex items-center justify-between pt-2">
                         <div>
-                          <div className="font-semibold text-lg">${creator.hourlyRate}/hr</div>
-                          <div className="text-xs text-gray-600">Responds in {creator.responseTime}</div>
+                          <div className="font-semibold text-base sm:text-lg">${creator.hourlyRate}/hr</div>
+                          <div className="text-xs text-muted-foreground">Responds in {creator.responseTime}</div>
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium">{creator.completedProjects} projects</div>
-                          <div className="text-xs text-gray-600">completed</div>
+                          <div className="text-xs text-muted-foreground">completed</div>
                         </div>
                       </div>
 
-                      <div className="flex space-x-2 pt-4">
+                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
                         <Link href={`/creator/${creator.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full bg-transparent">
+                          <Button variant="outline" className="w-full bg-transparent h-10">
                             View Profile
                           </Button>
                         </Link>
-                        <Button className="flex-1" onClick={() => handleCommission(creator)}>
+                        <Button className="flex-1 h-10" onClick={() => handleCommission(creator)}>
                           Commission
                         </Button>
                       </div>
@@ -598,16 +609,16 @@ export default function HireCreatorsPage() {
 
       {showPostProjectModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-semibold">Post a Project</h2>
+          <div className="bg-card rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-border">
+              <h2 className="text-lg sm:text-xl font-semibold">Post a Project</h2>
               <Button variant="ghost" size="sm" onClick={() => setShowPostProjectModal(false)}>
                 <X className="h-4 w-4" />
               </Button>
             </div>
 
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 sm:p-6 space-y-6">
+              <div className="grid grid-cols-1 gap-4">
                 <div>
                   <Label htmlFor="projectTitle">Project Title *</Label>
                   <Input
@@ -615,6 +626,7 @@ export default function HireCreatorsPage() {
                     placeholder="e.g., Need authentic African fashion content"
                     value={postProjectForm.title}
                     onChange={(e) => setPostProjectForm((prev) => ({ ...prev, title: e.target.value }))}
+                    className="h-12 text-base"
                   />
                 </div>
                 <div>
@@ -623,7 +635,7 @@ export default function HireCreatorsPage() {
                     value={postProjectForm.category}
                     onValueChange={(value) => setPostProjectForm((prev) => ({ ...prev, category: value }))}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="h-12 text-base">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -640,16 +652,16 @@ export default function HireCreatorsPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="budget">Budget (USD) *</Label>
                   <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="budget"
                       type="number"
                       placeholder="1000"
-                      className="pl-10"
+                      className="pl-10 h-12 text-base"
                       value={postProjectForm.budget}
                       onChange={(e) => setPostProjectForm((prev) => ({ ...prev, budget: e.target.value }))}
                     />
@@ -662,6 +674,7 @@ export default function HireCreatorsPage() {
                     placeholder="e.g., 2 weeks"
                     value={postProjectForm.timeline}
                     onChange={(e) => setPostProjectForm((prev) => ({ ...prev, timeline: e.target.value }))}
+                    className="h-12 text-base"
                   />
                 </div>
               </div>
@@ -674,6 +687,7 @@ export default function HireCreatorsPage() {
                   rows={4}
                   value={postProjectForm.description}
                   onChange={(e) => setPostProjectForm((prev) => ({ ...prev, description: e.target.value }))}
+                  className="text-base"
                 />
               </div>
 
@@ -685,19 +699,20 @@ export default function HireCreatorsPage() {
                   placeholder="your@email.com"
                   value={postProjectForm.email}
                   onChange={(e) => setPostProjectForm((prev) => ({ ...prev, email: e.target.value }))}
+                  className="h-12 text-base"
                 />
               </div>
 
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600">Upload reference files (optional)</p>
+              <div className="border-2 border-dashed border-border rounded-lg p-4 sm:p-6 text-center">
+                <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">Upload reference files (optional)</p>
                 <Button variant="outline" size="sm" className="mt-2 bg-transparent">
                   Choose Files
                 </Button>
               </div>
 
-              <div className="flex justify-end space-x-3">
-                <Button variant="outline" onClick={() => setShowPostProjectModal(false)}>
+              <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+                <Button variant="outline" onClick={() => setShowPostProjectModal(false)} className="h-12">
                   Cancel
                 </Button>
                 <Button
@@ -708,6 +723,7 @@ export default function HireCreatorsPage() {
                     !postProjectForm.description ||
                     !postProjectForm.email
                   }
+                  className="h-12"
                 >
                   Post Project
                 </Button>

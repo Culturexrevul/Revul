@@ -36,22 +36,26 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="font-display font-bold text-3xl text-primary mb-4">Welcome Back</h1>
-            <p className="text-muted-foreground">Sign in to your Revulter Cultural Commerce account</p>
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="font-display font-bold text-2xl sm:text-3xl text-primary mb-4">Welcome Back</h1>
+            <p className="text-muted-foreground text-sm sm:text-base px-2">
+              Sign in to your Revulter Cultural Commerce account
+            </p>
           </div>
 
           <Card className="border-0 shadow-lg">
-            <CardHeader className="text-center">
-              <CardTitle className="font-display text-xl text-primary">Sign In</CardTitle>
-              <CardDescription>Enter your credentials to access your account</CardDescription>
+            <CardHeader className="text-center px-4 sm:px-6">
+              <CardTitle className="font-display text-lg sm:text-xl text-primary">Sign In</CardTitle>
+              <CardDescription className="text-sm sm:text-base">
+                Enter your credentials to access your account
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-4 sm:px-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-base font-medium">
+                  <Label htmlFor="email" className="text-sm sm:text-base font-medium">
                     Email Address
                   </Label>
                   <div className="relative">
@@ -63,13 +67,13 @@ export default function LoginPage() {
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       required
-                      className="pl-10 h-12"
+                      className="pl-10 h-12 sm:h-14 text-base"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-base font-medium">
+                  <Label htmlFor="password" className="text-sm sm:text-base font-medium">
                     Password
                   </Label>
                   <div className="relative">
@@ -81,12 +85,12 @@ export default function LoginPage() {
                       value={formData.password}
                       onChange={(e) => handleInputChange("password", e.target.value)}
                       required
-                      className="pl-10 pr-10 h-12"
+                      className="pl-10 pr-12 h-12 sm:h-14 text-base"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-primary p-1"
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
@@ -99,7 +103,11 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90 h-12">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary/90 h-12 sm:h-14 text-base sm:text-lg"
+                >
                   Sign In
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
@@ -119,8 +127,8 @@ export default function LoginPage() {
             </CardContent>
           </Card>
 
-          <div className="mt-8 text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="mt-6 sm:mt-8 text-center">
+            <p className="text-xs sm:text-sm text-muted-foreground px-2">
               By signing in, you agree to our{" "}
               <Link href="/terms" className="text-accent hover:text-accent/80">
                 Terms of Service

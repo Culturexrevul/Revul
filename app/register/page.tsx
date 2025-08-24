@@ -189,9 +189,9 @@ export default function RegisterPage() {
     return (
       <div className="min-h-screen flex flex-col">
         <Navigation />
-        <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
+        <main className="flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <div
                 className={`w-16 h-16 ${registrationSuccess ? "bg-green-100 dark:bg-green-900/30" : "bg-red-100 dark:bg-red-900/30"} rounded-full flex items-center justify-center mx-auto mb-4`}
               >
@@ -201,32 +201,32 @@ export default function RegisterPage() {
                   <Shield className="w-8 h-8 text-red-600 dark:text-red-400" />
                 )}
               </div>
-              <h1 className="font-display font-bold text-3xl text-foreground mb-4">
+              <h1 className="font-display font-bold text-2xl sm:text-3xl text-foreground mb-4">
                 {registrationSuccess ? "Registration Successful!" : "Registration Failed"}
               </h1>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-muted-foreground mb-6 text-sm sm:text-base px-2">
                 {registrationSuccess
                   ? `Your creative work "${formData.title}" has been successfully registered and is now visible on the homepage.`
                   : "There was an error registering your asset. Please try again."}
               </p>
-              {contextError && <p className="text-red-600 dark:text-red-400 text-sm mb-4">{contextError}</p>}
+              {contextError && <p className="text-red-600 dark:text-red-400 text-sm mb-4 px-2">{contextError}</p>}
             </div>
 
             {youtubeData && formData.category === "music" && (
-              <Card className="mb-8 border-border bg-card shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl text-foreground">YouTube Track Details</CardTitle>
+              <Card className="mb-6 sm:mb-8 border-border bg-card shadow-lg">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg sm:text-xl text-foreground">YouTube Track Details</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col md:flex-row gap-6 items-start">
+                <CardContent className="px-4 sm:px-6">
+                  <div className="flex flex-col gap-4 items-start">
                     <img
                       src={youtubeData.thumbnail || "/placeholder.svg"}
                       alt={youtubeData.title}
-                      className="w-full md:w-48 h-36 object-cover rounded-lg"
+                      className="w-full max-w-sm mx-auto h-48 sm:h-36 object-cover rounded-lg"
                     />
-                    <div className="flex-1 text-left">
-                      <h3 className="font-semibold text-lg mb-3 text-foreground">{youtubeData.title}</h3>
-                      <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div className="w-full text-left">
+                      <h3 className="font-semibold text-base sm:text-lg mb-3 text-foreground">{youtubeData.title}</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                         <div className="flex items-center gap-2">
                           <Eye className="w-4 h-4 text-muted-foreground" />
                           <span className="text-sm text-foreground">{youtubeData.viewCount} views</span>
@@ -236,12 +236,12 @@ export default function RegisterPage() {
                           <span className="text-sm text-foreground">{youtubeData.likeCount} likes</span>
                         </div>
                       </div>
-                      <Button asChild variant="outline" size="sm">
+                      <Button asChild variant="outline" size="sm" className="w-full sm:w-auto bg-transparent">
                         <a
                           href={`https://youtube.com/watch?v=${youtubeData.videoId}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2"
+                          className="flex items-center justify-center gap-2"
                         >
                           <ExternalLink className="w-4 h-4" />
                           View on YouTube
@@ -253,14 +253,14 @@ export default function RegisterPage() {
               </Card>
             )}
 
-            <div className="flex gap-4 justify-center">
-              <Button onClick={() => router.push("/")} variant="outline" className="bg-transparent">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+              <Button onClick={() => router.push("/")} variant="outline" className="bg-transparent h-12">
                 View on Homepage
               </Button>
               {registrationSuccess && (
                 <Button
                   onClick={() => router.push(`/asset/${Math.random().toString(36).substr(2, 9)}`)}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground h-12"
                 >
                   View Asset Profile
                 </Button>
@@ -277,31 +277,31 @@ export default function RegisterPage() {
     <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="font-display font-bold text-4xl lg:text-5xl text-foreground mb-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-foreground mb-4 sm:mb-6">
               Register Your <span className="text-accent">Creative Work</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
               Protect your intellectual property and unlock new revenue opportunities in minutes.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="lg:col-span-2 order-2 lg:order-1">
               <Card className="border-border bg-card shadow-lg">
-                <CardHeader>
-                  <CardTitle className="font-display text-2xl text-foreground">Asset Details</CardTitle>
-                  <CardDescription>
+                <CardHeader className="px-4 sm:px-6">
+                  <CardTitle className="font-display text-xl sm:text-2xl text-foreground">Asset Details</CardTitle>
+                  <CardDescription className="text-sm sm:text-base">
                     Provide information about your creative work to begin the registration process.
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-4 sm:px-6">
                   <TooltipProvider>
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="space-y-2">
-                        <Label htmlFor="title" className="text-base font-medium">
+                        <Label htmlFor="title" className="text-sm sm:text-base font-medium">
                           Asset Title *
                         </Label>
                         <Input
@@ -310,12 +310,12 @@ export default function RegisterPage() {
                           value={formData.title}
                           onChange={(e) => handleInputChange("title", e.target.value)}
                           required
-                          className="h-12"
+                          className="h-12 text-base"
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="description" className="text-base font-medium">
+                        <Label htmlFor="description" className="text-sm sm:text-base font-medium">
                           Description *
                         </Label>
                         <Textarea
@@ -325,14 +325,14 @@ export default function RegisterPage() {
                           onChange={(e) => handleInputChange("description", e.target.value)}
                           required
                           rows={4}
-                          className="resize-none"
+                          className="resize-none text-base"
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-base font-medium">Category *</Label>
+                        <Label className="text-sm sm:text-base font-medium">Category *</Label>
                         <Select onValueChange={(value) => handleInputChange("category", value)} required>
-                          <SelectTrigger className="h-12">
+                          <SelectTrigger className="h-12 text-base">
                             <SelectValue placeholder="Select the category of your work" />
                           </SelectTrigger>
                           <SelectContent>
@@ -347,7 +347,7 @@ export default function RegisterPage() {
 
                       {formData.category === "music" && (
                         <div className="space-y-2">
-                          <Label htmlFor="youtubeLink" className="text-base font-medium">
+                          <Label htmlFor="youtubeLink" className="text-sm sm:text-base font-medium">
                             YouTube Link (Optional)
                           </Label>
                           <Input
@@ -356,25 +356,25 @@ export default function RegisterPage() {
                             placeholder="Enter YouTube link to your song"
                             value={formData.youtubeLink}
                             onChange={(e) => handleInputChange("youtubeLink", e.target.value)}
-                            className="h-12"
+                            className="h-12 text-base"
                           />
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-xs sm:text-sm text-muted-foreground">
                             Add a YouTube link to display track statistics with your registration
                           </p>
                         </div>
                       )}
 
                       <div className="space-y-4 border-t border-border pt-6">
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                           <div className="flex items-center space-x-2">
                             <Users className="h-5 w-5 text-accent" />
-                            <Label className="text-base font-medium">Ownership Structure</Label>
+                            <Label className="text-sm sm:text-base font-medium">Ownership Structure</Label>
                             <Tooltip>
                               <TooltipTrigger>
                                 <Info className="h-4 w-4 text-muted-foreground" />
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p className="max-w-xs">
+                                <p className="max-w-xs text-sm">
                                   Choose whether this work has a single owner or multiple co-owners. All ownership
                                   percentages must add up to 100%.
                                 </p>
@@ -395,7 +395,7 @@ export default function RegisterPage() {
 
                         {!hasCoOwners ? (
                           <div className="space-y-2">
-                            <Label htmlFor="ownership" className="text-base font-medium">
+                            <Label htmlFor="ownership" className="text-sm sm:text-base font-medium">
                               Ownership Percentage *
                             </Label>
                             <Input
@@ -407,22 +407,22 @@ export default function RegisterPage() {
                               value={formData.ownership}
                               onChange={(e) => handleInputChange("ownership", e.target.value)}
                               required
-                              className="h-12"
+                              className="h-12 text-base"
                             />
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-xs sm:text-sm text-muted-foreground">
                               Specify what percentage of this work you own (e.g., 100% for sole ownership)
                             </p>
                           </div>
                         ) : (
                           <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                              <Label className="text-base font-medium">Co-Owners *</Label>
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                              <Label className="text-sm sm:text-base font-medium">Co-Owners *</Label>
                               <Button
                                 type="button"
                                 variant="outline"
                                 size="sm"
                                 onClick={addCoOwner}
-                                className="flex items-center gap-2 bg-transparent"
+                                className="flex items-center gap-2 bg-transparent h-10 w-full sm:w-auto"
                               >
                                 <Plus className="h-4 w-4" />
                                 Add Co-Owner
@@ -431,19 +431,19 @@ export default function RegisterPage() {
 
                             <div className="space-y-3">
                               {coOwners.map((owner, index) => (
-                                <div key={index} className="flex gap-3 items-end">
-                                  <div className="flex-1">
+                                <div key={index} className="flex flex-col sm:flex-row gap-3 items-start sm:items-end">
+                                  <div className="flex-1 w-full">
                                     <Label className="text-sm font-medium">Co-Owner {index + 1} Name</Label>
                                     <Input
                                       placeholder="Enter co-owner name"
                                       value={owner.name}
                                       onChange={(e) => updateCoOwner(index, "name", e.target.value)}
                                       required
-                                      className="h-10"
+                                      className="h-12 text-base"
                                     />
                                   </div>
-                                  <div className="w-24">
-                                    <Label className="text-sm font-medium">%</Label>
+                                  <div className="w-full sm:w-24">
+                                    <Label className="text-sm font-medium">Percentage (%)</Label>
                                     <Input
                                       type="number"
                                       min="0"
@@ -452,7 +452,7 @@ export default function RegisterPage() {
                                       value={owner.percentage || ""}
                                       onChange={(e) => updateCoOwner(index, "percentage", Number(e.target.value))}
                                       required
-                                      className="h-10"
+                                      className="h-12 text-base"
                                     />
                                   </div>
                                   {coOwners.length > 1 && (
@@ -461,9 +461,10 @@ export default function RegisterPage() {
                                       variant="outline"
                                       size="sm"
                                       onClick={() => removeCoOwner(index)}
-                                      className="h-10 w-10 p-0 flex-shrink-0"
+                                      className="h-12 w-full sm:w-12 p-0 flex-shrink-0"
                                     >
                                       <Minus className="h-4 w-4" />
+                                      <span className="sm:hidden ml-2">Remove</span>
                                     </Button>
                                   )}
                                 </div>
@@ -490,7 +491,7 @@ export default function RegisterPage() {
                       <Button
                         type="submit"
                         size="lg"
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 text-lg"
+                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 sm:h-14 text-base sm:text-lg"
                         disabled={isLoadingYoutube || contextLoading || (hasCoOwners && ownershipError !== "")}
                       >
                         {isLoadingYoutube ? "Processing..." : contextLoading ? "Saving..." : "Register Asset"}
@@ -501,45 +502,47 @@ export default function RegisterPage() {
               </Card>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
               <Card className="border-border bg-card shadow-lg">
-                <CardHeader>
-                  <CardTitle className="font-display text-xl text-foreground">Why Register?</CardTitle>
+                <CardHeader className="px-4 sm:px-6">
+                  <CardTitle className="font-display text-lg sm:text-xl text-foreground">Why Register?</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 px-4 sm:px-6">
                   <div className="flex items-start space-x-3">
-                    <Shield className="h-6 w-6 text-accent mt-1 flex-shrink-0" />
+                    <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-accent mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold text-foreground">Legal Protection</h4>
-                      <p className="text-sm text-muted-foreground">
+                      <h4 className="font-semibold text-sm sm:text-base text-foreground">Legal Protection</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         Establish ownership and protect against unauthorized use
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <Globe className="h-6 w-6 text-terracotta mt-1 flex-shrink-0" />
+                    <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-terracotta mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold text-foreground">Global Reach</h4>
-                      <p className="text-sm text-muted-foreground">
+                      <h4 className="font-semibold text-sm sm:text-base text-foreground">Global Reach</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
                         License your work to international markets and platforms
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <Clock className="h-6 w-6 text-secondary mt-1 flex-shrink-0" />
+                    <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-secondary mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold text-foreground">Quick Process</h4>
-                      <p className="text-sm text-muted-foreground">Complete registration in minutes, not months</p>
+                      <h4 className="font-semibold text-sm sm:text-base text-foreground">Quick Process</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground">
+                        Complete registration in minutes, not months
+                      </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="border-border bg-accent/10 dark:bg-accent/5 shadow-lg">
-                <CardContent className="pt-6">
-                  <h4 className="font-semibold text-foreground mb-2">Registration Fee</h4>
-                  <div className="text-3xl font-bold text-accent mb-2">$25</div>
-                  <p className="text-sm text-muted-foreground">
+                <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
+                  <h4 className="font-semibold text-sm sm:text-base text-foreground mb-2">Registration Fee</h4>
+                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">$25</div>
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     One-time fee includes blockchain registration, legal documentation, and marketplace listing.
                   </p>
                 </CardContent>
