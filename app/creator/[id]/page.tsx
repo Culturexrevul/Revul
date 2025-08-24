@@ -129,91 +129,119 @@ export default function CreatorProfilePage() {
       {/* Profile Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative -mt-20 md:-mt-24">
-          <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-            <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-6">
-              <Avatar className="h-24 w-24 md:h-32 md:w-32 border-4 border-white shadow-lg">
-                <AvatarImage src={creator.avatar || "/placeholder.svg"} alt={creator.name} />
-                <AvatarFallback className="text-2xl">
-                  {creator.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
+          <div className="bg-card rounded-lg shadow-lg p-4 sm:p-6 md:p-8">
+            <div className="flex flex-col space-y-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <Avatar className="h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32 border-4 border-background shadow-lg mx-auto sm:mx-0">
+                  <AvatarImage src={creator.avatar || "/placeholder.svg"} alt={creator.name} />
+                  <AvatarFallback className="text-lg sm:text-xl md:text-2xl">
+                    {creator.name
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
+                </Avatar>
 
-              <div className="flex-1">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <h1 className="text-2xl md:text-3xl font-bold flex items-center">
-                      {creator.name}
-                      {creator.isVerified && <Verified className="h-6 w-6 text-blue-500 ml-2" />}
-                    </h1>
-                    <p className="text-lg text-gray-600 mt-1">{creator.specialty}</p>
-                    <div className="flex items-center text-gray-600 mt-2">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      {creator.location}
+                <div className="flex-1 text-center sm:text-left w-full">
+                  <div className="flex flex-col space-y-3">
+                    <div>
+                      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex items-center justify-center sm:justify-start">
+                        {creator.name}
+                        {creator.isVerified && <Verified className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500 ml-2" />}
+                      </h1>
+                      <p className="text-base sm:text-lg text-muted-foreground mt-1">{creator.specialty}</p>
+                      <div className="flex items-center justify-center sm:justify-start text-muted-foreground mt-2">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        <span className="text-sm sm:text-base">{creator.location}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+                      <div className="flex items-center justify-center sm:justify-start">
+                        <Star className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-400 mr-1" />
+                        <span className="font-semibold text-base sm:text-lg">{creator.rating}</span>
+                        <span className="text-muted-foreground ml-1 text-sm sm:text-base">
+                          ({creator.reviewCount} reviews)
+                        </span>
+                      </div>
+                      <div className="text-center sm:text-right">
+                        <div className="text-xl sm:text-2xl font-bold text-primary">${creator.hourlyRate}/hr</div>
+                        <div className="text-xs sm:text-sm text-muted-foreground">
+                          Responds in {creator.responseTime}
+                        </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="flex flex-col md:items-end mt-4 md:mt-0">
-                    <div className="flex items-center mb-2">
-                      <Star className="h-5 w-5 text-yellow-400 mr-1" />
-                      <span className="font-semibold text-lg">{creator.rating}</span>
-                      <span className="text-gray-600 ml-1">({creator.reviewCount} reviews)</span>
-                    </div>
-                    <div className="text-2xl font-bold text-primary">${creator.hourlyRate}/hr</div>
-                    <div className="text-sm text-gray-600">Responds in {creator.responseTime}</div>
-                  </div>
                 </div>
+              </div>
 
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {creator.hasCreatorId && (
-                    <Badge className="bg-primary text-primary-foreground">
-                      <Verified className="h-3 w-3 mr-1" />
-                      Creator ID Verified
-                    </Badge>
-                  )}
-                  <Badge variant="secondary" className="capitalize">
-                    {creator.category}
+              <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+                {creator.hasCreatorId && (
+                  <Badge className="bg-primary text-primary-foreground text-xs sm:text-sm">
+                    <Verified className="h-3 w-3 mr-1" />
+                    Creator ID Verified
                   </Badge>
-                  <Badge variant="outline">
-                    <Users className="h-3 w-3 mr-1" />
-                    {creator.followers.toLocaleString()} followers
-                  </Badge>
-                  <Badge variant="outline">
-                    <Award className="h-3 w-3 mr-1" />
-                    {creator.completedProjects} projects
-                  </Badge>
-                </div>
+                )}
+                <Badge variant="secondary" className="capitalize text-xs sm:text-sm">
+                  {creator.category}
+                </Badge>
+                <Badge variant="outline" className="text-xs sm:text-sm">
+                  <Users className="h-3 w-3 mr-1" />
+                  {creator.followers.toLocaleString()} followers
+                </Badge>
+                <Badge variant="outline" className="text-xs sm:text-sm">
+                  <Award className="h-3 w-3 mr-1" />
+                  {creator.completedProjects} projects
+                </Badge>
+              </div>
 
-                <div className="flex space-x-3 mt-6">
-                  <Button size="lg" onClick={() => handleCommission()}>
-                    Commission Work
-                  </Button>
-                  <Button size="lg" variant="outline">
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Message
-                  </Button>
-                  <Button size="lg" variant="outline">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Schedule Call
-                  </Button>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                <Button
+                  size="lg"
+                  onClick={() => handleCommission()}
+                  className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base"
+                >
+                  Commission Work
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base bg-transparent"
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Message
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto min-h-[44px] text-sm sm:text-base bg-transparent"
+                >
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Schedule Call
+                </Button>
               </div>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2">
             <Tabs defaultValue="about" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="about">About</TabsTrigger>
-                <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
-                <TabsTrigger value="services">Services</TabsTrigger>
-                <TabsTrigger value="reviews">Reviews</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 h-auto">
+                <TabsTrigger value="about" className="text-xs sm:text-sm py-2">
+                  About
+                </TabsTrigger>
+                <TabsTrigger value="portfolio" className="text-xs sm:text-sm py-2">
+                  Portfolio
+                </TabsTrigger>
+                <TabsTrigger value="services" className="text-xs sm:text-sm py-2">
+                  Services
+                </TabsTrigger>
+                <TabsTrigger value="reviews" className="text-xs sm:text-sm py-2">
+                  Reviews
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="about" className="mt-6">
@@ -295,21 +323,25 @@ export default function CreatorProfilePage() {
                 <div className="space-y-4">
                   {creator.services.map((service, index) => (
                     <Card key={index}>
-                      <CardContent className="p-6">
-                        <div className="flex justify-between items-start">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="flex flex-col space-y-4">
                           <div className="flex-1">
-                            <h3 className="font-semibold text-lg mb-2">{service.title}</h3>
-                            <p className="text-gray-600 mb-4">{service.description}</p>
-                            <div className="flex items-center space-x-4 text-sm text-gray-500">
+                            <h3 className="font-semibold text-base sm:text-lg mb-2">{service.title}</h3>
+                            <p className="text-muted-foreground text-sm sm:text-base mb-4">{service.description}</p>
+                            <div className="flex items-center space-x-4 text-xs sm:text-sm text-muted-foreground">
                               <div className="flex items-center">
                                 <Clock className="h-4 w-4 mr-1" />
                                 {service.duration}
                               </div>
                             </div>
                           </div>
-                          <div className="text-right ml-6">
-                            <div className="text-2xl font-bold text-primary mb-2">${service.price}</div>
-                            <Button onClick={() => handleCommission(service)}>Commission</Button>
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+                            <div className="text-xl sm:text-2xl font-bold text-primary text-center sm:text-left">
+                              ${service.price}
+                            </div>
+                            <Button onClick={() => handleCommission(service)} className="w-full sm:w-auto min-h-[44px]">
+                              Commission
+                            </Button>
                           </div>
                         </div>
                       </CardContent>
@@ -351,46 +383,45 @@ export default function CreatorProfilePage() {
           </div>
 
           {/* Right Column - Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Quick Stats */}
             <Card>
-              <CardHeader>
-                <CardTitle>Quick Stats</CardTitle>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg">Quick Stats</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Response Time</span>
+              <CardContent className="space-y-3 sm:space-y-4 pt-0">
+                <div className="flex justify-between text-sm sm:text-base">
+                  <span className="text-muted-foreground">Response Time</span>
                   <span className="font-medium">{creator.responseTime}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Projects Completed</span>
+                <div className="flex justify-between text-sm sm:text-base">
+                  <span className="text-muted-foreground">Projects Completed</span>
                   <span className="font-medium">{creator.completedProjects}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Repeat Clients</span>
+                <div className="flex justify-between text-sm sm:text-base">
+                  <span className="text-muted-foreground">Repeat Clients</span>
                   <span className="font-medium">85%</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">On-Time Delivery</span>
+                <div className="flex justify-between text-sm sm:text-base">
+                  <span className="text-muted-foreground">On-Time Delivery</span>
                   <span className="font-medium">98%</span>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Contact Card */}
             <Card>
-              <CardHeader>
-                <CardTitle>Get in Touch</CardTitle>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg">Get in Touch</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full" onClick={() => handleCommission()}>
+              <CardContent className="space-y-3 pt-0">
+                <Button className="w-full min-h-[44px] text-sm sm:text-base" onClick={() => handleCommission()}>
                   Commission Work
                 </Button>
-                <Button variant="outline" className="w-full bg-transparent">
+                <Button variant="outline" className="w-full min-h-[44px] text-sm sm:text-base bg-transparent">
                   <MessageCircle className="h-4 w-4 mr-2" />
                   Send Message
                 </Button>
-                <Button variant="outline" className="w-full bg-transparent">
+                <Button variant="outline" className="w-full min-h-[44px] text-sm sm:text-base bg-transparent">
                   <Calendar className="h-4 w-4 mr-2" />
                   Schedule Call
                 </Button>
@@ -399,14 +430,14 @@ export default function CreatorProfilePage() {
 
             {/* Similar Creators */}
             <Card>
-              <CardHeader>
-                <CardTitle>Similar Creators</CardTitle>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg">Similar Creators</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">
+              <CardContent className="pt-0">
+                <p className="text-xs sm:text-sm text-muted-foreground mb-3">
                   Discover other talented creators in {creator.specialty.toLowerCase()}
                 </p>
-                <Button variant="outline" className="w-full mt-3 bg-transparent">
+                <Button variant="outline" className="w-full min-h-[44px] text-sm sm:text-base bg-transparent">
                   Browse Similar
                 </Button>
               </CardContent>
