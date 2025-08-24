@@ -20,6 +20,7 @@ function Navigation() {
     { href: "/legal", label: "Legal Assist" },
     { href: "/creator-id", label: "Creator ID" },
     { href: "/hire-creators", label: "Creator Hub" },
+    { href: "/train-ai", label: "TrainAI" }, // Added TrainAI menu item
     { href: "/dashboard", label: "Investor Dashboard" },
     { href: "/about", label: "About" },
   ]

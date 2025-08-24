@@ -22,6 +22,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import { useAssets } from "@/contexts/AssetContext"
+import { BrandCarousel } from "@/components/BrandCarousel"
 
 export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null)
@@ -111,6 +112,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <BrandCarousel />
 
         <section ref={showcaseRef} className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 scroll-animate">
           <div className="max-w-7xl mx-auto">
@@ -246,6 +249,22 @@ export default function HomePage() {
           </div>
         </section>
       </main>
+
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-accent/5 dark:bg-accent/10 lg:hidden">
+        <div className="max-w-4xl mx-auto text-center">
+          <h3 className="text-lg font-semibold text-foreground mb-3">Specialized AI Training Data</h3>
+          <p className="text-sm text-muted-foreground mb-4">
+            Access unique African cultural datasets for training more inclusive AI models
+          </p>
+          <Button
+            asChild
+            variant="outline"
+            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent"
+          >
+            <Link href="/train-ai">Explore TrainAI</Link>
+          </Button>
+        </div>
+      </section>
 
       <Footer />
     </div>
