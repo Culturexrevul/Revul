@@ -4,19 +4,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Shield,
-  Globe,
-  TrendingUp,
-  Eye,
-  ShoppingBag,
-  FileText,
-  Scale,
-  Award as IdCard,
-  Users,
-  Flame,
-  Star,
-} from "lucide-react"
+import { Shield, Globe, TrendingUp, ShoppingBag, FileText, Scale, Award as IdCard, Users } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef } from "react"
@@ -112,129 +100,139 @@ export default function HomePage() {
 
         <BrandCarousel />
 
-        <section ref={showcaseRef} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-12 scroll-animate">
+        <section ref={showcaseRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-12 scroll-animate">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
-              <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
-                Featured Cultural Assets
+            <div className="text-center mb-16 sm:mb-20 animate-fade-in">
+              <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground mb-4 tracking-tighter uppercase">
+                Featured Assets
               </h2>
-              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4 font-light tracking-wide mb-4">
-                Discover trending and featured authentic creative assets from emerging and established artists.
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-normal tracking-wider uppercase mb-2">
+                Discover trending creative assets
               </p>
-              <p className="text-xs sm:text-sm text-muted-foreground font-semibold tracking-wide">
-                Showing {featuredAssets.length} of {assets.length} total assets
+              <p className="text-xs text-muted-foreground/60 font-medium tracking-wide uppercase">
+                {featuredAssets.length} of {assets.length} assets
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
               {featuredAssets.map((asset, index) => (
                 <Card
                   key={asset.id}
-                  className={`group hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 border-border bg-card shadow-lg overflow-hidden animate-fade-in-up`}
-                  style={{ animationDelay: `${index * 200}ms` }}
+                  className={`group hover:shadow-lg transition-all duration-300 border-2 border-border bg-card overflow-hidden animate-fade-in-up`}
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="aspect-square bg-gradient-to-br from-accent/20 to-terracotta/20 relative overflow-hidden">
+                  <div className="aspect-square bg-muted/20 relative overflow-hidden">
                     {(asset.isTrending || asset.isFeatured) && (
                       <div
-                        className={`absolute top-2 left-2 z-10 ${asset.isTrending ? "bg-red-500 dark:bg-red-600" : "bg-yellow-500 dark:bg-yellow-600"} text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-sm`}
+                        className={`absolute top-3 left-3 z-10 ${asset.isTrending ? "bg-red-500" : "bg-yellow-500"} text-white px-3 py-1 text-xs font-bold uppercase tracking-wider`}
                       >
-                        {asset.isTrending ? <Flame className="h-3 w-3" /> : <Star className="h-3 w-3" />}
-                        <span className="hidden xs:inline sm:hidden lg:inline">
-                          {asset.isTrending ? "Trending" : "Featured"}
-                        </span>
+                        {asset.isTrending ? "Trending" : "Featured"}
                       </div>
                     )}
                     <Image
                       src={asset.image || "/placeholder.svg"}
                       alt={asset.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <CardHeader className="pb-2 px-4 sm:px-6 pt-4">
-                    <CardTitle className="font-display text-base sm:text-lg leading-tight">{asset.title}</CardTitle>
-                    <CardDescription className="text-sm text-muted-foreground capitalize">
+                  <CardHeader className="p-4 sm:p-5 space-y-2">
+                    <CardTitle className="font-bold text-sm sm:text-base uppercase tracking-wide leading-tight">
+                      {asset.title}
+                    </CardTitle>
+                    <CardDescription className="text-xs uppercase tracking-wider text-muted-foreground">
                       {asset.category}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="pt-0 px-4 sm:px-6 pb-4">
-                    <div className="flex justify-between items-center mb-3 text-sm">
-                      <span className="text-muted-foreground">Available: {asset.available}</span>
-                      <span className="font-semibold text-accent">${asset.price}/share</span>
+                  <CardContent className="p-4 sm:p-5 pt-0 space-y-3">
+                    <div className="flex justify-between items-center text-xs sm:text-sm">
+                      <span className="text-muted-foreground uppercase tracking-wide">Shares: {asset.available}</span>
+                      <span className="font-bold text-foreground">${asset.price}</span>
                     </div>
                     <Button
                       asChild
                       size="sm"
-                      variant="outline"
-                      className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent text-sm h-10 transition-all duration-200"
+                      className="w-full bg-foreground text-background hover:bg-foreground/90 font-bold uppercase tracking-wider text-xs h-11 transition-all duration-200"
                     >
-                      <Link href={`/asset/${asset.id}`}>
-                        <Eye className="h-4 w-4 mr-2" />
-                        <span>View Asset</span>
-                      </Link>
+                      <Link href={`/asset/${asset.id}`}>View Asset</Link>
                     </Button>
                   </CardContent>
                 </Card>
               ))}
             </div>
+
+            <div className="text-center mt-12 sm:mt-16">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background font-bold uppercase tracking-wider px-10 h-14 text-sm transition-all duration-200 bg-transparent"
+              >
+                <Link href="/marketplace">View All Assets</Link>
+              </Button>
+            </div>
           </div>
         </section>
 
-        <section
-          ref={featuresRef}
-          className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-12 bg-muted/40 dark:bg-muted/20 scroll-animate transition-colors duration-300"
-        >
+        <section ref={featuresRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-12 bg-muted/30 scroll-animate">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
-              <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 sm:mb-6 leading-tight">
-                Why Choose Revulter?
+            <div className="text-center mb-16 sm:mb-20 animate-fade-in">
+              <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground mb-4 tracking-tighter uppercase">
+                Why Revulter
               </h2>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-normal tracking-wider uppercase">
+                The modern IP commerce platform
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
-              <Card className="text-center border-border bg-card shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 animate-slide-up p-2 sm:p-0">
-                <CardHeader className="pb-4 px-4 sm:px-6">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-accent/10 dark:bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-accent/20 dark:hover:bg-accent/30 hover:scale-110 transition-all duration-300">
-                    <Shield className="h-7 w-7 sm:h-8 sm:w-8 text-accent" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              <Card className="border-2 border-border bg-card hover:shadow-lg transition-all duration-300 animate-slide-up overflow-hidden">
+                <CardHeader className="p-6 sm:p-8 space-y-4">
+                  <div className="w-16 h-16 bg-foreground flex items-center justify-center">
+                    <Shield className="h-8 w-8 text-background" />
                   </div>
-                  <CardTitle className="font-display text-xl sm:text-2xl text-foreground">IP Registration</CardTitle>
+                  <CardTitle className="font-bold text-xl sm:text-2xl uppercase tracking-wide text-foreground">
+                    IP Registration
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="px-4 sm:px-6">
-                  <CardDescription className="text-base sm:text-lg text-muted-foreground">
-                    Protect your rights in minutes with our streamlined registration process.
+                <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
+                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    Protect your creative rights in minutes with our streamlined registration process and automated
+                    certification.
                   </CardDescription>
                 </CardContent>
               </Card>
 
-              <Card className="text-center border-border bg-card shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 animate-slide-up animation-delay-200 p-2 sm:p-0">
-                <CardHeader className="pb-4 px-4 sm:px-6">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-terracotta/10 dark:bg-terracotta/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-terracotta/20 dark:hover:bg-terracotta/30 hover:scale-110 transition-all duration-300">
-                    <Globe className="h-7 w-7 sm:h-8 sm:w-8 text-terracotta" />
+              <Card className="border-2 border-border bg-card hover:shadow-lg transition-all duration-300 animate-slide-up animation-delay-200 overflow-hidden">
+                <CardHeader className="p-6 sm:p-8 space-y-4">
+                  <div className="w-16 h-16 bg-foreground flex items-center justify-center">
+                    <Globe className="h-8 w-8 text-background" />
                   </div>
-                  <CardTitle className="font-display text-xl sm:text-2xl text-foreground">
-                    Cultural Marketplace
+                  <CardTitle className="font-bold text-xl sm:text-2xl uppercase tracking-wide text-foreground">
+                    Global Marketplace
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="px-4 sm:px-6">
-                  <CardDescription className="text-base sm:text-lg text-muted-foreground">
-                    Sell and license your works globally to reach new audiences and markets.
+                <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
+                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    Sell and license your works globally to reach new audiences, collectors, and international markets
+                    seamlessly.
                   </CardDescription>
                 </CardContent>
               </Card>
 
-              <Card className="text-center border-border bg-card shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 animate-slide-up animation-delay-400 p-2 sm:p-0">
-                <CardHeader className="pb-4 px-4 sm:px-6">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-secondary/10 dark:bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-secondary/20 dark:hover:bg-secondary/30 hover:scale-110 transition-all duration-300">
-                    <TrendingUp className="h-7 w-7 sm:h-8 sm:w-8 text-secondary" />
+              <Card className="border-2 border-border bg-card hover:shadow-lg transition-all duration-300 animate-slide-up animation-delay-400 overflow-hidden">
+                <CardHeader className="p-6 sm:p-8 space-y-4">
+                  <div className="w-16 h-16 bg-foreground flex items-center justify-center">
+                    <TrendingUp className="h-8 w-8 text-background" />
                   </div>
-                  <CardTitle className="font-display text-xl sm:text-2xl text-foreground">
-                    Fractional Ownership
+                  <CardTitle className="font-bold text-xl sm:text-2xl uppercase tracking-wide text-foreground">
+                    Fractional Trading
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="px-4 sm:px-6">
-                  <CardDescription className="text-base sm:text-lg text-muted-foreground">
-                    Trade shares in music, art & film to diversify your creative portfolio.
+                <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
+                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    Trade shares in music, art, and film to diversify your creative portfolio and unlock new investment
+                    opportunities.
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -243,16 +241,17 @@ export default function HomePage() {
         </section>
       </main>
 
-      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-12 bg-accent/5 dark:bg-accent/10 lg:hidden">
+      <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-12 bg-foreground text-background lg:hidden">
         <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Specialized AI Training Data</h3>
-          <p className="text-base sm:text-lg text-muted-foreground mb-6 font-light tracking-wide">
-            Access unique African cultural datasets for training more inclusive AI models
+          <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-4">TrainAI</h3>
+          <p className="text-sm sm:text-base text-background/80 mb-8 font-normal tracking-wide uppercase max-w-2xl mx-auto">
+            Specialized datasets for inclusive AI models
           </p>
           <Button
             asChild
             variant="outline"
-            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent font-semibold px-8 py-3"
+            size="lg"
+            className="border-2 border-background text-background hover:bg-background hover:text-foreground font-bold uppercase tracking-wider px-10 h-14 text-sm transition-all duration-200 bg-transparent"
           >
             <Link href="/train-ai">Explore TrainAI</Link>
           </Button>

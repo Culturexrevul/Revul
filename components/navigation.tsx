@@ -22,6 +22,7 @@ function Navigation() {
     { href: "/hire-creators", label: "Creator Hub" },
     { href: "/train-ai", label: "TrainAI" },
     { href: "/community", label: "Community" }, // Added Community menu item
+    { href: "/ipquest", label: "IP Quest" }, // Added IP Quest mini-game
     { href: "/dashboard", label: "Investor Dashboard" },
     { href: "/about", label: "About" },
   ]
