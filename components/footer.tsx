@@ -14,11 +14,10 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-base sm:text-lg font-medium text-accent mb-3 sm:mb-4">
-              Powering Africa's Creative Economy.
+              Powering the Creative Economy.
             </p>
             <p className="text-sm sm:text-base text-secondary-foreground/80 max-w-md leading-relaxed">
-              Empowering African creatives with secure ownership, global exposure, and fair monetization of their
-              cultural works.
+              The End-to-End Creative IP Infrastructure for Global Global Export, with Gamified education, Rights intelligence, AI amped workflow, and Community.                
             </p>
           </div>
 

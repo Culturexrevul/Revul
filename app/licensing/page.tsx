@@ -272,7 +272,7 @@ export default function LicensingHubPage() {
               Licensing <span className="text-accent">Hub</span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              License authentic African creative works for your projects, AI training, commercial use, and more.
+              License authentic creative works for your projects, AI training, commercial use, and more.
             </p>
           </div>
 

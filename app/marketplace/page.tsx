@@ -10,9 +10,146 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Search, Filter, TrendingUp, Eye, Heart, Grid, List } from "lucide-react"
+import { Search, Filter, TrendingUp, Eye, Heart, Grid, List, X, CheckCircle, Users, Flame } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+
+interface IPReputationMetrics {
+  signal: number
+  sentiment: { positive: number; neutral: number; negative: number }
+  socialTraction: { instagram: number; twitter: number; tiktok: number }
+  creatorRep: string
+  riskScore: number
+  riskMomentum: "improving" | "stable" | "declining"
+  votes: number
+  buzz: string
+}
+
+const getIPMetricsForAsset = (assetId: string): IPReputationMetrics => {
+  const metricsMap: Record<string, IPReputationMetrics> = {
+    "1": {
+      signal: 8.7,
+      sentiment: { positive: 78, neutral: 15, negative: 7 },
+      socialTraction: { instagram: 45600, twitter: 23400, tiktok: 128900 },
+      creatorRep: "Rising: Nominated for Grammy 2024",
+      riskScore: 3,
+      riskMomentum: "improving",
+      votes: 1240,
+      buzz: "High engagement, 15% week-over-week growth",
+    },
+    "2": {
+      signal: 7.4,
+      sentiment: { positive: 82, neutral: 12, negative: 6 },
+      socialTraction: { instagram: 98200, twitter: 12100, tiktok: 45600 },
+      creatorRep: "Established: Featured in 12 major galleries",
+      riskScore: 2,
+      riskMomentum: "stable",
+      votes: 2103,
+      buzz: "Museum acquisition discussions ongoing",
+    },
+    "3": {
+      signal: 9.1,
+      sentiment: { positive: 85, neutral: 10, negative: 5 },
+      socialTraction: { instagram: 156200, twitter: 89400, tiktok: 234500 },
+      creatorRep: "Hot: Series A funded, 500k+ monthly active users",
+      riskScore: 2,
+      riskMomentum: "improving",
+      votes: 3567,
+      buzz: "Netflix adaptation in pre-production",
+    },
+    "4": {
+      signal: 6.9,
+      sentiment: { positive: 71, neutral: 18, negative: 11 },
+      socialTraction: { instagram: 67300, twitter: 8900, tiktok: 34200 },
+      creatorRep: "Growing: LVMH partnership in talks",
+      riskScore: 4,
+      riskMomentum: "declining",
+      votes: 892,
+      buzz: "Patent pending on unique dyeing technique",
+    },
+    "5": {
+      signal: 8.3,
+      sentiment: { positive: 81, neutral: 14, negative: 5 },
+      socialTraction: { instagram: 234100, twitter: 145300, tiktok: 567800 },
+      creatorRep: "Major Player: 20+ published games",
+      riskScore: 2,
+      riskMomentum: "improving",
+      votes: 4521,
+      buzz: "New AAA title announcement coming soon",
+    },
+    "6": {
+      signal: 7.8,
+      sentiment: { positive: 79, neutral: 16, negative: 5 },
+      socialTraction: { instagram: 125600, twitter: 87400, tiktok: 312500 },
+      creatorRep: "Emerging: $2M seed funding raised",
+      riskScore: 3,
+      riskMomentum: "improving",
+      votes: 2345,
+      buzz: "Community-driven development, strong Discord engagement",
+    },
+    "7": {
+      signal: 8.5,
+      sentiment: { positive: 84, neutral: 12, negative: 4 },
+      socialTraction: { instagram: 78900, twitter: 156200, tiktok: 89400 },
+      creatorRep: "Industry Leader: BAFTA Award Winner",
+      riskScore: 1,
+      riskMomentum: "stable",
+      votes: 5234,
+      buzz: "Mainstream adoption accelerating",
+    },
+    "8": {
+      signal: 7.2,
+      sentiment: { positive: 75, neutral: 19, negative: 6 },
+      socialTraction: { instagram: 54300, twitter: 23100, tiktok: 125600 },
+      creatorRep: "Verified: International distribution deals",
+      riskScore: 3,
+      riskMomentum: "stable",
+      votes: 1876,
+      buzz: "Regional expansion in progress",
+    },
+    "9": {
+      signal: 8.9,
+      sentiment: { positive: 87, neutral: 11, negative: 2 },
+      socialTraction: { instagram: 456700, twitter: 234500, tiktok: 987600 },
+      creatorRep: "Powerhouse: Multiple award nominations",
+      riskScore: 1,
+      riskMomentum: "improving",
+      votes: 7845,
+      buzz: "Cultural phenomenon, viral moments trending weekly",
+    },
+    "10": {
+      signal: 7.6,
+      sentiment: { positive: 80, neutral: 13, negative: 7 },
+      socialTraction: { instagram: 89200, twitter: 45600, tiktok: 234100 },
+      creatorRep: "Established: 15+ years in industry",
+      riskScore: 2,
+      riskMomentum: "stable",
+      votes: 3456,
+      buzz: "Consistent quality, loyal fanbase",
+    },
+    "11": {
+      signal: 8.1,
+      sentiment: { positive: 83, neutral: 13, negative: 4 },
+      socialTraction: { instagram: 167800, twitter: 98400, tiktok: 445600 },
+      creatorRep: "Innovation Leader: 5 patents filed",
+      riskScore: 2,
+      riskMomentum: "improving",
+      votes: 2987,
+      buzz: "Tech partnerships with major studios",
+    },
+    "12": {
+      signal: 7.9,
+      sentiment: { positive: 81, neutral: 14, negative: 5 },
+      socialTraction: { instagram: 76500, twitter: 112300, tiktok: 334200 },
+      creatorRep: "Rising Star: Festival darling",
+      riskScore: 3,
+      riskMomentum: "improving",
+      votes: 2134,
+      buzz: "Indie scene favorite with crossover potential",
+    },
+  }
+  return metricsMap[assetId] || metricsMap["1"]
+}
 
 export default function MarketplacePage() {
   // Mock marketplace data
@@ -170,6 +307,8 @@ export default function MarketplacePage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [favorites, setFavorites] = useState<string[]>([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedAsset, setSelectedAsset] = useState<(typeof assets)[0] | null>(null)
+  const [showReputationModal, setShowReputationModal] = useState(false)
   const itemsPerPage = 8
 
   const filteredAndSortedAssets = useMemo(() => {
@@ -233,7 +372,7 @@ export default function MarketplacePage() {
               Cultural <span className="text-accent">Marketplace</span>
             </h1>
             <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
-              Discover, invest in, and trade shares of authentic African creative works from talented artists across the
+              Discover, invest in, and trade shares of authentic creative works from talented artists across the
               continent.
             </p>
           </div>
@@ -398,99 +537,144 @@ export default function MarketplacePage() {
               <div
                 className={
                   viewMode === "grid"
-                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
+                    ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 md:gap-6"
                     : "space-y-4"
                 }
               >
-                {paginatedAssets.map((asset) => (
-                  <Card
-                    key={asset.id}
-                    className={`group hover:shadow-xl transition-all duration-300 border-border bg-card shadow-lg overflow-hidden ${
-                      viewMode === "list" ? "flex flex-col sm:flex-row" : ""
-                    }`}
-                  >
-                    <div className={`relative ${viewMode === "list" ? "sm:w-48 sm:flex-shrink-0" : ""}`}>
-                      <div
-                        className={`bg-gradient-to-br from-accent/20 to-terracotta/20 relative overflow-hidden ${
-                          viewMode === "list" ? "aspect-video sm:aspect-square" : "aspect-square"
-                        }`}
-                      >
-                        <Image
-                          src={asset.image || "/placeholder.svg"}
-                          alt={asset.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      {asset.isHot && (
-                        <Badge className="absolute top-2 left-2 bg-terracotta hover:bg-terracotta text-terracotta-foreground text-xs">
-                          <TrendingUp className="h-3 w-3 mr-1" />
-                          <span className="hidden xs:inline">Hot</span>
-                        </Badge>
-                      )}
-                      <div className="absolute top-2 right-2 flex gap-1 sm:gap-2">
-                        <Badge
-                          variant="secondary"
-                          className="bg-background/90 dark:bg-card/90 text-foreground border border-border text-xs"
+                {paginatedAssets.map((asset) => {
+                  const ipMetrics = getIPMetricsForAsset(asset.id)
+                  return (
+                    <Card
+                      key={asset.id}
+                      className={`group hover:shadow-xl transition-all duration-300 border-border bg-card shadow-lg overflow-hidden ${
+                        viewMode === "list" ? "flex flex-col sm:flex-row" : ""
+                      }`}
+                    >
+                      <div className={`relative ${viewMode === "list" ? "sm:w-48 sm:flex-shrink-0" : ""}`}>
+                        <div
+                          className={`bg-gradient-to-br from-accent/20 to-terracotta/20 relative overflow-hidden ${
+                            viewMode === "list" ? "aspect-video sm:aspect-square" : "aspect-square"
+                          }`}
                         >
-                          {asset.growth}
-                        </Badge>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="h-6 w-6 p-0 bg-background/90 dark:bg-card/90 hover:bg-accent hover:text-accent-foreground border border-border"
-                          onClick={() => toggleFavorite(asset.id)}
-                        >
-                          <Heart
-                            className={`h-3 w-3 ${
-                              favorites.includes(asset.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"
-                            }`}
+                          <Image
+                            src={asset.image || "/placeholder.svg"}
+                            alt={asset.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className={viewMode === "list" ? "flex-1" : ""}>
-                      <CardHeader className="pb-2 px-4 sm:px-6">
-                        <div className="flex justify-between items-start mb-2">
-                          <Badge variant="outline" className="text-xs">
-                            {asset.category}
-                          </Badge>
                         </div>
-                        <CardTitle className="font-display text-base sm:text-lg line-clamp-1">{asset.title}</CardTitle>
-                        <CardDescription className="text-sm text-muted-foreground">by {asset.artist}</CardDescription>
-                      </CardHeader>
-
-                      <CardContent className="pt-0 px-4 sm:px-6">
-                        <div className="space-y-2 sm:space-y-3">
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-muted-foreground">Available:</span>
-                            <span className="font-semibold text-primary">{asset.availableShares}%</span>
-                          </div>
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-muted-foreground">Price/Share:</span>
-                            <span className="font-semibold text-accent">${asset.pricePerShare}</span>
-                          </div>
-                          <div className="flex justify-between items-center text-sm">
-                            <span className="text-muted-foreground">Total Value:</span>
-                            <span className="font-semibold text-primary">${asset.totalValue.toLocaleString()}</span>
-                          </div>
-
-                          <Button
-                            asChild
-                            size="sm"
-                            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-3 sm:mt-4 h-10 sm:h-9"
+                        {asset.isHot && (
+                          <Badge className="absolute top-2 left-2 bg-terracotta hover:bg-terracotta text-terracotta-foreground text-xs">
+                            <TrendingUp className="h-3 w-3 mr-1" />
+                            <span className="hidden xs:inline">Hot</span>
+                          </Badge>
+                        )}
+                        <div className="absolute top-2 right-2 flex gap-1 sm:gap-2">
+                          <Badge
+                            variant="secondary"
+                            className="bg-background/90 dark:bg-card/90 text-foreground border border-border text-xs"
                           >
-                            <Link href={`/asset/${asset.id}`}>
-                              <Eye className="h-4 w-4 mr-2" />
-                              View Asset
-                            </Link>
+                            {asset.growth}
+                          </Badge>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="h-6 w-6 p-0 bg-background/90 dark:bg-card/90 hover:bg-accent hover:text-accent-foreground border border-border"
+                            onClick={() => toggleFavorite(asset.id)}
+                          >
+                            <Heart
+                              className={`h-3 w-3 ${
+                                favorites.includes(asset.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"
+                              }`}
+                            />
                           </Button>
                         </div>
-                      </CardContent>
-                    </div>
-                  </Card>
-                ))}
+                      </div>
+
+                      <div className={viewMode === "list" ? "flex-1" : ""}>
+                        <CardHeader className="pb-2 px-4 sm:px-6">
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge variant="outline" className="text-xs">
+                              {asset.category}
+                            </Badge>
+                          </div>
+                          <CardTitle className="font-display text-base sm:text-lg line-clamp-1">
+                            {asset.title}
+                          </CardTitle>
+                          <CardDescription className="text-sm text-muted-foreground">by {asset.artist}</CardDescription>
+                        </CardHeader>
+
+                        <CardContent className="pt-0 px-4 sm:px-6">
+                          <div className="space-y-2 sm:space-y-3">
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Available:</span>
+                              <span className="font-semibold text-primary">{asset.availableShares}%</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Price/Share:</span>
+                              <span className="font-semibold text-accent">${asset.pricePerShare}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Total Value:</span>
+                              <span className="font-semibold text-primary">${asset.totalValue.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Signal:</span>
+                              <span className="font-semibold text-accent">{ipMetrics.signal}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Sentiment:</span>
+                              <span className="font-semibold text-primary">
+                                {ipMetrics.sentiment.positive}% Positive, {ipMetrics.sentiment.neutral}% Neutral,{" "}
+                                {ipMetrics.sentiment.negative}% Negative
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Social Traction:</span>
+                              <span className="font-semibold text-accent">
+                                IG: {ipMetrics.socialTraction.instagram.toLocaleString()}, TW:{" "}
+                                {ipMetrics.socialTraction.twitter.toLocaleString()}, TT:{" "}
+                                {ipMetrics.socialTraction.tiktok.toLocaleString()}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Creator Reputation:</span>
+                              <span className="font-semibold text-primary">{ipMetrics.creatorRep}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Risk Score:</span>
+                              <span className="font-semibold text-accent">{ipMetrics.riskScore}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Risk Momentum:</span>
+                              <span className="font-semibold text-primary">{ipMetrics.riskMomentum}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Votes:</span>
+                              <span className="font-semibold text-accent">{ipMetrics.votes.toLocaleString()}</span>
+                            </div>
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-muted-foreground">Buzz:</span>
+                              <span className="font-semibold text-primary">{ipMetrics.buzz}</span>
+                            </div>
+
+                            <Button
+                              size="sm"
+                              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-3 sm:mt-4 h-10 sm:h-9"
+                              onClick={() => {
+                                setSelectedAsset(asset)
+                                setShowReputationModal(true)
+                              }}
+                            >
+                              <Eye className="h-4 w-4 mr-2" />
+                              View Asset & Reputation
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </div>
+                    </Card>
+                  )
+                })}
               </div>
 
               {hasMoreAssets && (
@@ -509,6 +693,176 @@ export default function MarketplacePage() {
           )}
         </div>
       </main>
+
+      {showReputationModal && selectedAsset && (
+        <div className="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+          <div className="w-full sm:max-w-4xl bg-card dark:bg-card border border-border rounded-t-2xl sm:rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-gradient-to-b from-card to-card/95 z-10 p-4 sm:p-6 border-b border-border flex items-center justify-between">
+              <div>
+                <h2 className="font-display font-bold text-xl sm:text-2xl text-foreground">{selectedAsset.title}</h2>
+                <p className="text-sm text-muted-foreground">by {selectedAsset.artist}</p>
+              </div>
+              <button
+                onClick={() => {
+                  setShowReputationModal(false)
+                  setSelectedAsset(null)
+                }}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="p-4 sm:p-6 space-y-6">
+              {/* Asset Image */}
+              <div className="relative w-full h-64 sm:h-80 rounded-xl overflow-hidden bg-muted border border-border/50">
+                <Image
+                  src={selectedAsset.image || "/placeholder.svg"}
+                  alt={selectedAsset.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              {/* Bloomberg Style IP Signal Score */}
+              <div className="bg-gradient-to-r from-accent/15 to-accent/5 dark:from-accent/25 dark:to-accent/10 border border-accent/20 rounded-xl p-6 sm:p-8">
+                <div className="text-center">
+                  <p className="text-xs sm:text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-3">
+                    IP Signal Score
+                  </p>
+                  <div className="text-7xl sm:text-8xl font-display font-bold text-accent mb-4">
+                    {getIPMetricsForAsset(selectedAsset.id).signal}
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    {getIPMetricsForAsset(selectedAsset.id).riskMomentum === "improving" ? (
+                      <TrendingUp className="h-5 w-5 text-green-500" />
+                    ) : getIPMetricsForAsset(selectedAsset.id).riskMomentum === "declining" ? (
+                      <TrendingUp className="h-5 w-5 text-red-500" />
+                    ) : (
+                      <CheckCircle className="h-5 w-5 text-blue-500" />
+                    )}
+                    <span className="text-sm sm:text-base font-semibold capitalize text-foreground">
+                      Momentum: {getIPMetricsForAsset(selectedAsset.id).riskMomentum}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Key Metrics Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                {/* Risk Score */}
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <p className="text-xs sm:text-sm text-muted-foreground font-semibold mb-2">Risk Score</p>
+                  <div
+                    className={`text-4xl sm:text-5xl font-display font-bold ${
+                      getIPMetricsForAsset(selectedAsset.id).riskScore <= 2
+                        ? "text-green-500"
+                        : getIPMetricsForAsset(selectedAsset.id).riskScore <= 3
+                          ? "text-yellow-500"
+                          : "text-red-500"
+                    }`}
+                  >
+                    {getIPMetricsForAsset(selectedAsset.id).riskScore}/10
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {getIPMetricsForAsset(selectedAsset.id).riskScore <= 2
+                      ? "Low Risk"
+                      : getIPMetricsForAsset(selectedAsset.id).riskScore <= 3
+                        ? "Moderate"
+                        : "Higher Risk"}
+                  </p>
+                </div>
+
+                {/* Community Votes */}
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <p className="text-xs sm:text-sm text-muted-foreground font-semibold mb-2">Community Votes</p>
+                  <div className="text-3xl sm:text-4xl font-display font-bold text-accent">
+                    {(getIPMetricsForAsset(selectedAsset.id).votes / 1000).toFixed(1)}K
+                  </div>
+                </div>
+
+                {/* Buzz Score */}
+                <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                  <p className="text-xs sm:text-sm text-muted-foreground font-semibold mb-2">Buzz Status</p>
+                  <div className="text-2xl font-display font-bold text-terracotta">
+                    {getIPMetricsForAsset(selectedAsset.id).buzz.includes("High") ||
+                    getIPMetricsForAsset(selectedAsset.id).buzz.includes("Hot")
+                      ? "🔥 Hot"
+                      : "Steady"}
+                  </div>
+                </div>
+              </div>
+
+              {/* Sentiment Breakdown */}
+              <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                <h3 className="font-semibold text-lg mb-4">Sentiment Breakdown</h3>
+                <div className="space-y-3">
+                  {[
+                    {
+                      label: "Positive",
+                      value: getIPMetricsForAsset(selectedAsset.id).sentiment.positive,
+                      color: "bg-green-500",
+                    },
+                    {
+                      label: "Neutral",
+                      value: getIPMetricsForAsset(selectedAsset.id).sentiment.neutral,
+                      color: "bg-blue-500",
+                    },
+                    {
+                      label: "Negative",
+                      value: getIPMetricsForAsset(selectedAsset.id).sentiment.negative,
+                      color: "bg-red-500",
+                    },
+                  ].map((item) => (
+                    <div key={item.label}>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-muted-foreground">{item.label}</span>
+                        <span className="font-bold text-foreground">{item.value}%</span>
+                      </div>
+                      <div className="w-full bg-muted rounded-full h-3">
+                        <div
+                          className={`${item.color} h-3 rounded-full transition-all duration-300`}
+                          style={{ width: `${item.value}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Social Traction */}
+              <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                  <Users className="h-5 w-5 text-accent" />
+                  Creator Reputation
+                </h3>
+                <p className="text-foreground">{getIPMetricsForAsset(selectedAsset.id).creatorRep}</p>
+              </div>
+
+              {/* Recent Buzz */}
+              <div className="bg-card border border-border rounded-lg p-4 sm:p-6">
+                <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
+                  <Flame className="h-5 w-5 text-terracotta" />
+                  Recent Buzz
+                </h3>
+                <p className="text-foreground mb-4">{getIPMetricsForAsset(selectedAsset.id).buzz}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
+                    <Link href={`/licensing?asset=${selectedAsset.id}`}>Explore Licensing</Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full bg-transparent"
+                    onClick={() => setShowReputationModal(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

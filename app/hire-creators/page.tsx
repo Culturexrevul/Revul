@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Search, MapPin, Star, Verified, Users, Palette, X, Upload, DollarSign } from "lucide-react"
+import { Search, MapPin, Star, Verified, Users, Palette, Upload, DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -224,6 +224,7 @@ export default function HireCreatorsPage() {
     email: "",
   })
   const creatorsRef = useRef<HTMLElement>(null)
+  const [activeTab, setActiveTab] = useState<"hire" | "post" | "studios">("hire")
 
   useEffect(() => {
     let filtered = creators
@@ -347,278 +348,295 @@ export default function HireCreatorsPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-deep-green to-accent py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
-            Hire Authentic African Creators
-          </h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">Creator Hub</h1>
           <p className="text-base sm:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
-            Connect with verified creators and master artisans to bring authentic African culture to your brand. From
-            micro-influencers to traditional craftspeople, find the perfect talent for your project.
+            Hire verified creators, post projects, or book our professional studios with automatic IP registration.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <Button size="lg" className="bg-white text-deep-green hover:bg-gray-100 h-12" onClick={scrollToCreators}>
-              Browse Creators
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-deep-green bg-transparent h-12"
-              onClick={() => setShowPostProjectModal(true)}
+        </div>
+      </section>
+
+      {/* Tab navigation for three main sections */}
+      <section className="bg-card border-b border-border sticky top-20 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-2 sm:gap-6 overflow-x-auto">
+            <button
+              onClick={() => setActiveTab("hire")}
+              className={`px-4 sm:px-6 py-4 font-semibold text-base whitespace-nowrap border-b-2 transition-colors ${
+                activeTab === "hire"
+                  ? "border-deep-green text-deep-green"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
             >
-              Post a Project
-            </Button>
+              Hire Creators
+            </button>
+            <button
+              onClick={() => setActiveTab("post")}
+              className={`px-4 sm:px-6 py-4 font-semibold text-base whitespace-nowrap border-b-2 transition-colors ${
+                activeTab === "post"
+                  ? "border-deep-green text-deep-green"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Post Project
+            </button>
+            <button
+              onClick={() => setActiveTab("studios")}
+              className={`px-4 sm:px-6 py-4 font-semibold text-base whitespace-nowrap border-b-2 transition-colors ${
+                activeTab === "studios"
+                  ? "border-deep-green text-deep-green"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Studio Bookings
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-8 sm:py-12 bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-deep-green">500+</div>
-              <div className="text-sm sm:text-base text-muted-foreground">Verified Creators</div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-deep-green">50+</div>
-              <div className="text-sm sm:text-base text-muted-foreground">Countries</div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-deep-green">2M+</div>
-              <div className="text-sm sm:text-base text-muted-foreground">Combined Reach</div>
-            </div>
-            <div>
-              <div className="text-2xl sm:text-3xl font-bold text-deep-green">98%</div>
-              <div className="text-sm sm:text-base text-muted-foreground">Success Rate</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Search and Filters */}
-      <section className="py-6 sm:py-8 bg-muted/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-card rounded-lg shadow-sm p-4 sm:p-6 border border-border">
-            <div className="space-y-4">
-              {/* Search Bar */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <Input
-                  placeholder="Search creators, skills, or specialties..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 h-12 text-base"
-                />
-              </div>
-
-              {/* Filter Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="h-12 text-base">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category.value} value={category.value}>
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select value={selectedCountry} onValueChange={setSelectedCountry}>
-                  <SelectTrigger className="h-12 text-base">
-                    <SelectValue placeholder="Country" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {countries.map((country) => (
-                      <SelectItem key={country.value} value={country.value}>
-                        {country.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
-                  <SelectTrigger className="h-12 text-base">
-                    <SelectValue placeholder="Specialty" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {specialties.map((specialty) => (
-                      <SelectItem key={specialty.value} value={specialty.value}>
-                        {specialty.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="h-12 text-base">
-                    <SelectValue placeholder="Sort by" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="rating">Highest Rated</SelectItem>
-                    <SelectItem value="followers">Most Followers</SelectItem>
-                    <SelectItem value="projects">Most Projects</SelectItem>
-                    <SelectItem value="price-low">Price: Low to High</SelectItem>
-                    <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  </SelectContent>
-                </Select>
+      {activeTab === "hire" && (
+        <>
+          {/* Stats Section */}
+          <section className="py-8 sm:py-12 bg-muted/50 border-b border-border">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 text-center">
+                <div>
+                  <div className="text-2xl sm:text-3xl font-bold text-deep-green">500+</div>
+                  <div className="text-sm sm:text-base text-muted-foreground">Verified Creators</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-bold text-deep-green">50+</div>
+                  <div className="text-sm sm:text-base text-muted-foreground">Countries</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-bold text-deep-green">2M+</div>
+                  <div className="text-sm sm:text-base text-muted-foreground">Combined Reach</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-bold text-deep-green">98%</div>
+                  <div className="text-sm sm:text-base text-muted-foreground">Success Rate</div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* Results */}
-      <section ref={creatorsRef} className="py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-3">
-            <h2 className="text-xl sm:text-2xl font-bold text-foreground">{filteredCreators.length} Creators Found</h2>
-            <div className="text-sm text-muted-foreground">
-              Showing verified creators with authentic African expertise
-            </div>
-          </div>
-
-          {filteredCreators.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-muted-foreground mb-4">
-                <Search className="h-12 w-12 mx-auto" />
-              </div>
-              <h3 className="text-lg font-medium text-foreground mb-2">No creators found</h3>
-              <p className="text-muted-foreground text-sm sm:text-base px-2">
-                Try adjusting your search criteria or filters.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-              {filteredCreators.map((creator) => (
-                <Card key={creator.id} className="overflow-hidden hover:shadow-lg transition-shadow border-border">
-                  <div className="relative h-40 sm:h-48">
-                    <Image
-                      src={creator.coverImage || "/placeholder.svg"}
-                      alt={`${creator.name}'s work`}
-                      fill
-                      className="object-cover"
+          {/* Search and Filters */}
+          <section className="py-6 sm:py-8 bg-muted/50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="bg-card rounded-lg shadow-sm p-4 sm:p-6 border border-border">
+                <div className="space-y-4">
+                  {/* Search Bar */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      placeholder="Search creators, skills, or specialties..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 h-12 text-base"
                     />
-                    <div className="absolute top-3 left-3">
-                      <Badge className={getCategoryColor(creator.category)}>
-                        {getCategoryIcon(creator.category)}
-                        <span className="ml-1 capitalize text-xs">{creator.category}</span>
-                      </Badge>
-                    </div>
-                    {creator.hasCreatorId && (
-                      <div className="absolute top-3 right-3">
-                        <Badge className="bg-primary text-primary-foreground text-xs">
-                          <Verified className="h-3 w-3 mr-1" />
-                          <span className="hidden xs:inline">Creator ID</span>
-                        </Badge>
-                      </div>
-                    )}
                   </div>
-                  <CardHeader className="pb-3 px-4 sm:px-6">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center space-x-3 min-w-0 flex-1">
-                        <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
-                          <AvatarImage src={creator.avatar || "/placeholder.svg"} alt={creator.name} />
-                          <AvatarFallback>
-                            {creator.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-semibold text-base sm:text-lg flex items-center">
-                            <span className="truncate">{creator.name}</span>
-                            {creator.isVerified && <Verified className="h-4 w-4 text-blue-500 ml-1 flex-shrink-0" />}
-                          </h3>
-                          <p className="text-sm text-muted-foreground truncate">{creator.specialty}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0 px-4 sm:px-6">
-                    <div className="space-y-3">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
-                        <span className="truncate">{creator.location}</span>
-                      </div>
 
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <Star className="h-4 w-4 text-yellow-400 mr-1" />
-                          <span className="font-medium">{creator.rating}</span>
-                          <span className="text-muted-foreground ml-1">({creator.reviewCount})</span>
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {creator.followers.toLocaleString()} followers
-                        </div>
-                      </div>
-
-                      <div className="flex flex-wrap gap-1">
-                        {creator.skills.slice(0, 2).map((skill) => (
-                          <Badge key={skill} variant="secondary" className="text-xs">
-                            {skill}
-                          </Badge>
+                  {/* Filter Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger className="h-12 text-base">
+                        <SelectValue placeholder="Category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((category) => (
+                          <SelectItem key={category.value} value={category.value}>
+                            {category.label}
+                          </SelectItem>
                         ))}
-                        {creator.skills.length > 2 && (
-                          <Badge variant="secondary" className="text-xs">
-                            +{creator.skills.length - 2} more
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                      <SelectTrigger className="h-12 text-base">
+                        <SelectValue placeholder="Country" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country.value} value={country.value}>
+                            {country.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
+                      <SelectTrigger className="h-12 text-base">
+                        <SelectValue placeholder="Specialty" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {specialties.map((specialty) => (
+                          <SelectItem key={specialty.value} value={specialty.value}>
+                            {specialty.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="h-12 text-base">
+                        <SelectValue placeholder="Sort by" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rating">Highest Rated</SelectItem>
+                        <SelectItem value="followers">Most Followers</SelectItem>
+                        <SelectItem value="projects">Most Projects</SelectItem>
+                        <SelectItem value="price-low">Price: Low to High</SelectItem>
+                        <SelectItem value="price-high">Price: High to Low</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Results */}
+          <section ref={creatorsRef} className="py-8 sm:py-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-3">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">
+                  {filteredCreators.length} Creators Found
+                </h2>
+                <div className="text-sm text-muted-foreground">
+                  Showing verified creators with authentic regional expertise
+                </div>
+              </div>
+
+              {filteredCreators.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-muted-foreground mb-4">
+                    <Search className="h-12 w-12 mx-auto" />
+                  </div>
+                  <h3 className="text-lg font-medium text-foreground mb-2">No creators found</h3>
+                  <p className="text-muted-foreground text-sm sm:text-base px-2">
+                    Try adjusting your search criteria or filters.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                  {filteredCreators.map((creator) => (
+                    <Card key={creator.id} className="overflow-hidden hover:shadow-lg transition-shadow border-border">
+                      <div className="relative h-40 sm:h-48">
+                        <Image
+                          src={creator.coverImage || "/placeholder.svg"}
+                          alt={`${creator.name}'s work`}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute top-3 left-3">
+                          <Badge className={getCategoryColor(creator.category)}>
+                            {getCategoryIcon(creator.category)}
+                            <span className="ml-1 capitalize text-xs">{creator.category}</span>
                           </Badge>
+                        </div>
+                        {creator.hasCreatorId && (
+                          <div className="absolute top-3 right-3">
+                            <Badge className="bg-primary text-primary-foreground text-xs">
+                              <Verified className="h-3 w-3 mr-1" />
+                              <span className="hidden xs:inline">Creator ID</span>
+                            </Badge>
+                          </div>
                         )}
                       </div>
-
-                      <div className="flex items-center justify-between pt-2">
-                        <div>
-                          <div className="font-semibold text-base sm:text-lg">${creator.hourlyRate}/hr</div>
-                          <div className="text-xs text-muted-foreground">Responds in {creator.responseTime}</div>
+                      <CardHeader className="pb-3 px-4 sm:px-6">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center space-x-3 min-w-0 flex-1">
+                            <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
+                              <AvatarImage src={creator.avatar || "/placeholder.svg"} alt={creator.name} />
+                              <AvatarFallback>
+                                {creator.name
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="min-w-0 flex-1">
+                              <h3 className="font-semibold text-base sm:text-lg flex items-center">
+                                <span className="truncate">{creator.name}</span>
+                                {creator.isVerified && (
+                                  <Verified className="h-4 w-4 text-blue-500 ml-1 flex-shrink-0" />
+                                )}
+                              </h3>
+                              <p className="text-sm text-muted-foreground truncate">{creator.specialty}</p>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-sm font-medium">{creator.completedProjects} projects</div>
-                          <div className="text-xs text-muted-foreground">completed</div>
-                        </div>
-                      </div>
+                      </CardHeader>
+                      <CardContent className="pt-0 px-4 sm:px-6">
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <MapPin className="h-4 w-4 mr-1 flex-shrink-0" />
+                            <span className="truncate">{creator.location}</span>
+                          </div>
 
-                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
-                        <Link href={`/creator/${creator.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full bg-transparent h-10">
-                            View Profile
-                          </Button>
-                        </Link>
-                        <Button className="flex-1 h-10" onClick={() => handleCommission(creator)}>
-                          Commission
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <Star className="h-4 w-4 text-yellow-400 mr-1" />
+                              <span className="font-medium">{creator.rating}</span>
+                              <span className="text-muted-foreground ml-1">({creator.reviewCount})</span>
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              {creator.followers.toLocaleString()} followers
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap gap-1">
+                            {creator.skills.slice(0, 2).map((skill) => (
+                              <Badge key={skill} variant="secondary" className="text-xs">
+                                {skill}
+                              </Badge>
+                            ))}
+                            {creator.skills.length > 2 && (
+                              <Badge variant="secondary" className="text-xs">
+                                +{creator.skills.length - 2} more
+                              </Badge>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between pt-2">
+                            <div>
+                              <div className="font-semibold text-base sm:text-lg">${creator.hourlyRate}/hr</div>
+                              <div className="text-xs text-muted-foreground">Responds in {creator.responseTime}</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-sm font-medium">{creator.completedProjects} projects</div>
+                              <div className="text-xs text-muted-foreground">completed</div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
+                            <Link href={`/creator/${creator.id}`} className="flex-1">
+                              <Button variant="outline" className="w-full bg-transparent h-10">
+                                View Profile
+                              </Button>
+                            </Link>
+                            <Button className="flex-1 h-10" onClick={() => handleCommission(creator)}>
+                              Commission
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </section>
-
-      {/* Commission Modal */}
-      {showCommissionModal && selectedCreator && (
-        <CommissionModal
-          creator={selectedCreator}
-          isOpen={showCommissionModal}
-          onClose={() => {
-            setShowCommissionModal(false)
-            setSelectedCreator(null)
-          }}
-        />
+          </section>
+        </>
       )}
 
-      {showPostProjectModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-card rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-border">
-            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-border">
-              <h2 className="text-lg sm:text-xl font-semibold">Post a Project</h2>
-              <Button variant="ghost" size="sm" onClick={() => setShowPostProjectModal(false)}>
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
+      {/* Post Project section */}
+      {activeTab === "post" && (
+        <section className="py-8 sm:py-12">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-card rounded-lg border border-border p-6 sm:p-8">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-2">Post a Project</h2>
+              <p className="text-muted-foreground mb-8">
+                Describe your project and connect with the perfect creator for your needs.
+              </p>
 
-            <div className="p-4 sm:p-6 space-y-6">
-              <div className="grid grid-cols-1 gap-4">
+              <div className="space-y-4">
                 <div>
                   <Label htmlFor="projectTitle">Project Title *</Label>
                   <Input
@@ -650,87 +668,298 @@ export default function HireCreatorsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="budget">Budget (USD) *</Label>
-                  <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="budget">Budget (USD) *</Label>
+                    <div className="relative">
+                      <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="budget"
+                        type="number"
+                        placeholder="1000"
+                        className="pl-10 h-12 text-base"
+                        value={postProjectForm.budget}
+                        onChange={(e) => setPostProjectForm((prev) => ({ ...prev, budget: e.target.value }))}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <Label htmlFor="timeline">Timeline</Label>
                     <Input
-                      id="budget"
-                      type="number"
-                      placeholder="1000"
-                      className="pl-10 h-12 text-base"
-                      value={postProjectForm.budget}
-                      onChange={(e) => setPostProjectForm((prev) => ({ ...prev, budget: e.target.value }))}
+                      id="timeline"
+                      placeholder="e.g., 2 weeks"
+                      value={postProjectForm.timeline}
+                      onChange={(e) => setPostProjectForm((prev) => ({ ...prev, timeline: e.target.value }))}
+                      className="h-12 text-base"
                     />
                   </div>
                 </div>
+
                 <div>
-                  <Label htmlFor="timeline">Timeline</Label>
+                  <Label htmlFor="description">Project Description *</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Describe your project, goals, and what you're looking for in a creator..."
+                    rows={4}
+                    value={postProjectForm.description}
+                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, description: e.target.value }))}
+                    className="text-base"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="email">Contact Email *</Label>
                   <Input
-                    id="timeline"
-                    placeholder="e.g., 2 weeks"
-                    value={postProjectForm.timeline}
-                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, timeline: e.target.value }))}
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={postProjectForm.email}
+                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, email: e.target.value }))}
                     className="h-12 text-base"
                   />
                 </div>
-              </div>
 
-              <div>
-                <Label htmlFor="description">Project Description *</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Describe your project, goals, and what you're looking for in a creator..."
-                  rows={4}
-                  value={postProjectForm.description}
-                  onChange={(e) => setPostProjectForm((prev) => ({ ...prev, description: e.target.value }))}
-                  className="text-base"
-                />
-              </div>
+                <div className="border-2 border-dashed border-border rounded-lg p-4 sm:p-6 text-center">
+                  <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Upload reference files (optional)</p>
+                  <Button variant="outline" size="sm" className="mt-2 bg-transparent">
+                    Choose Files
+                  </Button>
+                </div>
 
-              <div>
-                <Label htmlFor="email">Contact Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={postProjectForm.email}
-                  onChange={(e) => setPostProjectForm((prev) => ({ ...prev, email: e.target.value }))}
-                  className="h-12 text-base"
-                />
-              </div>
-
-              <div className="border-2 border-dashed border-border rounded-lg p-4 sm:p-6 text-center">
-                <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Upload reference files (optional)</p>
-                <Button variant="outline" size="sm" className="mt-2 bg-transparent">
-                  Choose Files
-                </Button>
-              </div>
-
-              <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
-                <Button variant="outline" onClick={() => setShowPostProjectModal(false)} className="h-12">
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handlePostProject}
-                  disabled={
-                    !postProjectForm.title ||
-                    !postProjectForm.category ||
-                    !postProjectForm.description ||
-                    !postProjectForm.email
-                  }
-                  className="h-12"
-                >
-                  Post Project
-                </Button>
+                <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3">
+                  <Button
+                    onClick={handlePostProject}
+                    disabled={
+                      !postProjectForm.title ||
+                      !postProjectForm.category ||
+                      !postProjectForm.description ||
+                      !postProjectForm.email
+                    }
+                    className="h-12"
+                  >
+                    Post Project
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+      )}
+
+      {/* Studio Bookings section */}
+      {activeTab === "studios" && (
+        <section className="py-8 sm:py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Studio Intro */}
+            <div className="mb-12">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Professional Studio Access</h2>
+              <p className="text-lg text-muted-foreground max-w-3xl">
+                Book world-class studios across Africa for your creative projects. Every production receives automatic
+                IP registration on Revulter, protecting your creative work instantly.
+              </p>
+            </div>
+
+            {/* Studio Types Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              {[
+                {
+                  title: "Music Production Studios",
+                  description: "Professional recording, mixing, and mastering facilities",
+                  icon: "🎵",
+                  specs: ["4K monitoring", "Analog & Digital gear", "Soundproof booths"],
+                  price: "$50-150/hour",
+                },
+                {
+                  title: "Podcast & Voiceover Studios",
+                  description: "Broadcast-quality audio recording environments",
+                  icon: "🎙️",
+                  specs: ["Acoustic treatment", "Multiple mic options", "Editing suites"],
+                  price: "$30-80/hour",
+                },
+                {
+                  title: "Photography Studios",
+                  description: "Versatile spaces with professional lighting and backdrops",
+                  icon: "📸",
+                  specs: ["Studio lighting", "Backdrop options", "Props & styling"],
+                  price: "$40-120/hour",
+                },
+                {
+                  title: "Filming & Video Studios",
+                  description: "Full production facilities with green screen and equipment",
+                  icon: "🎬",
+                  specs: ["Green screen", "Cinema lighting", "Equipment rental"],
+                  price: "$75-250/hour",
+                },
+              ].map((studio, index) => (
+                <Card key={index} className="border-2 hover:border-deep-green transition-colors">
+                  <CardHeader>
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="text-4xl">{studio.icon}</div>
+                      <Badge variant="secondary" className="bg-deep-green/10 text-deep-green">
+                        {studio.price}
+                      </Badge>
+                    </div>
+                    <h3 className="text-xl font-bold">{studio.title}</h3>
+                    <p className="text-sm text-muted-foreground">{studio.description}</p>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <p className="text-sm font-semibold mb-2">Amenities:</p>
+                      <ul className="space-y-1">
+                        {studio.specs.map((spec, i) => (
+                          <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 bg-deep-green rounded-full"></span>
+                            {spec}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <Button className="w-full h-11">Book Now</Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Subscription Plans */}
+            <div className="bg-card border border-border rounded-lg p-6 sm:p-8 mb-12">
+              <h3 className="text-2xl font-bold mb-6">Monthly Subscription Plans</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  {
+                    name: "Creator",
+                    rate: "$199/month",
+                    hours: "8 hours/month",
+                    discount: "15% savings",
+                    features: ["All studio types", "Priority booking", "IP auto-registration", "Flexible scheduling"],
+                  },
+                  {
+                    name: "Professional",
+                    rate: "$499/month",
+                    hours: "24 hours/month",
+                    discount: "25% savings",
+                    features: [
+                      "All studio types",
+                      "Priority support",
+                      "IP auto-registration",
+                      "Equipment included",
+                      "Guest passes",
+                    ],
+                    highlight: true,
+                  },
+                  {
+                    name: "Studio Pro",
+                    rate: "$999/month",
+                    hours: "60 hours/month",
+                    discount: "35% savings",
+                    features: [
+                      "Unlimited studio access",
+                      "24/7 support",
+                      "IP auto-registration",
+                      "Full equipment library",
+                      "Dedicated liaison",
+                    ],
+                  },
+                ].map((plan, index) => (
+                  <div
+                    key={index}
+                    className={`border-2 rounded-lg p-6 transition-all ${
+                      plan.highlight
+                        ? "border-deep-green bg-deep-green/5 scale-105"
+                        : "border-border hover:border-deep-green"
+                    }`}
+                  >
+                    {plan.highlight && <Badge className="mb-3 bg-deep-green">Most Popular</Badge>}
+                    <h4 className="text-xl font-bold mb-2">{plan.name}</h4>
+                    <div className="mb-1">
+                      <p className="text-2xl font-bold text-deep-green">{plan.rate}</p>
+                      <p className="text-sm text-muted-foreground">{plan.hours}</p>
+                      <p className="text-xs text-accent font-semibold">{plan.discount}</p>
+                    </div>
+                    <div className="my-4 h-px bg-border"></div>
+                    <ul className="space-y-2 mb-6">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="text-sm flex items-start gap-2">
+                          <span className="text-deep-green font-bold mt-0.5">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <Button className="w-full h-11" variant={plan.highlight ? "default" : "outline"}>
+                      Subscribe
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* IP Registration Benefit */}
+            <div className="bg-gradient-to-r from-deep-green/10 to-accent/10 border border-deep-green/20 rounded-lg p-6 sm:p-8">
+              <h3 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                <span className="text-2xl">🛡️</span>
+                Automatic IP Registration
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Every production recorded in our studios is automatically registered on Revulter, giving you immediate
+                copyright protection and IP rights documentation. Your creative work is protected from day one.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {["Instant copyright registration", "IP rights protection", "Documented timestamp & metadata"].map(
+                  (benefit, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <span className="text-deep-green font-bold">✓</span>
+                      <p className="text-sm">{benefit}</p>
+                    </div>
+                  ),
+                )}
+              </div>
+            </div>
+
+            {/* Studios Near You */}
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold mb-6">Studios Near You</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  { city: "Lagos, Nigeria", studios: 12, distance: "5 min away" },
+                  { city: "Accra, Ghana", studios: 8, distance: "12 min away" },
+                  { city: "Nairobi, Kenya", studios: 6, distance: "15 min away" },
+                  { city: "Johannesburg, South Africa", studios: 14, distance: "20 min away" },
+                ].map((location, index) => (
+                  <Card key={index}>
+                    <CardContent className="pt-6">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h4 className="font-bold text-lg">{location.city}</h4>
+                          <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1">
+                            <MapPin className="w-4 h-4" />
+                            {location.distance}
+                          </p>
+                        </div>
+                        <Badge className="bg-deep-green">{location.studios} studios</Badge>
+                      </div>
+                      <Button variant="outline" className="w-full bg-transparent">
+                        Browse Studios
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Commission Modal (moved outside conditional renders) */}
+      {showCommissionModal && selectedCreator && (
+        <CommissionModal
+          creator={selectedCreator}
+          isOpen={showCommissionModal}
+          onClose={() => {
+            setShowCommissionModal(false)
+            setSelectedCreator(null)
+          }}
+        />
       )}
     </div>
   )

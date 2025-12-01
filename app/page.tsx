@@ -14,7 +14,6 @@ import {
   Scale,
   Award as IdCard,
   Users,
-  Info,
   Flame,
   Star,
 } from "lucide-react"
@@ -54,13 +53,13 @@ export default function HomePage() {
 
   const quickAccessItems = [
     { href: "/register", label: "Register IP", icon: Shield, description: "Protect your creative work" },
+    { href: "/ip-reputation", label: "IP Reputation", icon: TrendingUp, description: "Assess IP investment risk" },
     { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, description: "Buy & sell creative assets" },
     { href: "/licensing", label: "Licensing Hub", icon: FileText, description: "License your content globally" },
     { href: "/legal", label: "Legal Assist", icon: Scale, description: "Get legal guidance & support" },
     { href: "/creator-id", label: "Creator ID", icon: IdCard, description: "Apply for verified status" },
     { href: "/hire-creators", label: "Creator Hub", icon: Users, description: "Hire African creators & artisans" },
     { href: "/dashboard", label: "Investor Dashboard", icon: TrendingUp, description: "Track your investments" },
-    { href: "/about", label: "About", icon: Info, description: "Learn about our mission" },
   ]
 
   const featuredAssets = assets.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).slice(0, 4)
@@ -70,27 +69,25 @@ export default function HomePage() {
       <Navigation />
 
       <main className="flex-1">
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative py-12 sm:py-16 lg:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <section ref={heroRef} className="relative py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-12 overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-10 dark:opacity-5">
+            <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-5 dark:opacity-3">
               <source src="/african-pattern-loop.mp4" type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90 dark:from-background/95 dark:via-background/80 dark:to-background/95" />
+            <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95 dark:from-background/98 dark:via-background/95 dark:to-background/98" />
           </div>
 
           <div className="relative z-10 max-w-7xl mx-auto text-center">
-            <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-7xl text-foreground mb-4 sm:mb-6 leading-tight animate-fade-in-up">
-              Own. Protect. Trade
+            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-foreground mb-6 sm:mb-8 leading-none tracking-tighter animate-fade-in-up">
+              Own. Protect.
               <br />
-              <span className="text-accent animate-fade-in-up animation-delay-200">African Creativity.</span>
+              <span className="text-accent animate-fade-in-up animation-delay-200">Trade Creative IP</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed animate-fade-in-up animation-delay-400 px-2">
-              From music and film to fashion and art — register your work, license it worldwide, and unlock new revenue
-              streams.
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto mb-12 sm:mb-16 leading-relaxed animate-fade-in-up animation-delay-400 px-4 font-light tracking-wide">
+              Where creativity becomes global, export-ready.
             </p>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 max-w-6xl mx-auto animate-fade-in-up animation-delay-600">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-6xl mx-auto animate-fade-in-up animation-delay-600">
               {quickAccessItems.map((item, index) => {
                 const IconComponent = item.icon
                 return (
@@ -99,12 +96,12 @@ export default function HomePage() {
                     asChild
                     variant="outline"
                     size="sm"
-                    className="group border-border hover:bg-accent hover:text-accent-foreground hover:border-accent bg-card/80 backdrop-blur-sm p-2 sm:p-3 h-auto min-h-[60px] sm:min-h-[70px] hover:scale-105 transition-all duration-300 animate-fade-in-up text-xs sm:text-sm shadow-sm flex-col"
+                    className="group border-border hover:bg-accent hover:text-accent-foreground hover:border-accent bg-card/60 backdrop-blur-sm p-3 sm:p-4 h-auto min-h-[70px] sm:min-h-[90px] hover:scale-105 transition-all duration-300 animate-fade-in-up text-xs sm:text-sm shadow-sm flex-col font-semibold"
                     style={{ animationDelay: `${600 + index * 100}ms` }}
                   >
-                    <Link href={item.href} className="flex flex-col items-center gap-1 sm:gap-2 text-center w-full">
-                      <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform duration-300 shrink-0" />
-                      <span className="font-medium leading-tight">{item.label}</span>
+                    <Link href={item.href} className="flex flex-col items-center gap-2 text-center w-full">
+                      <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 transition-transform duration-300 shrink-0" />
+                      <span className="font-bold leading-tight text-xs sm:text-sm">{item.label}</span>
                     </Link>
                   </Button>
                 )
@@ -115,21 +112,21 @@ export default function HomePage() {
 
         <BrandCarousel />
 
-        <section ref={showcaseRef} className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 scroll-animate">
+        <section ref={showcaseRef} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-12 scroll-animate">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-8 sm:mb-12 lg:mb-16 animate-fade-in">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-5xl text-foreground mb-4 sm:mb-6">
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
+              <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-6 sm:mb-8 leading-tight">
                 Featured Cultural Assets
               </h2>
-              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
-                Discover trending and featured authentic African creativity from emerging and established artists.
+              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4 font-light tracking-wide mb-4">
+                Discover trending and featured authentic creative assets from emerging and established artists.
               </p>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-2">
+              <p className="text-xs sm:text-sm text-muted-foreground font-semibold tracking-wide">
                 Showing {featuredAssets.length} of {assets.length} total assets
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {featuredAssets.map((asset, index) => (
                 <Card
                   key={asset.id}
@@ -186,20 +183,16 @@ export default function HomePage() {
 
         <section
           ref={featuresRef}
-          className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-muted/50 dark:bg-muted/30 scroll-animate transition-colors duration-300"
+          className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-12 bg-muted/40 dark:bg-muted/20 scroll-animate transition-colors duration-300"
         >
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-8 sm:mb-12 lg:mb-16 animate-fade-in">
-              <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-5xl text-foreground mb-4 sm:mb-6">
+            <div className="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
+              <h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4 sm:mb-6 leading-tight">
                 Why Choose Revulter?
               </h2>
-              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-2">
-                We're building the future of African creative commerce with cutting-edge technology and deep cultural
-                understanding.
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
               <Card className="text-center border-border bg-card shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 animate-slide-up p-2 sm:p-0">
                 <CardHeader className="pb-4 px-4 sm:px-6">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 bg-accent/10 dark:bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-accent/20 dark:hover:bg-accent/30 hover:scale-110 transition-all duration-300">
@@ -250,16 +243,16 @@ export default function HomePage() {
         </section>
       </main>
 
-      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-accent/5 dark:bg-accent/10 lg:hidden">
+      <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-12 bg-accent/5 dark:bg-accent/10 lg:hidden">
         <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Specialized AI Training Data</h3>
-          <p className="text-sm text-muted-foreground mb-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Specialized AI Training Data</h3>
+          <p className="text-base sm:text-lg text-muted-foreground mb-6 font-light tracking-wide">
             Access unique African cultural datasets for training more inclusive AI models
           </p>
           <Button
             asChild
             variant="outline"
-            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent"
+            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-transparent font-semibold px-8 py-3"
           >
             <Link href="/train-ai">Explore TrainAI</Link>
           </Button>

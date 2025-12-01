@@ -541,7 +541,7 @@ export default function RegisterPage() {
               <Card className="border-border bg-accent/10 dark:bg-accent/5 shadow-lg">
                 <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
                   <h4 className="font-semibold text-sm sm:text-base text-foreground mb-2">Registration Fee</h4>
-                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">$25</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">{""}</div>
                   <p className="text-xs sm:text-sm text-muted-foreground">
                     One-time fee includes blockchain registration, legal documentation, and marketplace listing.
                   </p>

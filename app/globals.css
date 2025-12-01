@@ -3,81 +3,100 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Updated color system with African-inspired palette */
+/* Modern dark-black, pearl-white, and gray palette with accent colors for metrics only */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* Base neutrals - Modern dark-black and pearl-white */
+  --background: oklch(0.98 0 0); /* Pearl white */
+  --foreground: oklch(0.08 0 0); /* Dark black */
+  --card: oklch(1 0 0); /* Pure white */
+  --card-foreground: oklch(0.08 0 0); /* Dark black */
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.08 0 0);
 
-  /* African-inspired color palette */
-  --primary: oklch(0.2 0 0); /* Deep black */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.25 0.08 140); /* Deep green #1E392A */
-  --secondary-foreground: oklch(1 0 0);
-  --accent: oklch(0.75 0.12 85); /* Gold #CFAE70 */
-  --accent-foreground: oklch(0.2 0 0);
-  --terracotta: oklch(0.65 0.15 35); /* Terracotta #E07A5F */
-  --terracotta-foreground: oklch(1 0 0);
+  /* Primary - Dark black for headers and text */
+  --primary: oklch(0.08 0 0); /* Dark black */
+  --primary-foreground: oklch(0.98 0 0); /* Pearl white */
 
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.97 0 0);
-  --ring: oklch(0.75 0.12 85);
-  --radius: 0.75rem;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Secondary - Deep gray */
+  --secondary: oklch(0.35 0 0); /* Deep gray */
+  --secondary-foreground: oklch(0.98 0 0);
+
+  /* Accent colors - ONLY for metrics (yellow, red, green) */
+  --accent: oklch(0.85 0.18 70); /* Bold yellow for growth/positive */
+  --accent-foreground: oklch(0.08 0 0);
+  --metric-red: oklch(0.65 0.22 15); /* Red for negative/risk */
+  --metric-green: oklch(0.65 0.18 135); /* Green for positive */
+  --metric-yellow: oklch(0.82 0.2 60); /* Yellow for warning */
+
+  --muted: oklch(0.92 0 0); /* Light gray */
+  --muted-foreground: oklch(0.45 0 0); /* Medium gray */
+  --destructive: oklch(0.65 0.22 15); /* Red for errors */
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.9 0 0); /* Light gray border */
+  --input: oklch(0.98 0 0);
+  --ring: oklch(0.08 0 0);
+  --radius: 0.5rem;
+
+  /* Chart colors - Muted tones */
+  --chart-1: oklch(0.5 0.08 240); /* Muted blue */
+  --chart-2: oklch(0.55 0.08 200); /* Muted teal */
+  --chart-3: oklch(0.6 0.08 180); /* Muted cyan */
+  --chart-4: oklch(0.65 0.18 70); /* Bold yellow */
+  --chart-5: oklch(0.65 0.22 15); /* Bold red */
+
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.08 0 0);
+  --sidebar-primary: oklch(0.08 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.92 0 0);
+  --sidebar-accent-foreground: oklch(0.08 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.08 0 0);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.18 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.35 0.08 140);
-  --secondary-foreground: oklch(0.985 0 0);
-  --accent: oklch(0.75 0.12 85);
-  --accent-foreground: oklch(0.145 0 0);
-  --terracotta: oklch(0.65 0.15 35);
-  --terracotta-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.75 0.12 85);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  /* Dark mode - Black background, pearl text, gray accents */
+  --background: oklch(0.1 0 0); /* Deep black */
+  --foreground: oklch(0.95 0 0); /* Pearl white */
+  --card: oklch(0.15 0 0); /* Dark gray-black */
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.15 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+
+  --primary: oklch(0.95 0 0); /* Pearl white */
+  --primary-foreground: oklch(0.1 0 0);
+  --secondary: oklch(0.4 0 0); /* Medium gray */
+  --secondary-foreground: oklch(0.95 0 0);
+
+  /* Accent colors remain same for metrics */
+  --accent: oklch(0.85 0.18 70);
+  --accent-foreground: oklch(0.1 0 0);
+  --metric-red: oklch(0.7 0.25 15);
+  --metric-green: oklch(0.7 0.2 135);
+  --metric-yellow: oklch(0.85 0.22 60);
+
+  --muted: oklch(0.25 0 0); /* Dark gray */
+  --muted-foreground: oklch(0.7 0 0); /* Light gray */
+  --destructive: oklch(0.7 0.25 15);
+  --destructive-foreground: oklch(0.95 0 0);
+  --border: oklch(0.2 0 0); /* Dark border */
+  --input: oklch(0.18 0 0);
+  --ring: oklch(0.95 0 0);
+
+  --chart-1: oklch(0.6 0.1 240);
+  --chart-2: oklch(0.65 0.1 200);
+  --chart-3: oklch(0.7 0.1 180);
+  --chart-4: oklch(0.85 0.18 70);
+  --chart-5: oklch(0.7 0.25 15);
+
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.95 0 0);
+  --sidebar-primary-foreground: oklch(0.1 0 0);
+  --sidebar-accent: oklch(0.2 0 0);
+  --sidebar-accent-foreground: oklch(0.95 0 0);
+  --sidebar-border: oklch(0.2 0 0);
+  --sidebar-ring: oklch(0.95 0 0);
 }
 
 @theme inline {
@@ -95,8 +114,9 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-terracotta: var(--terracotta);
-  --color-terracotta-foreground: var(--terracotta-foreground);
+  --color-metric-red: var(--metric-red);
+  --color-metric-green: var(--metric-green);
+  --color-metric-yellow: var(--metric-yellow);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -127,44 +147,50 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    scroll-behavior: smooth;
   }
 
-  /* Custom typography classes */
-  .font-display {
-    font-family: var(--font-poppins);
+  /* Enhanced bold typography with increased letter-spacing for Aria-style minimalism */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
   }
 
-  .text-accent {
-    color: var(--color-accent);
+  h1 {
+    @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black;
   }
 
-  .text-terracotta {
-    color: var(--color-terracotta);
+  h2 {
+    @apply text-4xl sm:text-5xl md:text-6xl font-black;
   }
 
-  .bg-accent {
-    background-color: var(--color-accent);
+  h3 {
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold;
   }
 
-  .bg-terracotta {
-    background-color: var(--color-terracotta);
+  p {
+    @apply text-lg leading-relaxed;
+    font-weight: 400;
   }
 
-  .bg-secondary {
-    background-color: var(--color-secondary);
-  }
-
-  .border-accent {
-    border-color: var(--color-accent);
+  /* Enhanced body text with better hierarchy */
+  body {
+    @apply text-base tracking-wide;
   }
 }
 
 @layer utilities {
-  /* Animation keyframes */
+  /* Fluid scroll animations - smooth, elegant transitions */
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
@@ -172,61 +198,78 @@
     }
   }
 
-  @keyframes slide-up {
+  @keyframes slide-in-left {
     from {
       opacity: 0;
-      transform: translateY(50px);
+      transform: translateX(-20px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     }
   }
 
-  @keyframes fade-in {
+  @keyframes slide-in-right {
     from {
       opacity: 0;
+      transform: translateX(20px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0);
     }
   }
 
-  /* Animation classes */
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   .animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out forwards;
+    animation: fade-in-up 0.6s ease-out forwards;
     opacity: 0;
   }
 
-  .animate-slide-up {
-    animation: slide-up 0.6s ease-out forwards;
+  .animate-slide-in-left {
+    animation: slide-in-left 0.6s ease-out forwards;
     opacity: 0;
   }
 
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out forwards;
+  .animate-slide-in-right {
+    animation: slide-in-right 0.6s ease-out forwards;
     opacity: 0;
   }
 
-  /* Animation delays */
+  .animate-scale-in {
+    animation: scale-in 0.4s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* Stagger animations for lists */
+  .animation-delay-100 {
+    animation-delay: 0.1s;
+  }
   .animation-delay-200 {
     animation-delay: 0.2s;
   }
-
+  .animation-delay-300 {
+    animation-delay: 0.3s;
+  }
   .animation-delay-400 {
     animation-delay: 0.4s;
-  }
-
-  .animation-delay-600 {
-    animation-delay: 0.6s;
   }
 
   /* Scroll-triggered animations */
   .scroll-animate {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s ease-out;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .scroll-animate.animate-in {
@@ -234,32 +277,60 @@
     transform: translateY(0);
   }
 
-  .scroll-animate.animate-in .animate-fade-in-up,
-  .scroll-animate.animate-in .animate-slide-up,
-  .scroll-animate.animate-in .animate-fade-in {
-    animation-play-state: running;
+  /* Metric color utilities */
+  .metric-green {
+    @apply text-green-600 dark:text-green-400;
+  }
+  .metric-red {
+    @apply text-red-600 dark:text-red-400;
+  }
+  .metric-yellow {
+    @apply text-yellow-600 dark:text-yellow-400;
   }
 
-  /* Enhanced hover effects */
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  .bg-metric-green {
+    background-color: var(--color-metric-green);
   }
-
-  .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  .bg-metric-red {
+    background-color: var(--color-metric-red);
   }
-
-  /* Enhanced mobile-friendly touch targets and responsive utilities */
-  .touch-target {
-    min-height: 44px;
-    min-width: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .bg-metric-yellow {
+    background-color: var(--color-metric-yellow);
   }
 
   /* Mobile-first responsive utilities */
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+  }
+
+  .touch-target:active {
+    background-color: var(--color-muted);
+  }
+
+  /* Smooth hover effects */
+  .hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  .hover-bg {
+    transition: background-color 0.3s ease;
+  }
+
+  .hover-bg:hover {
+    background-color: var(--color-muted);
+  }
+
+  /* Mobile container with proper padding */
   .mobile-container {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -279,206 +350,120 @@
     }
   }
 
-  /* Enhanced mobile navigation and form styles */
-  @media (max-width: 768px) {
-    .touch-target {
-      min-height: 48px;
-      padding: 12px 16px;
-    }
+  /* Mobile-first image sizing */
+  .mobile-image-hero {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+  }
 
-    /* Mobile navigation enhancements */
-    .mobile-nav-item {
-      padding: 12px 16px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-      font-size: 1rem;
-      line-height: 1.5;
-    }
-
-    .mobile-nav-active {
-      background-color: var(--color-accent);
-      color: var(--color-accent-foreground);
-      font-weight: 600;
-    }
-
-    /* Mobile form improvements */
-    .mobile-form-input {
-      min-height: 48px;
-      font-size: 16px; /* Prevents zoom on iOS */
-      padding: 12px 16px;
-    }
-
-    .mobile-form-button {
-      min-height: 48px;
-      padding: 12px 24px;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    /* Mobile card improvements */
-    .mobile-card {
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    /* Mobile text sizing */
-    .mobile-text-responsive {
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
-
-    .mobile-heading-responsive {
-      font-size: 1.5rem;
-      line-height: 1.3;
-      margin-bottom: 0.75rem;
-    }
-
-    /* Mobile grid improvements */
-    .mobile-grid-responsive {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    /* Mobile modal improvements */
-    .mobile-modal {
-      margin: 0.5rem;
-      max-height: calc(100vh - 1rem);
-      overflow-y: auto;
-    }
-
-    /* Mobile table improvements */
-    .mobile-table-card {
-      display: block;
-      border: 1px solid var(--color-border);
-      border-radius: 0.5rem;
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-      background: var(--color-card);
-    }
-
-    .mobile-table-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .mobile-table-row:last-child {
-      border-bottom: none;
-    }
-
-    /* Mobile filter improvements */
-    .mobile-filter-sheet {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--color-background);
-      border-top: 1px solid var(--color-border);
-      border-radius: 1rem 1rem 0 0;
-      padding: 1.5rem;
-      max-height: 80vh;
-      overflow-y: auto;
-      z-index: 50;
+  @media (min-width: 640px) {
+    .mobile-image-hero {
+      height: 350px;
     }
   }
 
-  /* Back button styling */
-  .back-button {
-    transition: all 0.2s ease;
+  @media (min-width: 1024px) {
+    .mobile-image-hero {
+      height: 500px;
+    }
   }
 
-  .back-button:hover {
-    background-color: var(--color-accent);
-    color: var(--color-accent-foreground);
-    transform: translateX(-2px);
+  /* Mobile card improvements */
+  .mobile-card {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
   }
 
-  /* Additional mobile-specific improvements for better UX */
-  /* Prevent horizontal scroll on mobile */
+  /* Mobile button group */
+  .mobile-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .mobile-button-group {
+      flex-direction: row;
+    }
+  }
+
+  /* Mobile text sizing */
+  .text-mobile-sm {
+    @apply text-sm sm:text-base;
+  }
+  .text-mobile-base {
+    @apply text-base sm:text-lg;
+  }
+  .text-mobile-lg {
+    @apply text-lg sm:text-2xl;
+  }
+  .text-mobile-xl {
+    @apply text-xl sm:text-3xl;
+  }
+  .text-mobile-2xl {
+    @apply text-2xl sm:text-4xl;
+  }
+
+  /* Like button feedback */
+  .like-button {
+    @apply transition-all duration-200 active:scale-90;
+  }
+
+  .like-button.liked {
+    @apply text-accent;
+  }
+
+  /* Prevent horizontal scroll */
   @media (max-width: 768px) {
     body {
       overflow-x: hidden;
     }
 
-    /* Ensure all containers respect mobile boundaries */
     * {
       max-width: 100%;
       box-sizing: border-box;
     }
-
-    /* Mobile-friendly video backgrounds */
-    .mobile-video-overlay {
-      background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background) 100%);
-    }
-
-    /* Mobile-friendly button groups */
-    .mobile-button-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      width: 100%;
-    }
-
-    .mobile-button-group > * {
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* Mobile-friendly stats display */
-    .mobile-stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      text-align: center;
-    }
-
-    /* Mobile-friendly creator cards */
-    .mobile-creator-card {
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .mobile-creator-image {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 0.75rem;
-    }
-
-    /* Mobile-friendly asset cards */
-    .mobile-asset-card {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .mobile-asset-image {
-      aspect-ratio: 16 / 9;
-      width: 100%;
-      object-fit: cover;
-      border-radius: 0.5rem;
-    }
-
-    /* Mobile-friendly pricing display */
-    .mobile-price-display {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--color-accent);
-    }
   }
 
-  /* Accessibility improvements for mobile */
-  @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
-    .mobile-smooth-scroll {
-      scroll-behavior: smooth;
-    }
+  /* Increased spacing utilities for minimalist design */
+  .spacing-generous {
+    @apply py-16 sm:py-20 lg:py-28 px-6 sm:px-8 lg:px-12;
   }
 
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .touch-target {
-      border: 2px solid var(--color-border);
-    }
+  .spacing-hero {
+    @apply py-20 sm:py-32 lg:py-40;
+  }
+
+  /* Enhanced card with more whitespace */
+  .card-minimalist {
+    @apply bg-card border border-border rounded-lg p-8 sm:p-12 shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+
+  /* Bold button styling inspired by Aria */
+  .btn-aria {
+    @apply px-8 py-4 font-bold text-lg uppercase tracking-wider rounded-full border-2 border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground transition-all duration-300;
+  }
+
+  .btn-aria-outline {
+    @apply px-8 py-4 font-bold text-lg uppercase tracking-wider rounded-full border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background transition-all duration-300;
+  }
+
+  /* Minimalist section spacing */
+  .section-minimal {
+    @apply py-20 sm:py-28 lg:py-32 px-4 sm:px-8 lg:px-12;
+  }
+
+  /* Enhanced hover effects for minimalism */
+  .hover-minimal {
+    @apply transition-all duration-300 hover:scale-102;
+  }
+
+  /* Bold text styling */
+  .text-aria-bold {
+    @apply font-black tracking-tighter;
   }
 }
