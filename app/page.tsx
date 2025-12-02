@@ -58,46 +58,56 @@ export default function HomePage() {
       <Navigation />
 
       <main className="flex-1">
-        <section ref={heroRef} className="relative py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-12 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-5 dark:opacity-3">
-              <source src="/african-pattern-loop.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/90 to-background/95 dark:from-background/98 dark:via-background/95 dark:to-background/98" />
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-950 to-black dark:from-black dark:via-gray-900 dark:to-black" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900/20 via-transparent to-transparent" />
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-950/20 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-950/20 rounded-full blur-3xl" />
           </div>
 
-          <div className="relative z-10 max-w-7xl mx-auto text-center">
-            <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-foreground mb-6 sm:mb-8 leading-none tracking-tighter animate-fade-in-up">
-              Own. Protect.
-              <br />
-              <span className="text-accent animate-fade-in-up animation-delay-200">Trade Creative IP</span>
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground max-w-4xl mx-auto mb-12 sm:mb-16 leading-relaxed animate-fade-in-up animation-delay-400 px-4 font-light tracking-wide">
-              Where creativity becomes global, export-ready.
-            </p>
+          <div className="relative">
+            <section ref={heroRef} className="relative py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-12 overflow-hidden">
+              <div className="absolute inset-0 z-0">
+                <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-5 dark:opacity-3">
+                  <source src="/african-pattern-loop.mp4" type="video/mp4" />
+                </video>
+              </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-6xl mx-auto animate-fade-in-up animation-delay-600">
-              {quickAccessItems.map((item, index) => {
-                const IconComponent = item.icon
-                return (
-                  <Button
-                    key={item.href}
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    className="group border-border hover:bg-accent hover:text-accent-foreground hover:border-accent bg-card/60 backdrop-blur-sm p-3 sm:p-4 h-auto min-h-[70px] sm:min-h-[90px] hover:scale-105 transition-all duration-300 animate-fade-in-up text-xs sm:text-sm shadow-sm flex-col font-semibold"
-                    style={{ animationDelay: `${600 + index * 100}ms` }}
-                  >
-                    <Link href={item.href} className="flex flex-col items-center gap-2 text-center w-full">
-                      <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 transition-transform duration-300 shrink-0" />
-                      <span className="font-bold leading-tight text-xs sm:text-sm">{item.label}</span>
-                    </Link>
-                  </Button>
-                )
-              })}
-            </div>
+              <div className="relative z-10 max-w-7xl mx-auto text-center">
+                <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-6 sm:mb-8 leading-none tracking-tighter animate-fade-in-up">
+                  Own. Protect.
+                  <br />
+                  <span className="text-accent animate-fade-in-up animation-delay-200">Trade Creative IP</span>
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-4xl mx-auto mb-12 sm:mb-16 leading-relaxed animate-fade-in-up animation-delay-400 px-4 font-light tracking-wide">
+                  Where creativity becomes global, export-ready.
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-6xl mx-auto animate-fade-in-up animation-delay-600">
+                  {quickAccessItems.map((item, index) => {
+                    const IconComponent = item.icon
+                    return (
+                      <Button
+                        key={item.href}
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="group border-white/20 hover:bg-white/10 hover:text-white hover:border-white/40 bg-white/5 backdrop-blur-sm p-3 sm:p-4 h-auto min-h-[70px] sm:min-h-[90px] hover:scale-105 transition-all duration-300 animate-fade-in-up text-xs sm:text-sm shadow-sm flex-col font-semibold text-white"
+                        style={{ animationDelay: `${600 + index * 100}ms` }}
+                      >
+                        <Link href={item.href} className="flex flex-col items-center gap-2 text-center w-full">
+                          <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 transition-transform duration-300 shrink-0" />
+                          <span className="font-bold leading-tight text-xs sm:text-sm">{item.label}</span>
+                        </Link>
+                      </Button>
+                    )
+                  })}
+                </div>
+              </div>
+            </section>
           </div>
-        </section>
+        </div>
 
         <BrandCarousel />
 
