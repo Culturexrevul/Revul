@@ -185,95 +185,208 @@
   }
 }
 
+/* Moving keyframes outside @layer utilities to fix LightningCSS error */
+/* Fluid scroll animations - smooth, elegant transitions */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Liquid-glass effect keyframes */
+@keyframes liquid-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes glass-reflection {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes liquid-pulse {
+  0%,
+  100% {
+    backdrop-filter: blur(10px);
+  }
+  50% {
+    backdrop-filter: blur(16px);
+  }
+}
+
+/* Individual pulse glow animations for quick access buttons */
+@keyframes pulse-glow-0 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(234, 179, 8, 0.5);
+  }
+}
+
+@keyframes pulse-glow-1 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@keyframes pulse-glow-2 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
+  }
+}
+
+@keyframes pulse-glow-3 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.5);
+  }
+}
+
+@keyframes pulse-glow-4 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(249, 115, 22, 0.5);
+  }
+}
+
+@keyframes pulse-glow-5 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+  }
+}
+
+@keyframes pulse-glow-6 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(14, 165, 233, 0.5);
+  }
+}
+
+@keyframes pulse-glow-7 {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Lightweight game animations for IP Quest */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes crystal-float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(45deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(45deg);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @layer utilities {
-  /* Fluid scroll animations - smooth, elegant transitions */
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slide-in-left {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes slide-in-right {
-    from {
-      opacity: 0;
-      transform: translateX(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes scale-in {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* Adding lightweight game animations for IP Quest */
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-
-  @keyframes crystal-float {
-    0%,
-    100% {
-      transform: translateY(0px) rotate(45deg);
-    }
-    50% {
-      transform: translateY(-15px) rotate(45deg);
-    }
-  }
-
-  @keyframes shake {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    25% {
-      transform: translateX(-10px);
-    }
-    75% {
-      transform: translateX(10px);
-    }
-  }
-
-  @keyframes spin-slow {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
+  /* Utility classes referencing the keyframes above */
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -295,6 +408,38 @@
     opacity: 0;
   }
 
+  .animate-pulse-glow-0 {
+    animation: pulse-glow-0 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow-1 {
+    animation: pulse-glow-1 3s ease-in-out infinite 0.2s;
+  }
+
+  .animate-pulse-glow-2 {
+    animation: pulse-glow-2 3s ease-in-out infinite 0.4s;
+  }
+
+  .animate-pulse-glow-3 {
+    animation: pulse-glow-3 3s ease-in-out infinite 0.6s;
+  }
+
+  .animate-pulse-glow-4 {
+    animation: pulse-glow-4 3s ease-in-out infinite 0.8s;
+  }
+
+  .animate-pulse-glow-5 {
+    animation: pulse-glow-5 3s ease-in-out infinite 1s;
+  }
+
+  .animate-pulse-glow-6 {
+    animation: pulse-glow-6 3s ease-in-out infinite 1.2s;
+  }
+
+  .animate-pulse-glow-7 {
+    animation: pulse-glow-7 3s ease-in-out infinite 1.4s;
+  }
+
   .animate-slide-in-left {
     animation: slide-in-left 0.6s ease-out forwards;
     opacity: 0;
@@ -308,6 +453,37 @@
   .animate-scale-in {
     animation: scale-in 0.4s ease-out forwards;
     opacity: 0;
+  }
+
+  /* Liquid-glass button utility class */
+  .liquid-glass-btn {
+    position: relative;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .liquid-glass-btn:hover {
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .liquid-glass-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border-radius: inherit;
+  }
+
+  .liquid-glass-btn:hover::before {
+    opacity: 1;
   }
 
   /* Stagger animations for lists */

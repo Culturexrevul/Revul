@@ -16,38 +16,38 @@ interface CarouselSlide {
 const slides: CarouselSlide[] = [
   {
     id: 1,
-    brandName: "Indomitable",
-    hashtag: "#IndomitableForever",
+    brandName: "Monochrome Masters",
+    hashtag: "#BlackWhiteArt",
     type: "image",
-    content: "/nigerian-traditional-art-bronze.png", // Using existing image instead of broken URL
+    content: "/black-and-white-abstract-geometric-artwork-minimal.jpg",
   },
   {
     id: 2,
-    brandName: "Afrobeat Legends",
-    hashtag: "#AfrobeatLegends",
+    brandName: "African Cinema",
+    hashtag: "#AfricanDrama",
     type: "image",
-    content: "/nigerian-afrobeat-musician.png",
+    content: "/african-drama-film-scene-cinematic-storytelling.jpg",
   },
   {
     id: 3,
-    brandName: "Nollywood Stars",
-    hashtag: "#NollywoodStars",
+    brandName: "Heritage Crafts",
+    hashtag: "#CulturalArtifacts",
     type: "image",
-    content: "/nollywood-film-scene.png",
+    content: "/ethnic-painted-calabash-gourd-traditional-african-.jpg",
   },
   {
     id: 4,
-    brandName: "Ankara Fashion",
-    hashtag: "#AnkaraFashion",
+    brandName: "Kids Animation",
+    hashtag: "#AnimatedKids",
     type: "image",
-    content: "/nigerian-ankara-fashion.png",
+    content: "/animated-kids-show-colorful-characters-children-ca.jpg",
   },
   {
     id: 5,
-    brandName: "Cultural Heritage",
-    hashtag: "#CulturalHeritage",
+    brandName: "Sound Library",
+    hashtag: "#AudioPacks",
     type: "image",
-    content: "/nigerian-highlife-instruments.png",
+    content: "/music-production-sound-pack-audio-waveforms-studio.jpg",
   },
 ]
 
@@ -81,18 +81,17 @@ export default function BrandCarousel() {
   }
 
   return (
-    <section className="py-12 md:py-16 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
+    <section className="py-0 bg-background">
+      <div className="w-full">
+        <div className="text-center mb-8 px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Featured Brand Collaborations</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Discover how leading brands are leveraging African creativity through our platform
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* Carousel Container */}
-          <div className="relative overflow-hidden rounded-xl bg-card border shadow-lg">
+        <div className="relative w-full">
+          <div className="relative overflow-hidden">
             <div
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -115,7 +114,6 @@ export default function BrandCarousel() {
                       </div>
                     )}
 
-                    {/* Overlay Content */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6">
                       <div className="text-white">
                         <h3 className="text-xl md:text-2xl font-bold mb-2">{slide.brandName}</h3>
@@ -132,7 +130,6 @@ export default function BrandCarousel() {
               ))}
             </div>
 
-            {/* Navigation Arrows */}
             <button
               onClick={prevSlide}
               className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background text-foreground rounded-full p-2 shadow-lg transition-all duration-200 hover:scale-110"
@@ -150,8 +147,7 @@ export default function BrandCarousel() {
             </button>
           </div>
 
-          {/* Dots Indicator */}
-          <div className="flex justify-center mt-6 space-x-2">
+          <div className="flex justify-center mt-6 pb-12 space-x-2">
             {slides.map((_, index) => (
               <button
                 key={index}

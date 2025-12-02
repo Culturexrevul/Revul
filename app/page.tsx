@@ -4,7 +4,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Shield, Globe, TrendingUp, ShoppingBag, FileText, Scale, Award as IdCard, Users } from "lucide-react"
+import { Shield, Globe, TrendingUp } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
@@ -41,14 +41,14 @@ export default function HomePage() {
   }, [assets])
 
   const quickAccessItems = [
-    { href: "/register", label: "Register IP", icon: Shield, description: "Protect your creative work" },
-    { href: "/ip-reputation", label: "IP Reputation", icon: TrendingUp, description: "Assess IP investment risk" },
-    { href: "/marketplace", label: "Marketplace", icon: ShoppingBag, description: "Buy & sell creative assets" },
-    { href: "/licensing", label: "Licensing Hub", icon: FileText, description: "License your content globally" },
-    { href: "/legal", label: "Legal Assist", icon: Scale, description: "Get legal guidance & support" },
-    { href: "/creator-id", label: "Creator ID", icon: IdCard, description: "Apply for verified status" },
-    { href: "/hire-creators", label: "Creator Hub", icon: Users, description: "Hire African creators & artisans" },
-    { href: "/dashboard", label: "Investor Dashboard", icon: TrendingUp, description: "Track your investments" },
+    { href: "/register", label: "Register IP" },
+    { href: "/ip-reputation", label: "IP Index" },
+    { href: "/marketplace", label: "Marketplace" },
+    { href: "/licensing", label: "Licensing Hub" },
+    { href: "/legal", label: "Legal Assist" },
+    { href: "/creator-id", label: "Creator ID" },
+    { href: "/hire-creators", label: "Creator Hub" },
+    { href: "/dashboard", label: "Investor Dashboard" },
   ]
 
   const featuredAssets = assets.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).slice(0, 4)
@@ -58,18 +58,11 @@ export default function HomePage() {
       <Navigation />
 
       <main className="flex-1">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-950 to-black dark:from-black dark:via-gray-900 dark:to-black" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900/20 via-transparent to-transparent" />
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-950/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-950/20 rounded-full blur-3xl" />
-          </div>
-
+        <div className="relative bg-black">
           <div className="relative">
             <section ref={heroRef} className="relative py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-12 overflow-hidden">
               <div className="absolute inset-0 z-0">
-                <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-5 dark:opacity-3">
+                <video autoPlay muted loop playsInline className="w-full h-full object-cover opacity-5">
                   <source src="/african-pattern-loop.mp4" type="video/mp4" />
                 </video>
               </div>
@@ -78,31 +71,23 @@ export default function HomePage() {
                 <h1 className="font-display font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-6 sm:mb-8 leading-none tracking-tighter animate-fade-in-up">
                   Own. Protect.
                   <br />
-                  <span className="text-accent animate-fade-in-up animation-delay-200">Trade Creative IP</span>
+                  <span className="text-yellow-400 animate-fade-in-up animation-delay-200">Trade Creative IP</span>
                 </h1>
                 <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-4xl mx-auto mb-12 sm:mb-16 leading-relaxed animate-fade-in-up animation-delay-400 px-4 font-light tracking-wide">
                   Where creativity becomes global, export-ready.
                 </p>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 max-w-6xl mx-auto animate-fade-in-up animation-delay-600">
-                  {quickAccessItems.map((item, index) => {
-                    const IconComponent = item.icon
-                    return (
-                      <Button
-                        key={item.href}
-                        asChild
-                        variant="outline"
-                        size="sm"
-                        className="group border-white/20 hover:bg-white/10 hover:text-white hover:border-white/40 bg-white/5 backdrop-blur-sm p-3 sm:p-4 h-auto min-h-[70px] sm:min-h-[90px] hover:scale-105 transition-all duration-300 animate-fade-in-up text-xs sm:text-sm shadow-sm flex-col font-semibold text-white"
-                        style={{ animationDelay: `${600 + index * 100}ms` }}
-                      >
-                        <Link href={item.href} className="flex flex-col items-center gap-2 text-center w-full">
-                          <IconComponent className="h-5 w-5 sm:h-6 sm:w-6 group-hover:scale-110 transition-transform duration-300 shrink-0" />
-                          <span className="font-bold leading-tight text-xs sm:text-sm">{item.label}</span>
-                        </Link>
-                      </Button>
-                    )
-                  })}
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto animate-fade-in-up animation-delay-600 p-4">
+                  {quickAccessItems.map((item, index) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="bg-white text-black p-4 sm:p-5 h-auto min-h-[60px] sm:min-h-[70px] hover:bg-gray-100 transition-colors duration-200 animate-fade-in-up text-xs sm:text-sm font-black rounded-lg flex items-center justify-center uppercase tracking-wide"
+                      style={{ animationDelay: `${600 + index * 100}ms` }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
             </section>
@@ -111,64 +96,49 @@ export default function HomePage() {
 
         <BrandCarousel />
 
-        <section ref={showcaseRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-12 scroll-animate">
+        <section ref={showcaseRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-12 scroll-animate bg-black">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16 sm:mb-20 animate-fade-in">
-              <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground mb-4 tracking-tighter uppercase">
+              <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-4 tracking-tighter uppercase">
                 Featured Assets
               </h2>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-normal tracking-wider uppercase mb-2">
+              <p className="text-sm sm:text-base text-gray-400 max-w-2xl mx-auto font-normal tracking-wider uppercase">
                 Discover trending creative assets
-              </p>
-              <p className="text-xs text-muted-foreground/60 font-medium tracking-wide uppercase">
-                {featuredAssets.length} of {assets.length} assets
               </p>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               {featuredAssets.map((asset, index) => (
-                <Card
+                <Link
                   key={asset.id}
-                  className={`group hover:shadow-lg transition-all duration-300 border-2 border-border bg-card overflow-hidden animate-fade-in-up`}
+                  href={`/asset/${asset.id}`}
+                  className="group relative aspect-[3/4] overflow-hidden bg-black animate-fade-in-up hover:opacity-90 transition-opacity duration-300"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="aspect-square bg-muted/20 relative overflow-hidden">
-                    {(asset.isTrending || asset.isFeatured) && (
-                      <div
-                        className={`absolute top-3 left-3 z-10 ${asset.isTrending ? "bg-red-500" : "bg-yellow-500"} text-white px-3 py-1 text-xs sm:text-sm font-bold uppercase tracking-wider`}
-                      >
-                        {asset.isTrending ? "Trending" : "Featured"}
-                      </div>
-                    )}
-                    <Image
-                      src={asset.image || "/placeholder.svg"}
-                      alt={asset.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                  <div className="absolute inset-0">
+                    <Image src={asset.image || "/placeholder.svg"} alt={asset.title} fill className="object-cover" />
                   </div>
-                  <CardHeader className="p-4 sm:p-5 space-y-2">
-                    <CardTitle className="font-bold text-sm sm:text-base uppercase tracking-wide leading-tight">
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-white">
+                    <h3 className="font-black text-xl sm:text-2xl md:text-3xl uppercase tracking-tight mb-2">
                       {asset.title}
-                    </CardTitle>
-                    <CardDescription className="text-xs uppercase tracking-wider text-muted-foreground">
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-400 uppercase tracking-wider font-normal">
                       {asset.category}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-4 sm:p-5 pt-0 space-y-3">
-                    <div className="flex justify-between items-center text-xs sm:text-sm">
-                      <span className="text-muted-foreground uppercase tracking-wide">Shares: {asset.available}</span>
-                      <span className="font-bold text-foreground">${asset.price}</span>
-                    </div>
-                    <Button
-                      asChild
-                      size="sm"
-                      className="w-full bg-foreground text-background hover:bg-foreground/90 font-bold uppercase tracking-wider text-xs h-11 transition-all duration-200"
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-2 uppercase tracking-wide">View now</p>
+                  </div>
+
+                  {(asset.isTrending || asset.isFeatured) && (
+                    <div
+                      className={`absolute top-4 left-4 z-10 ${asset.isTrending ? "bg-red-500" : "bg-yellow-500"} text-white px-3 py-1 text-xs sm:text-sm font-bold uppercase tracking-wider`}
                     >
-                      <Link href={`/asset/${asset.id}`}>View Asset</Link>
-                    </Button>
-                  </CardContent>
-                </Card>
+                      {asset.isTrending ? "Trending" : "Featured"}
+                    </div>
+                  )}
+                </Link>
               ))}
             </div>
 
@@ -177,7 +147,7 @@ export default function HomePage() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background font-bold uppercase tracking-wider px-10 h-14 text-sm transition-all duration-200 bg-transparent"
+                className="border-2 border-white text-white hover:bg-white hover:text-black font-bold uppercase tracking-wider px-10 h-14 text-sm transition-all duration-200 bg-transparent"
               >
                 <Link href="/marketplace">View All Assets</Link>
               </Button>

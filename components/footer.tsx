@@ -13,11 +13,10 @@ export function Footer() {
                 <span className="hidden sm:inline">Revulter Cultural Commerce</span>
               </span>
             </Link>
-            <p className="text-base sm:text-lg font-medium text-accent mb-3 sm:mb-4">
-              Powering the Creative Economy.
-            </p>
+            <p className="text-base sm:text-lg font-medium text-accent mb-3 sm:mb-4">Powering the Creative Economy.</p>
             <p className="text-sm sm:text-base text-secondary-foreground/80 max-w-md leading-relaxed">
-              The End-to-End Creative IP Infrastructure for Global Global Export, with Gamified education, Rights intelligence, AI amped workflow, and Community.                
+              The End-to-End Creative IP Infrastructure for Global Global Export, with Gamified education, Rights
+              intelligence, AI amped workflow, and Community.
             </p>
           </div>
 
@@ -89,3 +88,5 @@ export function Footer() {
     </footer>
   )
 }
+
+export default Footer
