@@ -346,10 +346,12 @@ export default function HireCreatorsPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-deep-green to-accent py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">Creator Hub</h1>
-          <p className="text-base sm:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
+      <section className="bg-foreground py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-background mb-3 sm:mb-4 uppercase tracking-tight">
+            Creator Hub
+          </h1>
+          <p className="text-sm sm:text-base lg:text-lg text-background/90 mb-4 sm:mb-6 max-w-3xl mx-auto px-2">
             Hire verified creators, post projects, or book our professional studios with automatic IP registration.
           </p>
         </div>
@@ -357,13 +359,13 @@ export default function HireCreatorsPage() {
 
       {/* Tab navigation for three main sections */}
       <section className="bg-card border-b border-border sticky top-20 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-2 sm:gap-6 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+          <div className="flex gap-2 sm:gap-4 overflow-x-auto py-2 sm:py-3">
             <button
               onClick={() => setActiveTab("hire")}
-              className={`px-4 sm:px-6 py-4 font-semibold text-base whitespace-nowrap border-b-2 transition-colors ${
+              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
                 activeTab === "hire"
-                  ? "border-deep-green text-deep-green"
+                  ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -371,9 +373,9 @@ export default function HireCreatorsPage() {
             </button>
             <button
               onClick={() => setActiveTab("post")}
-              className={`px-4 sm:px-6 py-4 font-semibold text-base whitespace-nowrap border-b-2 transition-colors ${
+              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
                 activeTab === "post"
-                  ? "border-deep-green text-deep-green"
+                  ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -381,9 +383,9 @@ export default function HireCreatorsPage() {
             </button>
             <button
               onClick={() => setActiveTab("studios")}
-              className={`px-4 sm:px-6 py-4 font-semibold text-base whitespace-nowrap border-b-2 transition-colors ${
+              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
                 activeTab === "studios"
-                  ? "border-deep-green text-deep-green"
+                  ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >

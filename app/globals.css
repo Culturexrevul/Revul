@@ -336,6 +336,37 @@
     transform: translateY(0);
   }
 
+  /* Enhanced mobile-first compact utilities */
+  .compact-mobile {
+    @apply px-3 py-2 sm:px-4 sm:py-3;
+  }
+
+  .compact-border {
+    @apply border border-border;
+  }
+
+  .compact-text {
+    @apply text-xs sm:text-sm leading-tight;
+  }
+
+  .compact-title {
+    @apply text-sm sm:text-base font-bold uppercase tracking-wide;
+  }
+
+  .compact-spacing {
+    @apply space-y-2 sm:space-y-3;
+  }
+
+  /* Minimal button styling for mobile */
+  .btn-minimal {
+    @apply px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider border border-foreground hover:bg-foreground hover:text-background transition-all duration-200;
+  }
+
+  /* Compact card for mobile */
+  .card-compact {
+    @apply p-3 sm:p-4 border border-border bg-card;
+  }
+
   /* Metric color utilities */
   .metric-green {
     @apply text-green-600 dark:text-green-400;

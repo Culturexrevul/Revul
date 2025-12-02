@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Shield, Globe, TrendingUp, ShoppingBag, FileText, Scale, Award as IdCard, Users } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAssets } from "@/contexts/AssetContext"
 import { BrandCarousel } from "@/components/BrandCarousel"
 
@@ -16,6 +16,7 @@ export default function HomePage() {
   const featuresRef = useRef<HTMLElement>(null)
   const showcaseRef = useRef<HTMLElement>(null)
   const { assets } = useAssets()
+  const [showWhyRevulter, setShowWhyRevulter] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -124,7 +125,7 @@ export default function HomePage() {
                   <div className="aspect-square bg-muted/20 relative overflow-hidden">
                     {(asset.isTrending || asset.isFeatured) && (
                       <div
-                        className={`absolute top-3 left-3 z-10 ${asset.isTrending ? "bg-red-500" : "bg-yellow-500"} text-white px-3 py-1 text-xs font-bold uppercase tracking-wider`}
+                        className={`absolute top-3 left-3 z-10 ${asset.isTrending ? "bg-red-500" : "bg-yellow-500"} text-white px-3 py-1 text-xs sm:text-sm font-bold uppercase tracking-wider`}
                       >
                         {asset.isTrending ? "Trending" : "Featured"}
                       </div>
@@ -177,66 +178,81 @@ export default function HomePage() {
         <section ref={featuresRef} className="py-20 sm:py-28 lg:py-36 px-4 sm:px-6 lg:px-12 bg-muted/30 scroll-animate">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16 sm:mb-20 animate-fade-in">
-              <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground mb-4 tracking-tighter uppercase">
-                Why Revulter
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-normal tracking-wider uppercase">
+              <button
+                onClick={() => setShowWhyRevulter(!showWhyRevulter)}
+                className="w-full max-w-2xl mx-auto flex items-center justify-center gap-3 group"
+              >
+                <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-foreground mb-4 tracking-tighter uppercase">
+                  Why Revulter
+                </h2>
+                <svg
+                  className={`w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 ${showWhyRevulter ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto font-normal tracking-wider uppercase mb-2">
                 The modern IP commerce platform
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              <Card className="border-2 border-border bg-card hover:shadow-lg transition-all duration-300 animate-slide-up overflow-hidden">
-                <CardHeader className="p-6 sm:p-8 space-y-4">
-                  <div className="w-16 h-16 bg-foreground flex items-center justify-center">
-                    <Shield className="h-8 w-8 text-background" />
-                  </div>
-                  <CardTitle className="font-bold text-xl sm:text-2xl uppercase tracking-wide text-foreground">
-                    IP Registration
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
-                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                    Protect your creative rights in minutes with our streamlined registration process and automated
-                    certification.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+            {showWhyRevulter && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 animate-fade-in-up">
+                <Card className="border border-border bg-card hover:shadow-lg transition-all duration-300 overflow-hidden">
+                  <CardHeader className="p-4 sm:p-6 space-y-3">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-foreground flex items-center justify-center">
+                      <Shield className="h-6 w-6 sm:h-7 sm:w-7 text-background" />
+                    </div>
+                    <CardTitle className="font-bold text-lg sm:text-xl uppercase tracking-wide text-foreground">
+                      IP Registration
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <CardDescription className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      Protect your creative rights in minutes with our streamlined registration process and automated
+                      certification.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
 
-              <Card className="border-2 border-border bg-card hover:shadow-lg transition-all duration-300 animate-slide-up animation-delay-200 overflow-hidden">
-                <CardHeader className="p-6 sm:p-8 space-y-4">
-                  <div className="w-16 h-16 bg-foreground flex items-center justify-center">
-                    <Globe className="h-8 w-8 text-background" />
-                  </div>
-                  <CardTitle className="font-bold text-xl sm:text-2xl uppercase tracking-wide text-foreground">
-                    Global Marketplace
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
-                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                    Sell and license your works globally to reach new audiences, collectors, and international markets
-                    seamlessly.
-                  </CardDescription>
-                </CardContent>
-              </Card>
+                <Card className="border border-border bg-card hover:shadow-lg transition-all duration-300 overflow-hidden">
+                  <CardHeader className="p-4 sm:p-6 space-y-3">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-foreground flex items-center justify-center">
+                      <Globe className="h-6 w-6 sm:h-7 sm:w-7 text-background" />
+                    </div>
+                    <CardTitle className="font-bold text-lg sm:text-xl uppercase tracking-wide text-foreground">
+                      Global Marketplace
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <CardDescription className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      Sell and license your works globally to reach new audiences, collectors, and international markets
+                      seamlessly.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
 
-              <Card className="border-2 border-border bg-card hover:shadow-lg transition-all duration-300 animate-slide-up animation-delay-400 overflow-hidden">
-                <CardHeader className="p-6 sm:p-8 space-y-4">
-                  <div className="w-16 h-16 bg-foreground flex items-center justify-center">
-                    <TrendingUp className="h-8 w-8 text-background" />
-                  </div>
-                  <CardTitle className="font-bold text-xl sm:text-2xl uppercase tracking-wide text-foreground">
-                    Fractional Trading
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="px-6 sm:px-8 pb-6 sm:pb-8">
-                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                    Trade shares in music, art, and film to diversify your creative portfolio and unlock new investment
-                    opportunities.
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            </div>
+                <Card className="border border-border bg-card hover:shadow-lg transition-all duration-300 overflow-hidden">
+                  <CardHeader className="p-4 sm:p-6 space-y-3">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-foreground flex items-center justify-center">
+                      <TrendingUp className="h-6 w-6 sm:h-7 sm:w-7 text-background" />
+                    </div>
+                    <CardTitle className="font-bold text-lg sm:text-xl uppercase tracking-wide text-foreground">
+                      Fractional Trading
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <CardDescription className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      Trade shares in music, art, and film to diversify your creative portfolio and unlock new
+                      investment opportunities.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         </section>
       </main>
@@ -251,7 +267,7 @@ export default function HomePage() {
             asChild
             variant="outline"
             size="lg"
-            className="border-2 border-background text-background hover:bg-background hover:text-foreground font-bold uppercase tracking-wider px-10 h-14 text-sm transition-all duration-200 bg-transparent"
+            className="border border-foreground text-foreground hover:bg-foreground hover:text-background font-bold uppercase tracking-wider px-6 sm:px-8 h-11 sm:h-12 text-xs sm:text-sm transition-all duration-200 bg-transparent"
           >
             <Link href="/train-ai">Explore TrainAI</Link>
           </Button>
