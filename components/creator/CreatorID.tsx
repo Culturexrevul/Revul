@@ -68,7 +68,7 @@ export default function CreatorID({ mode = "benefits", compact = false }: Creato
         <div className="mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {/* Payment Option */}
-            <Card className="rounded-2xl border-2 hover:border-primary transition-colors">
+            <Card className="rounded-2xl border-2 hover:border-primary transition-colors dark:bg-white">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-2 mb-1">
                   <DollarSign className="h-5 w-5 text-primary" />
@@ -98,21 +98,24 @@ export default function CreatorID({ mode = "benefits", compact = false }: Creato
             </Card>
 
             {/* Quest Option */}
-            <Card className="rounded-2xl border-2 hover:border-accent transition-colors">
+            <Card className="rounded-2xl border-2 hover:border-accent transition-colors bg-white dark:bg-white">
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <Gamepad2 className="h-5 w-5 text-accent" />
-                  <CardTitle className="text-xl sm:text-2xl font-black">Play IP Quest</CardTitle>
+                  <Gamepad2 className="h-5 w-5 text-yellow-600" />
+                  <CardTitle className="text-xl sm:text-2xl font-black text-black">Play IP Quest</CardTitle>
                 </div>
-                <CardDescription className="text-sm">Free access through gameplay</CardDescription>
+                <CardDescription className="text-sm text-gray-600">Free access through gameplay</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-center py-4 bg-accent/5 rounded-xl">
-                  <div className="text-4xl sm:text-5xl font-black text-accent mb-1">FREE</div>
-                  <p className="text-xs text-muted-foreground">15-20 min quest</p>
+                <div className="text-center py-4 bg-yellow-50 rounded-xl">
+                  <div className="text-4xl sm:text-5xl font-black text-yellow-600 mb-1">FREE</div>
+                  <p className="text-xs text-gray-600">15-20 min quest</p>
                 </div>
                 <Link href="/ipquest" className="block">
-                  <Button className="w-full h-11 text-base font-bold bg-transparent" variant="outline" size="lg">
+                  <Button
+                    className="w-full h-11 text-base font-bold bg-white text-black border-2 border-black hover:bg-gray-100"
+                    size="lg"
+                  >
                     Start Quest
                   </Button>
                 </Link>
@@ -215,7 +218,10 @@ export default function CreatorID({ mode = "benefits", compact = false }: Creato
               Pay $2,000 & Start Now
             </Button>
             <Link href="/ipquest">
-              <Button size="lg" variant="outline" className="h-12 px-8 font-bold w-full sm:w-auto bg-transparent">
+              <Button
+                size="lg"
+                className="h-12 px-8 font-bold w-full sm:w-auto bg-black text-white hover:bg-black/90 dark:bg-black dark:text-white dark:hover:bg-gray-900"
+              >
                 Play IP Quest Free
               </Button>
             </Link>
