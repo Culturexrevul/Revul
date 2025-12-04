@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   title: "Revulter Cultural Commerce",
   description: "Own. Protect. Trade African Creativity.",
   generator: "v0.app",
+  icons: {
+    icon: "/favicon.ico",
+  },
 }
 
 export default function RootLayout({
