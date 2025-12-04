@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Plus, X, User, TrendingUp, Eye, DollarSign, ShoppingCart, Check } from "lucide-react"
+import { Plus, X, User, TrendingUp, Eye, DollarSign, ShoppingCart, Check, ArrowLeft, Home } from "lucide-react"
 
 export default function LicensingPage() {
   const router = useRouter()
@@ -302,6 +302,28 @@ export default function LicensingPage() {
 
   return (
     <main className="min-h-screen bg-background pt-16">
+      {/* Navigation Header */}
+      <div className="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 h-16 flex items-center justify-between px-4">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => router.back()}
+            className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Go back"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => router.push("/")}
+            className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Go home"
+          >
+            <Home className="w-5 h-5" />
+          </button>
+        </div>
+        <h1 className="text-lg font-bold">Licensing Hub</h1>
+        <div className="w-9" /> {/* Spacer for centering */}
+      </div>
+
       {showSuccessMessage && (
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm">
           <Check className="w-4 h-4" />

@@ -139,6 +139,15 @@ function Navigation() {
                   </Link>
                 ))}
                 <div className="border-t border-border my-3" />
+                <a
+                  href="https://www.revulter.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  About
+                </a>
                 <Link
                   href="/login"
                   className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
