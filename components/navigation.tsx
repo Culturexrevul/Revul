@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { Menu, X, ArrowLeft, Home } from "lucide-react"
+import { Menu, X, ArrowLeft, ArrowRight, Home } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 import { ThemeToggle } from "@/components/ThemeToggle"
 
@@ -13,18 +13,12 @@ function Navigation() {
   const router = useRouter()
 
   const navItems = [
-    { href: "/", label: "Home" },
     { href: "/register", label: "Register IP" },
-    { href: "/marketplace", label: "Marketplace" },
+    { href: "/ip-reputation", label: "IP Index" },
     { href: "/licensing", label: "Licensing Hub" },
-    { href: "/legal", label: "Legal Assist" },
-    { href: "/creator-id", label: "Creator ID" },
     { href: "/hire-creators", label: "Creator Hub" },
-    { href: "/train-ai", label: "TrainAI" },
-    { href: "/community", label: "Community" }, // Added Community menu item
-    { href: "/ipquest", label: "IP Quest" }, // Added IP Quest mini-game
-    { href: "/dashboard", label: "Investor Dashboard" },
-    { href: "/about", label: "About" },
+    { href: "/legal", label: "Legal Assist" },
+    { href: "/merchlab", label: "MerchLab" },
   ]
 
   const isActivePath = (href: string) => {
@@ -78,34 +72,42 @@ function Navigation() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 shrink-0">
+          <div className="hidden lg:flex items-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`transition-colors font-medium px-2 py-1 rounded-md text-sm whitespace-nowrap ${
-                  isActivePath(item.href)
-                    ? "text-accent bg-accent/10 font-semibold"
-                    : "text-foreground hover:text-accent hover:bg-accent/5"
+                className={`text-sm font-medium transition-colors ${
+                  isActivePath(item.href) ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.label}
               </Link>
             ))}
-            <div className="h-6 w-px bg-border mx-2" />
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center space-x-4">
             <ThemeToggle />
-            <Button asChild size="sm" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              <Link href="/register">Register IP</Link>
+            <Link
+              href="/login"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1"
+            >
+              <ArrowRight className="w-4 h-4" />
+              Sign In
+            </Link>
+            <Button
+              asChild
+              size="sm"
+              className="bg-foreground text-background hover:bg-foreground/90 h-9 px-4 text-sm font-medium"
+            >
+              <Link href="/register">Get Started</Link>
             </Button>
           </div>
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center space-x-2 shrink-0">
             <ThemeToggle />
-            <div className="h-6 w-px bg-border mx-1" />
             <Button
               variant="ghost"
               size="sm"
@@ -128,8 +130,8 @@ function Navigation() {
                     href={item.href}
                     className={`transition-colors font-medium px-4 py-3 rounded-md min-h-[48px] flex items-center ${
                       isActivePath(item.href)
-                        ? "text-accent bg-accent/10 font-semibold"
-                        : "text-foreground hover:text-accent hover:bg-accent/5 active:bg-accent/10"
+                        ? "text-foreground bg-muted"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -137,22 +139,17 @@ function Navigation() {
                   </Link>
                 ))}
                 <div className="border-t border-border my-3" />
-                <div className="flex flex-col space-y-2 px-4 pb-2">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-accent text-accent bg-transparent h-12 justify-center"
-                  >
-                    <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                      Login
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground h-12 justify-center"
-                  >
+                <Link
+                  href="/login"
+                  className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <div className="px-4 pt-2">
+                  <Button asChild className="w-full bg-foreground text-background hover:bg-foreground/90">
                     <Link href="/register" onClick={() => setIsMenuOpen(false)}>
-                      Register IP
+                      Get Started
                     </Link>
                   </Button>
                 </div>

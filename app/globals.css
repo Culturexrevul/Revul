@@ -5,45 +5,34 @@
 
 /* Modern dark-black, pearl-white, and gray palette with accent colors for metrics only */
 :root {
-  /* Base neutrals - Modern dark-black and pearl-white */
-  --background: oklch(0.98 0 0); /* Pearl white */
-  --foreground: oklch(0.08 0 0); /* Dark black */
-  --card: oklch(1 0 0); /* Pure white */
-  --card-foreground: oklch(0.08 0 0); /* Dark black */
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.08 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.08 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.08 0 0);
-
-  /* Primary - Dark black for headers and text */
-  --primary: oklch(0.08 0 0); /* Dark black */
-  --primary-foreground: oklch(0.98 0 0); /* Pearl white */
-
-  /* Secondary - Deep gray */
-  --secondary: oklch(0.35 0 0); /* Deep gray */
+  --primary: oklch(0.08 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.35 0 0);
   --secondary-foreground: oklch(0.98 0 0);
-
-  /* Accent colors - ONLY for metrics (yellow, red, green) */
-  --accent: oklch(0.85 0.18 70); /* Bold yellow for growth/positive */
+  --accent: oklch(0.85 0.18 70);
   --accent-foreground: oklch(0.08 0 0);
-  --metric-red: oklch(0.65 0.22 15); /* Red for negative/risk */
-  --metric-green: oklch(0.65 0.18 135); /* Green for positive */
-  --metric-yellow: oklch(0.82 0.2 60); /* Yellow for warning */
-
-  --muted: oklch(0.92 0 0); /* Light gray */
-  --muted-foreground: oklch(0.45 0 0); /* Medium gray */
-  --destructive: oklch(0.65 0.22 15); /* Red for errors */
+  --metric-red: oklch(0.65 0.22 15);
+  --metric-green: oklch(0.65 0.18 135);
+  --metric-yellow: oklch(0.82 0.2 60);
+  --muted: oklch(0.92 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --destructive: oklch(0.65 0.22 15);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.9 0 0); /* Light gray border */
+  --border: oklch(0.9 0 0);
   --input: oklch(0.98 0 0);
   --ring: oklch(0.08 0 0);
   --radius: 0.5rem;
-
-  /* Chart colors - Muted tones */
-  --chart-1: oklch(0.5 0.08 240); /* Muted blue */
-  --chart-2: oklch(0.55 0.08 200); /* Muted teal */
-  --chart-3: oklch(0.6 0.08 180); /* Muted cyan */
-  --chart-4: oklch(0.65 0.18 70); /* Bold yellow */
-  --chart-5: oklch(0.65 0.22 15); /* Bold red */
-
+  --chart-1: oklch(0.5 0.08 240);
+  --chart-2: oklch(0.55 0.08 200);
+  --chart-3: oklch(0.6 0.08 180);
+  --chart-4: oklch(0.65 0.18 70);
+  --chart-5: oklch(0.65 0.22 15);
   --sidebar: oklch(0.98 0 0);
   --sidebar-foreground: oklch(0.08 0 0);
   --sidebar-primary: oklch(0.08 0 0);
@@ -55,40 +44,33 @@
 }
 
 .dark {
-  /* Dark mode - Black background, pearl text, gray accents */
-  --background: oklch(0.1 0 0); /* Deep black */
-  --foreground: oklch(0.95 0 0); /* Pearl white */
-  --card: oklch(0.15 0 0); /* Dark gray-black */
+  --background: oklch(0.1 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.15 0 0);
   --card-foreground: oklch(0.95 0 0);
   --popover: oklch(0.15 0 0);
   --popover-foreground: oklch(0.95 0 0);
-
-  --primary: oklch(0.95 0 0); /* Pearl white */
+  --primary: oklch(0.95 0 0);
   --primary-foreground: oklch(0.1 0 0);
-  --secondary: oklch(0.4 0 0); /* Medium gray */
+  --secondary: oklch(0.4 0 0);
   --secondary-foreground: oklch(0.95 0 0);
-
-  /* Accent colors remain same for metrics */
   --accent: oklch(0.85 0.18 70);
   --accent-foreground: oklch(0.1 0 0);
   --metric-red: oklch(0.7 0.25 15);
   --metric-green: oklch(0.7 0.2 135);
   --metric-yellow: oklch(0.85 0.22 60);
-
-  --muted: oklch(0.25 0 0); /* Dark gray */
-  --muted-foreground: oklch(0.7 0 0); /* Light gray */
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.7 0 0);
   --destructive: oklch(0.7 0.25 15);
   --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.2 0 0); /* Dark border */
+  --border: oklch(0.2 0 0);
   --input: oklch(0.18 0 0);
   --ring: oklch(0.95 0 0);
-
   --chart-1: oklch(0.6 0.1 240);
   --chart-2: oklch(0.65 0.1 200);
   --chart-3: oklch(0.7 0.1 180);
   --chart-4: oklch(0.85 0.18 70);
   --chart-5: oklch(0.7 0.25 15);
-
   --sidebar: oklch(0.12 0 0);
   --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.95 0 0);
@@ -149,8 +131,6 @@
     @apply bg-background text-foreground font-sans;
     scroll-behavior: smooth;
   }
-
-  /* Enhanced bold typography with increased letter-spacing for Aria-style minimalism */
   h1,
   h2,
   h3,
@@ -161,188 +141,20 @@
     letter-spacing: -1px;
     line-height: 1.1;
   }
-
   h1 {
-    @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black;
+    @apply text-3xl sm:text-4xl md:text-5xl font-black;
   }
-
   h2 {
-    @apply text-4xl sm:text-5xl md:text-6xl font-black;
+    @apply text-2xl sm:text-3xl md:text-4xl font-black;
   }
-
   h3 {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold;
+    @apply text-xl sm:text-2xl font-bold;
   }
-
   p {
-    @apply text-lg leading-relaxed;
-    font-weight: 400;
-  }
-
-  /* Enhanced body text with better hierarchy */
-  body {
-    @apply text-base tracking-wide;
+    @apply text-base leading-relaxed;
   }
 }
 
-/* Moving keyframes outside @layer utilities to fix LightningCSS error */
-/* Fluid scroll animations - smooth, elegant transitions */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Liquid-glass effect keyframes */
-@keyframes liquid-shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes glass-reflection {
-  0%,
-  100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes liquid-pulse {
-  0%,
-  100% {
-    backdrop-filter: blur(10px);
-  }
-  50% {
-    backdrop-filter: blur(16px);
-  }
-}
-
-/* Individual pulse glow animations for quick access buttons */
-@keyframes pulse-glow-0 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(234, 179, 8, 0.5);
-  }
-}
-
-@keyframes pulse-glow-1 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
-  }
-}
-
-@keyframes pulse-glow-2 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(236, 72, 153, 0.5);
-  }
-}
-
-@keyframes pulse-glow-3 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(34, 197, 94, 0.5);
-  }
-}
-
-@keyframes pulse-glow-4 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(249, 115, 22, 0.5);
-  }
-}
-
-@keyframes pulse-glow-5 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
-  }
-}
-
-@keyframes pulse-glow-6 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(14, 165, 233, 0.5);
-  }
-}
-
-@keyframes pulse-glow-7 {
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(239, 68, 68, 0.5);
-  }
-}
-
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Lightweight game animations for IP Quest */
 @keyframes float {
   0%,
   100% {
@@ -350,16 +162,6 @@
   }
   50% {
     transform: translateY(-20px);
-  }
-}
-
-@keyframes crystal-float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(45deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(45deg);
   }
 }
 
@@ -376,174 +178,19 @@
   }
 }
 
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @layer utilities {
-  /* Utility classes referencing the keyframes above */
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-
-  .animate-crystal-float {
-    animation: crystal-float 3s ease-in-out infinite;
-  }
-
   .animate-shake {
     animation: shake 0.4s ease-in-out;
   }
-
-  .animate-spin-slow {
-    animation: spin-slow 3s linear infinite;
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animate-pulse-glow-0 {
-    animation: pulse-glow-0 3s ease-in-out infinite;
-  }
-
-  .animate-pulse-glow-1 {
-    animation: pulse-glow-1 3s ease-in-out infinite 0.2s;
-  }
-
-  .animate-pulse-glow-2 {
-    animation: pulse-glow-2 3s ease-in-out infinite 0.4s;
-  }
-
-  .animate-pulse-glow-3 {
-    animation: pulse-glow-3 3s ease-in-out infinite 0.6s;
-  }
-
-  .animate-pulse-glow-4 {
-    animation: pulse-glow-4 3s ease-in-out infinite 0.8s;
-  }
-
-  .animate-pulse-glow-5 {
-    animation: pulse-glow-5 3s ease-in-out infinite 1s;
-  }
-
-  .animate-pulse-glow-6 {
-    animation: pulse-glow-6 3s ease-in-out infinite 1.2s;
-  }
-
-  .animate-pulse-glow-7 {
-    animation: pulse-glow-7 3s ease-in-out infinite 1.4s;
-  }
-
-  .animate-slide-in-left {
-    animation: slide-in-left 0.6s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animate-slide-in-right {
-    animation: slide-in-right 0.6s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animate-scale-in {
-    animation: scale-in 0.4s ease-out forwards;
-    opacity: 0;
-  }
-
-  /* Liquid-glass button utility class */
-  .liquid-glass-btn {
-    position: relative;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .liquid-glass-btn:hover {
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .liquid-glass-btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    border-radius: inherit;
-  }
-
-  .liquid-glass-btn:hover::before {
-    opacity: 1;
-  }
-
-  /* Stagger animations for lists */
-  .animation-delay-100 {
-    animation-delay: 0.1s;
-  }
-  .animation-delay-200 {
-    animation-delay: 0.2s;
-  }
-  .animation-delay-300 {
-    animation-delay: 0.3s;
-  }
-  .animation-delay-400 {
-    animation-delay: 0.4s;
-  }
-
-  /* Scroll-triggered animations */
-  .scroll-animate {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .scroll-animate.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Enhanced mobile-first compact utilities */
   .compact-mobile {
     @apply px-3 py-2 sm:px-4 sm:py-3;
   }
-
   .compact-border {
     @apply border border-border;
   }
-
-  .compact-text {
-    @apply text-xs sm:text-sm leading-tight;
-  }
-
-  .compact-title {
-    @apply text-sm sm:text-base font-bold uppercase tracking-wide;
-  }
-
-  .compact-spacing {
-    @apply space-y-2 sm:space-y-3;
-  }
-
-  /* Minimal button styling for mobile */
-  .btn-minimal {
-    @apply px-4 py-2 text-xs sm:text-sm font-bold uppercase tracking-wider border border-foreground hover:bg-foreground hover:text-background transition-all duration-200;
-  }
-
-  /* Compact card for mobile */
-  .card-compact {
-    @apply p-3 sm:p-4 border border-border bg-card;
-  }
-
-  /* Metric color utilities */
   .metric-green {
     @apply text-green-600 dark:text-green-400;
   }
@@ -552,184 +199,5 @@
   }
   .metric-yellow {
     @apply text-yellow-600 dark:text-yellow-400;
-  }
-
-  .bg-metric-green {
-    background-color: var(--color-metric-green);
-  }
-  .bg-metric-red {
-    background-color: var(--color-metric-red);
-  }
-  .bg-metric-yellow {
-    background-color: var(--color-metric-yellow);
-  }
-
-  /* Mobile-first responsive utilities */
-  .touch-target {
-    min-height: 48px;
-    min-width: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.375rem;
-    transition: all 0.2s ease;
-  }
-
-  .touch-target:active {
-    background-color: var(--color-muted);
-  }
-
-  /* Smooth hover effects */
-  .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-4px);
-  }
-
-  .hover-bg {
-    transition: background-color 0.3s ease;
-  }
-
-  .hover-bg:hover {
-    background-color: var(--color-muted);
-  }
-
-  /* Mobile container with proper padding */
-  .mobile-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  @media (min-width: 640px) {
-    .mobile-container {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .mobile-container {
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-  }
-
-  /* Mobile-first image sizing */
-  .mobile-image-hero {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-  }
-
-  @media (min-width: 640px) {
-    .mobile-image-hero {
-      height: 350px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .mobile-image-hero {
-      height: 500px;
-    }
-  }
-
-  /* Mobile card improvements */
-  .mobile-card {
-    padding: 1rem;
-    border-radius: 0.5rem;
-    background-color: var(--color-card);
-    border: 1px solid var(--color-border);
-  }
-
-  /* Mobile button group */
-  .mobile-button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-  }
-
-  @media (min-width: 640px) {
-    .mobile-button-group {
-      flex-direction: row;
-    }
-  }
-
-  /* Mobile text sizing */
-  .text-mobile-sm {
-    @apply text-sm sm:text-base;
-  }
-  .text-mobile-base {
-    @apply text-base sm:text-lg;
-  }
-  .text-mobile-lg {
-    @apply text-lg sm:text-2xl;
-  }
-  .text-mobile-xl {
-    @apply text-xl sm:text-3xl;
-  }
-  .text-mobile-2xl {
-    @apply text-2xl sm:text-4xl;
-  }
-
-  /* Like button feedback */
-  .like-button {
-    @apply transition-all duration-200 active:scale-90;
-  }
-
-  .like-button.liked {
-    @apply text-accent;
-  }
-
-  /* Prevent horizontal scroll */
-  @media (max-width: 768px) {
-    body {
-      overflow-x: hidden;
-    }
-
-    * {
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-  }
-
-  /* Increased spacing utilities for minimalist design */
-  .spacing-generous {
-    @apply py-16 sm:py-20 lg:py-28 px-6 sm:px-8 lg:px-12;
-  }
-
-  .spacing-hero {
-    @apply py-20 sm:py-32 lg:py-40;
-  }
-
-  /* Enhanced card with more whitespace */
-  .card-minimalist {
-    @apply bg-card border border-border rounded-lg p-8 sm:p-12 shadow-sm hover:shadow-lg transition-all duration-300;
-  }
-
-  /* Bold button styling inspired by Aria */
-  .btn-aria {
-    @apply px-8 py-4 font-bold text-lg uppercase tracking-wider rounded-full border-2 border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground transition-all duration-300;
-  }
-
-  .btn-aria-outline {
-    @apply px-8 py-4 font-bold text-lg uppercase tracking-wider rounded-full border-2 border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background transition-all duration-300;
-  }
-
-  /* Minimalist section spacing */
-  .section-minimal {
-    @apply py-20 sm:py-28 lg:py-32 px-4 sm:px-8 lg:px-12;
-  }
-
-  /* Enhanced hover effects for minimalism */
-  .hover-minimal {
-    @apply transition-all duration-300 hover:scale-102;
-  }
-
-  /* Bold text styling */
-  .text-aria-bold {
-    @apply font-black tracking-tighter;
   }
 }

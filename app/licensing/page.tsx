@@ -1,55 +1,30 @@
 "use client"
 
-import { Navigation } from "@/components/navigation"
-import { Footer } from "@/components/footer"
+import type React from "react"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Image from "next/image"
+import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  Search,
-  ShoppingCart,
-  Clock,
-  DollarSign,
-  FileText,
-  CheckCircle,
-  Heart,
-  Eye,
-  MessageSquare,
-  TrendingUp,
-  Star,
-  Gavel,
-  AlertCircle,
-} from "lucide-react"
-import { useState, useMemo } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Plus, X, User, TrendingUp, Eye, DollarSign, ShoppingCart, Check } from "lucide-react"
 
-export default function LicensingHubPage() {
+export default function LicensingPage() {
+  const router = useRouter()
   const [selectedLicense, setSelectedLicense] = useState<any>(null)
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
-  const [isBidModalOpen, setIsBidModalOpen] = useState(false)
-  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false)
-  const [isCustomRequestOpen, setIsCustomRequestOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedLicenseType, setSelectedLicenseType] = useState("all")
-  const [priceRange, setPriceRange] = useState("all")
-  const [favorites, setFavorites] = useState<string[]>([])
-  const [selectedForCompare, setSelectedForCompare] = useState<string[]>([])
-  const [bidAmount, setBidAmount] = useState("")
-  const [bidMessage, setBidMessage] = useState("")
-  const [showOnlyAvailable, setShowOnlyAvailable] = useState(false)
+  const [counterOfferAmount, setCounterOfferAmount] = useState("")
+  const [watchlist, setWatchlist] = useState<string[]>([])
+  const [cart, setCart] = useState<string[]>([])
+  const [showSuccessMessage, setShowSuccessMessage] = useState<string | null>(null)
 
-  const licenses = [
+  const mockLicenses = [
     {
       id: "1",
-      assetName: "Ancestral Rhythms",
-      artist: "Amara Okafor",
-      category: "Digital Art",
-      licenseType: "Commercial Use",
+      name: "Ancestral Rhythms",
+      type: "Sync Licensing",
+      variants: "Commercial License",
       price: 500,
       term: "2 Years",
       description: "Full commercial rights for marketing, advertising, and product placement",
@@ -61,14 +36,23 @@ export default function LicensingHubPage() {
       lastSold: 450,
       trending: true,
       negotiable: true,
-      preview: true,
+      image: "/afrobeat-music-album-cover-modern.jpg",
+      owner: "Kofi Mensah",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 5,
+      totalUnits: 10,
+      category: "Music",
+      stats: {
+        totalRevenue: 2250,
+        avgPrice: 475,
+        successRate: 94,
+      },
     },
     {
       id: "2",
-      assetName: "Lagos Nights",
-      artist: "Kemi Adebayo",
-      category: "Music Album",
-      licenseType: "AI Training Rights",
+      name: "Lagos Nights",
+      type: "AI Training Rights",
+      variants: "Training License",
       price: 1200,
       term: "Perpetual",
       description: "Rights to use music for AI model training and development",
@@ -80,14 +64,23 @@ export default function LicensingHubPage() {
       lastSold: 1100,
       trending: false,
       negotiable: true,
-      preview: true,
+      image: "/african-film-cinema-poster-modern.jpg",
+      owner: "Amara Okafor",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 3,
+      totalUnits: 5,
+      category: "Film",
+      stats: {
+        totalRevenue: 8400,
+        avgPrice: 1150,
+        successRate: 89,
+      },
     },
     {
       id: "3",
-      assetName: "Ubuntu Stories",
-      artist: "Thabo Mthembu",
-      category: "Short Film",
-      licenseType: "Remix Rights",
+      name: "Ubuntu Stories",
+      type: "Remix Rights",
+      variants: "Remixable License",
       price: 800,
       term: "1 Year",
       description: "Permission to create derivative works and remixes",
@@ -99,14 +92,23 @@ export default function LicensingHubPage() {
       lastSold: 750,
       trending: true,
       negotiable: false,
-      preview: false,
+      image: "/african-digital-art-geometric-colorful.jpg",
+      owner: "Chinwe Adeyemi",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 2,
+      totalUnits: 8,
+      category: "Art",
+      stats: {
+        totalRevenue: 4800,
+        avgPrice: 800,
+        successRate: 75,
+      },
     },
     {
       id: "4",
-      assetName: "Kente Fusion",
-      artist: "Esi Mensah",
-      category: "Fashion Design",
-      licenseType: "Commercial Use",
+      name: "Kente Fusion",
+      type: "Commercial Use",
+      variants: "Full Rights License",
       price: 350,
       term: "5 Years",
       description: "Commercial manufacturing and distribution rights",
@@ -118,14 +120,23 @@ export default function LicensingHubPage() {
       lastSold: 320,
       trending: false,
       negotiable: true,
-      preview: true,
+      image: "/african-fashion-design-modern-clothing.jpg",
+      owner: "Kwame Nkrumah",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 10,
+      totalUnits: 10,
+      category: "Fashion",
+      stats: {
+        totalRevenue: 3500,
+        avgPrice: 350,
+        successRate: 100,
+      },
     },
     {
       id: "5",
-      assetName: "Afrobeat Revolution",
-      artist: "Seun Kuti",
-      category: "Music Album",
-      licenseType: "Exclusive License",
+      name: "Afrobeat Revolution",
+      type: "Exclusive License",
+      variants: "Worldwide Rights",
       price: 5000,
       term: "Perpetual",
       description: "Exclusive worldwide distribution and performance rights",
@@ -137,14 +148,23 @@ export default function LicensingHubPage() {
       lastSold: 4800,
       trending: true,
       negotiable: true,
-      preview: false,
+      image: "/animated-kids-show-colorful-characters.jpg",
+      owner: "Nia Williams",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 1,
+      totalUnits: 1,
+      category: "Animation",
+      stats: {
+        totalRevenue: 20000,
+        avgPrice: 5000,
+        successRate: 100,
+      },
     },
     {
       id: "6",
-      assetName: "Maasai Portraits",
-      artist: "Grace Wanjiku",
-      category: "Photography",
-      licenseType: "Commercial Use",
+      name: "Maasai Portraits",
+      type: "Commercial Use",
+      variants: "Print & Digital",
       price: 300,
       term: "3 Years",
       description: "Commercial usage for publications and media",
@@ -156,14 +176,23 @@ export default function LicensingHubPage() {
       lastSold: 280,
       trending: false,
       negotiable: true,
-      preview: true,
+      image: "/music-production-sound-waves-studio-equipment.jpg",
+      owner: "Jomo Kenyatta",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 7,
+      totalUnits: 12,
+      category: "Audio",
+      stats: {
+        totalRevenue: 1500,
+        avgPrice: 300,
+        successRate: 83,
+      },
     },
     {
       id: "7",
-      assetName: "Sahara Dreams",
-      artist: "Fatima Al-Zahra",
-      category: "Literature",
-      licenseType: "Translation Rights",
+      name: "Sahara Dreams",
+      type: "Translation Rights",
+      variants: "Multilingual Rights",
       price: 750,
       term: "2 Years",
       description: "Rights to translate and publish in multiple languages",
@@ -175,14 +204,23 @@ export default function LicensingHubPage() {
       lastSold: 700,
       trending: false,
       negotiable: true,
-      preview: true,
+      image: "/documentary-film-africa-culture-storytelling.jpg",
+      owner: "Fatima Hassan",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 4,
+      totalUnits: 6,
+      category: "Documentary",
+      stats: {
+        totalRevenue: 1500,
+        avgPrice: 750,
+        successRate: 67,
+      },
     },
     {
       id: "8",
-      assetName: "Nollywood Rising",
-      artist: "Chioma Okafor",
-      category: "Feature Film",
-      licenseType: "Distribution Rights",
+      name: "Nollywood Rising",
+      type: "Distribution Rights",
+      variants: "Streaming Rights",
       price: 2500,
       term: "5 Years",
       description: "Regional distribution rights for streaming platforms",
@@ -194,567 +232,283 @@ export default function LicensingHubPage() {
       lastSold: 2300,
       trending: true,
       negotiable: true,
-      preview: false,
+      image: "/professional-photography-african-portraits.jpg",
+      owner: "Olusegun Obasanjo",
+      ownerAvatar: "/placeholder.svg?height=40&width=40",
+      availableUnits: 2,
+      totalUnits: 4,
+      category: "Photography",
+      stats: {
+        totalRevenue: 5000,
+        avgPrice: 2500,
+        successRate: 50,
+      },
     },
   ]
 
-  const filteredLicenses = useMemo(() => {
-    return licenses.filter((license) => {
-      const matchesSearch =
-        searchTerm === "" ||
-        license.assetName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        license.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        license.licenseType.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredLicenses = mockLicenses
 
-      const matchesCategory = selectedCategory === "all" || license.category === selectedCategory
-      const matchesLicenseType = selectedLicenseType === "all" || license.licenseType === selectedLicenseType
+  const handleAddToCart = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!watchlist.includes(id)) {
+      setWatchlist([...watchlist, id])
+      setShowSuccessMessage("Added to watchlist!")
+      setTimeout(() => setShowSuccessMessage(null), 2000)
+    }
+  }
 
-      const matchesPrice =
-        priceRange === "all" ||
-        (priceRange === "0-500" && license.price <= 500) ||
-        (priceRange === "500-1000" && license.price > 500 && license.price <= 1000) ||
-        (priceRange === "1000-2500" && license.price > 1000 && license.price <= 2500) ||
-        (priceRange === "2500+" && license.price > 2500)
-
-      const matchesAvailability = !showOnlyAvailable || license.availability === "Available"
-
-      return matchesSearch && matchesCategory && matchesLicenseType && matchesPrice && matchesAvailability
-    })
-  }, [searchTerm, selectedCategory, selectedLicenseType, priceRange, showOnlyAvailable])
-
-  const handleBuyLicense = (license: any) => {
+  const handleSelectIP = (license: any) => {
     setSelectedLicense(license)
-    setIsCheckoutOpen(true)
+    setCounterOfferAmount(license.price.toString())
   }
 
-  const handleMakeOffer = (license: any) => {
-    setSelectedLicense(license)
-    setIsBidModalOpen(true)
-  }
+  const handleSubmitCounterOffer = () => {
+    if (!counterOfferAmount || Number.parseFloat(counterOfferAmount) <= 0) {
+      alert("Please enter a valid amount")
+      return
+    }
 
-  const handleToggleFavorite = (licenseId: string) => {
-    setFavorites((prev) => (prev.includes(licenseId) ? prev.filter((id) => id !== licenseId) : [...prev, licenseId]))
-  }
+    const originalPrice = selectedLicense.price
+    const offerPrice = Number.parseFloat(counterOfferAmount)
 
-  const handleToggleCompare = (licenseId: string) => {
-    setSelectedForCompare((prev) => {
-      if (prev.includes(licenseId)) {
-        return prev.filter((id) => id !== licenseId)
-      } else if (prev.length < 3) {
-        return [...prev, licenseId]
-      }
-      return prev
-    })
-  }
+    setShowSuccessMessage(
+      `Counter offer of $${offerPrice.toLocaleString()} submitted! We'll notify you when the owner responds.`,
+    )
+    setTimeout(() => setShowSuccessMessage(null), 3000)
 
-  const handleSubmitBid = () => {
-    alert(`Offer of $${bidAmount} submitted for ${selectedLicense?.assetName}! The creator will be notified.`)
-    setIsBidModalOpen(false)
-    setBidAmount("")
-    setBidMessage("")
     setSelectedLicense(null)
+    setCounterOfferAmount("")
   }
 
-  const handleCheckoutComplete = () => {
-    setIsCheckoutOpen(false)
-    alert(`License purchased successfully for ${selectedLicense?.assetName}!`)
-    setSelectedLicense(null)
+  const handleLicenseNow = () => {
+    setShowSuccessMessage(`Processing license purchase for ${selectedLicense.name}...`)
+    setTimeout(() => {
+      setShowSuccessMessage("License purchased successfully!")
+      setSelectedLicense(null)
+      setTimeout(() => setShowSuccessMessage(null), 2000)
+    }, 1500)
+  }
+
+  const handleAddToCartFromModal = () => {
+    if (!cart.includes(selectedLicense.id)) {
+      setCart([...cart, selectedLicense.id])
+      setShowSuccessMessage(`${selectedLicense.name} added to cart!`)
+      setTimeout(() => setShowSuccessMessage(null), 2000)
+    } else {
+      setShowSuccessMessage("Already in cart!")
+      setTimeout(() => setShowSuccessMessage(null), 2000)
+    }
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navigation />
-
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="font-display font-bold text-4xl lg:text-5xl text-primary mb-6">
-              Licensing <span className="text-accent">Hub</span>
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              License authentic creative works for your projects, AI training, commercial use, and more.
-            </p>
-          </div>
-
-          <div className="space-y-4 mb-8">
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input
-                  placeholder="Search licenses by asset, artist, or type..."
-                  className="pl-10 h-12"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-4">
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-48 h-12">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="Digital Art">Digital Art</SelectItem>
-                    <SelectItem value="Music Album">Music Album</SelectItem>
-                    <SelectItem value="Short Film">Short Film</SelectItem>
-                    <SelectItem value="Fashion Design">Fashion Design</SelectItem>
-                    <SelectItem value="Photography">Photography</SelectItem>
-                    <SelectItem value="Literature">Literature</SelectItem>
-                    <SelectItem value="Feature Film">Feature Film</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select value={selectedLicenseType} onValueChange={setSelectedLicenseType}>
-                  <SelectTrigger className="w-48 h-12">
-                    <SelectValue placeholder="License Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
-                    <SelectItem value="Commercial Use">Commercial Use</SelectItem>
-                    <SelectItem value="AI Training Rights">AI Training</SelectItem>
-                    <SelectItem value="Remix Rights">Remix Rights</SelectItem>
-                    <SelectItem value="Exclusive License">Exclusive</SelectItem>
-                    <SelectItem value="Distribution Rights">Distribution</SelectItem>
-                    <SelectItem value="Translation Rights">Translation</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select value={priceRange} onValueChange={setPriceRange}>
-                  <SelectTrigger className="w-48 h-12">
-                    <SelectValue placeholder="Price Range" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Prices</SelectItem>
-                    <SelectItem value="0-500">$0 - $500</SelectItem>
-                    <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-                    <SelectItem value="1000-2500">$1,000 - $2,500</SelectItem>
-                    <SelectItem value="2500+">$2,500+</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox id="available-only" checked={showOnlyAvailable} onCheckedChange={setShowOnlyAvailable} />
-                <label htmlFor="available-only" className="text-sm text-muted-foreground">
-                  Available only
-                </label>
-              </div>
-              <Button variant="outline" size="sm" onClick={() => setIsCustomRequestOpen(true)}>
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Custom Request
-              </Button>
-              {selectedForCompare.length > 0 && (
-                <Button variant="outline" size="sm" onClick={() => setIsCompareModalOpen(true)}>
-                  <Eye className="h-4 w-4 mr-2" />
-                  Compare ({selectedForCompare.length})
-                </Button>
-              )}
-              <div className="text-sm text-muted-foreground">
-                Showing {filteredLicenses.length} of {licenses.length} licenses
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-8">
-            <Card className="border-0 shadow-sm">
-              <CardContent className="pt-4 text-center">
-                <div className="text-2xl font-bold text-primary mb-1">{filteredLicenses.length}</div>
-                <div className="text-sm text-muted-foreground">Available Licenses</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardContent className="pt-4 text-center">
-                <div className="text-2xl font-bold text-accent mb-1">$850</div>
-                <div className="text-sm text-muted-foreground">Avg. License Price</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardContent className="pt-4 text-center">
-                <div className="text-2xl font-bold text-terracotta mb-1">24</div>
-                <div className="text-sm text-muted-foreground">Licenses Sold Today</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardContent className="pt-4 text-center">
-                <div className="text-2xl font-bold text-secondary mb-1">156</div>
-                <div className="text-sm text-muted-foreground">Active Negotiations</div>
-              </CardContent>
-            </Card>
-            <Card className="border-0 shadow-sm">
-              <CardContent className="pt-4 text-center">
-                <div className="text-2xl font-bold text-primary mb-1">89%</div>
-                <div className="text-sm text-muted-foreground">Success Rate</div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card className="border-0 shadow-lg">
-            <CardHeader>
-              <CardTitle className="font-display text-2xl text-primary">Available Licenses</CardTitle>
-              <CardDescription>Browse, compare, and negotiate licenses for creative works</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <div className="space-y-4">
-                  {filteredLicenses.map((license) => (
-                    <div
-                      key={license.id}
-                      className="border rounded-lg p-6 hover:shadow-md transition-all duration-200 relative"
-                    >
-                      {license.trending && (
-                        <Badge className="absolute top-4 right-4 bg-accent text-white">
-                          <TrendingUp className="h-3 w-3 mr-1" />
-                          Trending
-                        </Badge>
-                      )}
-
-                      <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 items-center">
-                        <div className="lg:col-span-2">
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <h3 className="font-semibold text-primary text-lg mb-1">{license.assetName}</h3>
-                              <p className="text-sm text-muted-foreground mb-2">by {license.artist}</p>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleToggleFavorite(license.id)}
-                              className="p-1"
-                            >
-                              <Heart
-                                className={`h-4 w-4 ${favorites.includes(license.id) ? "fill-red-500 text-red-500" : "text-muted-foreground"}`}
-                              />
-                            </Button>
-                          </div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <Badge variant="outline" className="text-xs">
-                              {license.category}
-                            </Badge>
-                            {license.preview && (
-                              <Badge variant="secondary" className="text-xs">
-                                <Eye className="h-3 w-3 mr-1" />
-                                Preview
-                              </Badge>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Eye className="h-3 w-3" />
-                              {license.views}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Gavel className="h-3 w-3" />
-                              {license.bids} bids
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                              {license.rating}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div>
-                          <div className="flex items-center space-x-2 mb-1">
-                            <FileText className="h-4 w-4 text-accent" />
-                            <span className="font-medium text-primary">{license.licenseType}</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground mb-2">{license.description}</p>
-                          {license.lastSold && (
-                            <p className="text-xs text-muted-foreground">Last sold: ${license.lastSold}</p>
-                          )}
-                        </div>
-
-                        <div className="text-center">
-                          <div className="flex items-center justify-center space-x-1 mb-1">
-                            <DollarSign className="h-4 w-4 text-accent" />
-                            <span className="font-bold text-xl text-accent">${license.price}</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                            {license.negotiable ? "Negotiable" : "Fixed price"}
-                          </p>
-                        </div>
-
-                        <div className="text-center">
-                          <div className="flex items-center justify-center space-x-1 mb-1">
-                            <Clock className="h-4 w-4 text-secondary" />
-                            <span className="font-medium text-primary">{license.term}</span>
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                            {license.expires === "Never" ? "No expiry" : `Until ${license.expires}`}
-                          </p>
-                        </div>
-
-                        <div className="text-center">
-                          <Badge
-                            variant={
-                              license.availability === "Available"
-                                ? "default"
-                                : license.availability === "Limited"
-                                  ? "secondary"
-                                  : "destructive"
-                            }
-                            className="mb-3"
-                          >
-                            {license.availability}
-                          </Badge>
-                        </div>
-
-                        <div className="space-y-2">
-                          <div className="flex gap-2">
-                            <Button
-                              onClick={() => handleBuyLicense(license)}
-                              size="sm"
-                              className="flex-1 bg-primary hover:bg-primary/90"
-                            >
-                              <ShoppingCart className="h-4 w-4 mr-1" />
-                              Buy Now
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleToggleCompare(license.id)}
-                              className={selectedForCompare.includes(license.id) ? "bg-accent/10" : ""}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </div>
-                          {license.negotiable && (
-                            <Button
-                              onClick={() => handleMakeOffer(license)}
-                              variant="outline"
-                              size="sm"
-                              className="w-full"
-                            >
-                              <Gavel className="h-4 w-4 mr-1" />
-                              Make Offer
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+    <main className="min-h-screen bg-background pt-16">
+      {showSuccessMessage && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 text-sm">
+          <Check className="w-4 h-4" />
+          {showSuccessMessage}
         </div>
-      </main>
+      )}
 
-      <Dialog open={isCheckoutOpen} onOpenChange={setIsCheckoutOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-display text-xl text-primary">Purchase License</DialogTitle>
-            <DialogDescription>Complete your license purchase for {selectedLicense?.assetName}</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="border rounded-lg p-4 bg-muted/30">
-              <h4 className="font-semibold text-primary mb-2">{selectedLicense?.assetName}</h4>
-              <p className="text-sm text-muted-foreground mb-2">{selectedLicense?.licenseType}</p>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Price:</span>
-                <span className="font-bold text-accent text-lg">${selectedLicense?.price}</span>
-              </div>
-            </div>
-            <div className="flex space-x-2">
-              <Button onClick={handleCheckoutComplete} className="flex-1 bg-primary hover:bg-primary/90">
-                <CheckCircle className="h-4 w-4 mr-2" />
-                Complete Purchase
-              </Button>
-              <Button variant="outline" onClick={() => setIsCheckoutOpen(false)} className="flex-1">
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isBidModalOpen} onOpenChange={setIsBidModalOpen}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="font-display text-xl text-primary">Make an Offer</DialogTitle>
-            <DialogDescription>Submit a custom offer for {selectedLicense?.assetName}</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="border rounded-lg p-4 bg-muted/30">
-              <h4 className="font-semibold text-primary mb-1">{selectedLicense?.assetName}</h4>
-              <p className="text-sm text-muted-foreground mb-2">Listed at ${selectedLicense?.price}</p>
-              {selectedLicense?.lastSold && (
-                <p className="text-xs text-muted-foreground">Last sold for ${selectedLicense.lastSold}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-primary">Your Offer Amount</label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="number"
-                  placeholder="Enter your offer"
-                  value={bidAmount}
-                  onChange={(e) => setBidAmount(e.target.value)}
-                  className="pl-10"
+      <div className="container mx-auto px-3 md:px-4 py-4 md:py-8">
+        {/* IP Listings Grid */}
+        <div className="grid grid-cols-2 gap-3 md:gap-6">
+          {filteredLicenses.map((license) => (
+            <Card
+              key={license.id}
+              className="group relative overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white dark:bg-gray-900"
+              onClick={() => handleSelectIP(license)}
+            >
+              {/* Product Image */}
+              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 dark:bg-gray-800">
+                <Image
+                  src={license.image || "/placeholder.svg"}
+                  alt={license.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
+                {/* Add Button */}
+                <button
+                  onClick={(e) => handleAddToCart(license.id, e)}
+                  className={`absolute bottom-3 right-3 md:bottom-4 md:right-4 w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-all ${
+                    watchlist.includes(license.id) ? "bg-green-500 text-white" : "bg-white dark:bg-black"
+                  }`}
+                  aria-label="Add to watchlist"
+                >
+                  {watchlist.includes(license.id) ? (
+                    <Check className="w-4 h-4 md:w-5 md:h-5" />
+                  ) : (
+                    <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                  )}
+                </button>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-primary">Message to Creator (Optional)</label>
-              <Textarea
-                placeholder="Explain your offer or intended use..."
-                value={bidMessage}
-                onChange={(e) => setBidMessage(e.target.value)}
-                rows={3}
+              {/* Product Info */}
+              <div className="p-3 md:p-4">
+                <h3 className="font-semibold text-sm md:text-base mb-1 line-clamp-1">{license.name}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-2">
+                  {license.type} • {license.variants}
+                </p>
+                <p className="font-bold text-sm md:text-base">${license.price.toLocaleString()}</p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {selectedLicense && (
+        <div
+          className="fixed inset-0 bg-black/60 z-50 flex items-end md:items-center justify-center p-0 md:p-4"
+          onClick={() => setSelectedLicense(null)}
+        >
+          <div
+            className="bg-white dark:bg-gray-900 w-full md:max-w-lg md:rounded-lg overflow-hidden max-h-[85vh] overflow-y-auto rounded-t-2xl md:rounded-t-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedLicense(null)}
+              className="absolute top-3 right-3 z-10 w-7 h-7 md:w-8 md:h-8 bg-white dark:bg-black rounded-full flex items-center justify-center shadow-lg"
+            >
+              <X className="w-3 h-3 md:w-4 md:h-4" />
+            </button>
+
+            {/* IP Image */}
+            <div className="relative w-full h-48 md:h-64 bg-gray-100 dark:bg-gray-800">
+              <Image
+                src={selectedLicense.image || "/placeholder.svg"}
+                alt={selectedLicense.name}
+                fill
+                className="object-cover"
               />
             </div>
 
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <AlertCircle className="h-4 w-4" />
-              <span>Offers are valid for 7 days. The creator will be notified immediately.</span>
-            </div>
+            {/* IP Details */}
+            <div className="p-3 md:p-5 space-y-3 md:space-y-4">
+              {/* Header */}
+              <div>
+                <div className="flex items-start justify-between mb-1">
+                  <div>
+                    <h2 className="text-base md:text-xl font-bold mb-0.5">{selectedLicense.name}</h2>
+                    <p className="text-xs text-muted-foreground">{selectedLicense.category}</p>
+                  </div>
+                  <Badge
+                    variant={selectedLicense.availability === "Available" ? "default" : "secondary"}
+                    className="text-xs"
+                  >
+                    {selectedLicense.availability}
+                  </Badge>
+                </div>
+                <p className="text-xl md:text-2xl font-bold">${selectedLicense.price.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">{selectedLicense.term} term</p>
+              </div>
 
-            <div className="flex space-x-2">
-              <Button onClick={handleSubmitBid} className="flex-1 bg-accent hover:bg-accent/90" disabled={!bidAmount}>
-                <Gavel className="h-4 w-4 mr-2" />
-                Submit Offer
-              </Button>
-              <Button variant="outline" onClick={() => setIsBidModalOpen(false)} className="flex-1">
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+              {/* Owner Info */}
+              <div className="flex items-center gap-2 p-2 md:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                  <User className="w-4 h-4 md:w-5 md:h-5" />
+                </div>
+                <div>
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Owner</p>
+                  <p className="font-semibold text-xs md:text-sm">{selectedLicense.owner}</p>
+                </div>
+              </div>
 
-      <Dialog open={isCustomRequestOpen} onOpenChange={setIsCustomRequestOpen}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="font-display text-xl text-primary">Custom License Request</DialogTitle>
-            <DialogDescription>Request a custom license that's not currently available</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-primary">Asset or Creator</label>
-              <Input placeholder="Specify the asset or creator you're interested in" />
-            </div>
+              {/* License Info */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between py-1.5 border-b dark:border-gray-800">
+                  <span className="text-xs text-muted-foreground">License Type</span>
+                  <span className="font-medium text-xs">{selectedLicense.type}</span>
+                </div>
+                <div className="flex items-center justify-between py-1.5 border-b dark:border-gray-800">
+                  <span className="text-xs text-muted-foreground">Available Units</span>
+                  <span className="font-medium text-xs">
+                    {selectedLicense.availableUnits} / {selectedLicense.totalUnits}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-1.5 border-b dark:border-gray-800">
+                  <span className="text-xs text-muted-foreground">Expires</span>
+                  <span className="font-medium text-xs">{selectedLicense.expires}</span>
+                </div>
+              </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-primary">License Type Needed</label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select license type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="commercial">Commercial Use</SelectItem>
-                  <SelectItem value="exclusive">Exclusive Rights</SelectItem>
-                  <SelectItem value="ai-training">AI Training</SelectItem>
-                  <SelectItem value="remix">Remix Rights</SelectItem>
-                  <SelectItem value="distribution">Distribution Rights</SelectItem>
-                  <SelectItem value="custom">Custom Terms</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-2">
+                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                  <Eye className="w-3 h-3 md:w-4 md:h-4 mx-auto mb-0.5 text-muted-foreground" />
+                  <p className="text-sm md:text-base font-bold">{selectedLicense.views}</p>
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Views</p>
+                </div>
+                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                  <TrendingUp className="w-3 h-3 md:w-4 md:h-4 mx-auto mb-0.5 text-muted-foreground" />
+                  <p className="text-sm md:text-base font-bold">{selectedLicense.stats.successRate}%</p>
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Success</p>
+                </div>
+                <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                  <DollarSign className="w-3 h-3 md:w-4 md:h-4 mx-auto mb-0.5 text-muted-foreground" />
+                  <p className="text-sm md:text-base font-bold">${selectedLicense.stats.avgPrice}</p>
+                  <p className="text-[10px] md:text-xs text-muted-foreground">Avg Price</p>
+                </div>
+              </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-primary">Budget Range</label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select budget range" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="0-500">$0 - $500</SelectItem>
-                  <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-                  <SelectItem value="1000-5000">$1,000 - $5,000</SelectItem>
-                  <SelectItem value="5000+">$5,000+</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+              {/* Description */}
+              <div>
+                <h3 className="font-semibold text-sm mb-1.5">Description</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{selectedLicense.description}</p>
+              </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-primary">Project Details</label>
-              <Textarea placeholder="Describe your project and how you plan to use the licensed content..." rows={4} />
-            </div>
-
-            <div className="flex space-x-2">
-              <Button className="flex-1 bg-primary hover:bg-primary/90">
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Submit Request
-              </Button>
-              <Button variant="outline" onClick={() => setIsCustomRequestOpen(false)} className="flex-1">
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isCompareModalOpen} onOpenChange={setIsCompareModalOpen}>
-        <DialogContent className="sm:max-w-4xl">
-          <DialogHeader>
-            <DialogTitle className="font-display text-xl text-primary">Compare Licenses</DialogTitle>
-            <DialogDescription>Side-by-side comparison of selected licenses</DialogDescription>
-          </DialogHeader>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
-            {selectedForCompare.map((licenseId) => {
-              const license = licenses.find((l) => l.id === licenseId)
-              if (!license) return null
-
-              return (
-                <Card key={license.id} className="border">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">{license.assetName}</CardTitle>
-                    <CardDescription>{license.artist}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>Price:</span>
-                      <span className="font-bold text-accent">${license.price}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Type:</span>
-                      <span>{license.licenseType}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Term:</span>
-                      <span>{license.term}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Rating:</span>
-                      <span className="flex items-center gap-1">
-                        <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                        {license.rating}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Negotiable:</span>
-                      <span>{license.negotiable ? "Yes" : "No"}</span>
-                    </div>
+              {/* Counter Offer Section */}
+              {selectedLicense.negotiable && (
+                <div className="space-y-2 pt-3 border-t dark:border-gray-800">
+                  <h3 className="font-semibold text-sm">Submit Counter Offer</h3>
+                  <div className="flex gap-2">
+                    <Input
+                      type="number"
+                      placeholder="Enter amount"
+                      value={counterOfferAmount}
+                      onChange={(e) => setCounterOfferAmount(e.target.value)}
+                      className="flex-1 h-9 text-sm"
+                    />
                     <Button
-                      size="sm"
-                      className="w-full mt-2"
-                      onClick={() => {
-                        handleBuyLicense(license)
-                        setIsCompareModalOpen(false)
-                      }}
+                      onClick={handleSubmitCounterOffer}
+                      disabled={!counterOfferAmount || Number.parseFloat(counterOfferAmount) <= 0}
+                      className="whitespace-nowrap h-9 text-sm"
                     >
-                      Select This License
+                      Submit
                     </Button>
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
-          <div className="flex justify-between">
-            <Button variant="outline" onClick={() => setSelectedForCompare([])}>
-              Clear All
-            </Button>
-            <Button variant="outline" onClick={() => setIsCompareModalOpen(false)}>
-              Close
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+                  </div>
+                  <p className="text-[10px] md:text-xs text-muted-foreground">
+                    Original price: ${selectedLicense.price.toLocaleString()}
+                  </p>
+                </div>
+              )}
 
-      <Footer />
-    </div>
+              {/* Action Buttons */}
+              <div className="flex gap-2 pt-2">
+                <Button onClick={handleLicenseNow} className="flex-1 h-9 text-sm">
+                  License Now
+                </Button>
+                <Button
+                  onClick={handleAddToCartFromModal}
+                  variant="outline"
+                  className="flex-1 bg-transparent h-9 text-sm flex items-center justify-center gap-1"
+                >
+                  {cart.includes(selectedLicense.id) ? (
+                    <>
+                      <Check className="w-3 h-3" />
+                      In Cart
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-3 h-3" />
+                      Add to Cart
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
   )
 }
