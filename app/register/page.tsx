@@ -12,10 +12,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Shield, Clock, Globe, ExternalLink, Eye, ThumbsUp, CheckCircle, Plus, Minus, Users, Info } from "lucide-react"
+import { Shield, ExternalLink, Eye, ThumbsUp, CheckCircle, Plus, Minus, Users, Info } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAssets, type CoOwner } from "@/contexts/AssetContext"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Music } from "lucide-react"
 
 interface YouTubeVideoData {
   title: string
@@ -27,7 +29,7 @@ interface YouTubeVideoData {
 
 export default function RegisterPage() {
   const router = useRouter()
-  const { addAsset, isLoading: contextLoading, error: contextError } = useAssets()
+  const { assets, addAsset, loading: contextLoading } = useAssets()
 
   const [formData, setFormData] = useState({
     title: "",
@@ -45,6 +47,9 @@ export default function RegisterPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoadingYoutube, setIsLoadingYoutube] = useState(false)
   const [registrationSuccess, setRegistrationSuccess] = useState(false)
+
+  const [currentStep, setCurrentStep] = useState(1)
+  const totalSteps = 3
 
   const extractVideoId = (url: string): string | null => {
     const patterns = [
@@ -185,9 +190,29 @@ export default function RegisterPage() {
     }
   }
 
+  const goToNextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1)
+    }
+  }
+
+  const goToPreviousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1)
+    }
+  }
+
+  const canProceedToStep2 = () => {
+    return formData.title && formData.description
+  }
+
+  const canProceedToStep3 = () => {
+    return formData.category
+  }
+
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-background">
         <Navigation />
         <main className="flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
@@ -209,7 +234,7 @@ export default function RegisterPage() {
                   ? `Your creative work "${formData.title}" has been successfully registered and is now visible on the homepage.`
                   : "There was an error registering your asset. Please try again."}
               </p>
-              {contextError && <p className="text-red-600 dark:text-red-400 text-sm mb-4 px-2">{contextError}</p>}
+              {contextLoading && <p className="text-red-600 dark:text-red-400 text-sm mb-4 px-2">Loading...</p>}
             </div>
 
             {youtubeData && formData.category === "music" && (
@@ -274,32 +299,61 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-background">
       <Navigation />
+      <main className="container mx-auto px-4 py-8 pt-20">
+        <div className="max-w-3xl mx-auto">
+          <Card className="border-border/50 shadow-lg">
+            <CardHeader className="space-y-1 pb-4">
+              <div className="flex items-center gap-2">
+                <Shield className="h-6 w-6 text-accent" />
+                <CardTitle className="text-2xl sm:text-3xl font-bold">Register Your IP</CardTitle>
+              </div>
+              <CardDescription className="text-sm sm:text-base">
+                Protect your creative work on the blockchain
+              </CardDescription>
 
-      <main className="flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12">
-            <h1 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-foreground mb-4 sm:mb-6">
-              Register Your <span className="text-accent">Creative Work</span>
-            </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-2">
-              Protect your intellectual property and unlock new revenue opportunities in minutes.
-            </p>
-          </div>
+              {/* Step indicator */}
+              <div className="pt-4">
+                <div className="flex items-center justify-between mb-2">
+                  {[1, 2, 3].map((step) => (
+                    <div key={step} className="flex items-center flex-1">
+                      <div
+                        className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ${
+                          currentStep >= step ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {step}
+                      </div>
+                      {step < 3 && (
+                        <div className={`flex-1 h-1 mx-2 ${currentStep > step ? "bg-accent" : "bg-muted"}`} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Asset Details</span>
+                  <span>Category</span>
+                  <span>Ownership</span>
+                </div>
+              </div>
+            </CardHeader>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-            <div className="lg:col-span-2 order-2 lg:order-1">
-              <Card className="border-border bg-card shadow-lg">
-                <CardHeader className="px-4 sm:px-6">
-                  <CardTitle className="font-display text-xl sm:text-2xl text-foreground">Asset Details</CardTitle>
-                  <CardDescription className="text-sm sm:text-base">
-                    Provide information about your creative work to begin the registration process.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="px-4 sm:px-6">
-                  <TooltipProvider>
-                    <form onSubmit={handleSubmit} className="space-y-6">
+            <CardContent>
+              {youtubeData && (
+                <Alert className="mb-6 bg-primary/5 border-primary/20">
+                  <Music className="h-4 w-4" />
+                  <AlertTitle className="text-sm font-semibold">Track Statistics Retrieved</AlertTitle>
+                  <AlertDescription className="text-xs sm:text-sm">
+                    {youtubeData.viewCount} views • {youtubeData.likeCount} likes
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              <TooltipProvider>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {currentStep === 1 && (
+                    <div className="space-y-6">
                       <div className="space-y-2">
                         <Label htmlFor="title" className="text-sm sm:text-base font-medium">
                           Asset Title *
@@ -329,9 +383,25 @@ export default function RegisterPage() {
                         />
                       </div>
 
+                      <Button
+                        type="button"
+                        onClick={goToNextStep}
+                        disabled={!canProceedToStep2()}
+                        className="w-full h-12 sm:h-14 text-base sm:text-lg"
+                      >
+                        Next: Category
+                      </Button>
+                    </div>
+                  )}
+
+                  {currentStep === 2 && (
+                    <div className="space-y-6">
                       <div className="space-y-2">
                         <Label className="text-sm sm:text-base font-medium">Category *</Label>
-                        <Select onValueChange={(value) => handleInputChange("category", value)} required>
+                        <Select
+                          onValueChange={(value) => handleInputChange("category", value)}
+                          value={formData.category}
+                        >
                           <SelectTrigger className="h-12 text-base">
                             <SelectValue placeholder="Select the category of your work" />
                           </SelectTrigger>
@@ -364,7 +434,30 @@ export default function RegisterPage() {
                         </div>
                       )}
 
-                      <div className="space-y-4 border-t border-border pt-6">
+                      <div className="flex gap-3">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={goToPreviousStep}
+                          className="flex-1 h-12 sm:h-14 text-base bg-transparent"
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={goToNextStep}
+                          disabled={!canProceedToStep3()}
+                          className="flex-1 h-12 sm:h-14 text-base sm:text-lg"
+                        >
+                          Next: Ownership
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {currentStep === 3 && (
+                    <div className="space-y-6">
+                      <div className="space-y-4">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                           <div className="flex items-center space-x-2">
                             <Users className="h-5 w-5 text-accent" />
@@ -488,70 +581,31 @@ export default function RegisterPage() {
                         )}
                       </div>
 
-                      <Button
-                        type="submit"
-                        size="lg"
-                        className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 sm:h-14 text-base sm:text-lg"
-                        disabled={isLoadingYoutube || contextLoading || (hasCoOwners && ownershipError !== "")}
-                      >
-                        {isLoadingYoutube ? "Processing..." : contextLoading ? "Saving..." : "Register Asset"}
-                      </Button>
-                    </form>
-                  </TooltipProvider>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
-              <Card className="border-border bg-card shadow-lg">
-                <CardHeader className="px-4 sm:px-6">
-                  <CardTitle className="font-display text-lg sm:text-xl text-foreground">Why Register?</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 px-4 sm:px-6">
-                  <div className="flex items-start space-x-3">
-                    <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-accent mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-foreground">Legal Protection</h4>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        Establish ownership and protect against unauthorized use
-                      </p>
+                      <div className="flex gap-3">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={goToPreviousStep}
+                          className="flex-1 h-12 sm:h-14 text-base bg-transparent"
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          type="submit"
+                          className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground h-12 sm:h-14 text-base sm:text-lg"
+                          disabled={isLoadingYoutube || contextLoading || (hasCoOwners && ownershipError !== "")}
+                        >
+                          {isLoadingYoutube ? "Processing..." : contextLoading ? "Saving..." : "Register Asset"}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-terracotta mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-foreground">Global Reach</h4>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        License your work to international markets and platforms
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-secondary mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-foreground">Quick Process</h4>
-                      <p className="text-xs sm:text-sm text-muted-foreground">
-                        Complete registration in minutes, not months
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-border bg-accent/10 dark:bg-accent/5 shadow-lg">
-                <CardContent className="pt-4 sm:pt-6 px-4 sm:px-6">
-                  <h4 className="font-semibold text-sm sm:text-base text-foreground mb-2">Registration Fee</h4>
-                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">{""}</div>
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    One-time fee includes blockchain registration, legal documentation, and marketplace listing.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+                  )}
+                </form>
+              </TooltipProvider>
+            </CardContent>
+          </Card>
         </div>
       </main>
-
       <Footer />
     </div>
   )
