@@ -75,7 +75,7 @@ export default function HomePage() {
                   ))}
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground mt-6">Everything you need to manage your IP</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-6 ml-0">All you need to manage your IP, choose a button above.           </p>
             </div>
           </div>
         </section>
