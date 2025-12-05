@@ -24,6 +24,8 @@ import {
   Wallet,
   CheckCircle2,
   Loader2,
+  Upload,
+  X,
 } from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -55,6 +57,7 @@ export default function RegisterPage() {
   const [hasCoOwners, setHasCoOwners] = useState(false)
   const [coOwners, setCoOwners] = useState<CoOwner[]>([{ name: "", percentage: 100 }])
   const [ownershipError, setOwnershipError] = useState("")
+  const [blockchainError, setBlockchainError] = useState<string | null>(null)
 
   const [youtubeData, setYoutubeData] = useState<YouTubeVideoData | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -68,7 +71,8 @@ export default function RegisterPage() {
   const [isConnectingWallet, setIsConnectingWallet] = useState(false)
   const [isRegisteringOnChain, setIsRegisteringOnChain] = useState(false)
   const [blockchainTxHash, setBlockchainTxHash] = useState<string | null>(null)
-  const [blockchainError, setBlockchainError] = useState<string | null>(null)
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null)
+  const [fileError, setFileError] = useState<string>("")
 
   const STORY_TESTNET_CHAIN_ID = "0x523" // 1315 in hex
   const STORY_RPC_URL = "https://testnet.storyrpc.io"
@@ -215,6 +219,7 @@ export default function RegisterPage() {
         price: 0,
         available: "",
         blockchainTxHash: txHash || undefined,
+        file: uploadedFile,
       })
 
       setIsLoadingYoutube(false)
@@ -331,6 +336,27 @@ export default function RegisterPage() {
       console.error("Error fetching YouTube data:", error)
       return null
     }
+  }
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Check file size (5MB max)
+    const maxSize = 5 * 1024 * 1024 // 5MB in bytes
+    if (file.size > maxSize) {
+      setFileError("File size must be less than 5MB")
+      setUploadedFile(null)
+      return
+    }
+
+    setFileError("")
+    setUploadedFile(file)
+  }
+
+  const removeFile = () => {
+    setUploadedFile(null)
+    setFileError("")
   }
 
   if (isSubmitted) {
@@ -466,10 +492,9 @@ export default function RegisterPage() {
                     <Wallet className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
                     <div className="flex-1 space-y-3">
                       <div>
-                        <h4 className="text-sm font-semibold mb-1">Story Protocol Blockchain Registration</h4>
+                        <h4 className="text-sm font-semibold mb-1">Testnet Blockchain Registration</h4>
                         <p className="text-xs text-muted-foreground">
-                          Connect your wallet to register this IP on Story blockchain testnet for immutable proof of
-                          ownership
+                          Connect your wallet to register this IP on blockchain testnet for immutable proof of ownership
                         </p>
                       </div>
 
@@ -576,6 +601,50 @@ export default function RegisterPage() {
                           rows={4}
                           className="resize-none text-base"
                         />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="file-upload" className="text-sm sm:text-base font-medium">
+                          Upload Asset File (Optional)
+                        </Label>
+                        <div className="border-2 border-dashed border-muted-foreground/20 rounded-lg p-4 text-center">
+                          {!uploadedFile ? (
+                            <label htmlFor="file-upload" className="cursor-pointer">
+                              <div className="flex flex-col items-center gap-2">
+                                <Upload className="h-8 w-8 text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground">Click to upload or drag and drop</p>
+                                <p className="text-xs text-muted-foreground">Max file size: 5MB</p>
+                              </div>
+                              <input
+                                id="file-upload"
+                                type="file"
+                                className="hidden"
+                                onChange={handleFileUpload}
+                                accept="image/*,video/*,audio/*,.pdf,.doc,.docx"
+                              />
+                            </label>
+                          ) : (
+                            <div className="flex items-center justify-between p-2 bg-accent/10 rounded">
+                              <div className="flex items-center gap-2">
+                                <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                <span className="text-sm font-medium truncate">{uploadedFile.name}</span>
+                                <span className="text-xs text-muted-foreground">
+                                  ({(uploadedFile.size / 1024 / 1024).toFixed(2)} MB)
+                                </span>
+                              </div>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={removeFile}
+                                className="h-6 w-6 p-0"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                        {fileError && <p className="text-xs text-red-600">{fileError}</p>}
                       </div>
 
                       <Button
@@ -792,13 +861,14 @@ export default function RegisterPage() {
                             isLoadingYoutube ||
                             contextLoading ||
                             (hasCoOwners && ownershipError !== "") ||
-                            isRegisteringOnChain
+                            isRegisteringOnChain ||
+                            !walletAddress
                           }
                         >
                           {isRegisteringOnChain ? (
                             <>
                               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Registering On-Chain...
+                              Registering...
                             </>
                           ) : isLoadingYoutube ? (
                             "Processing..."
@@ -809,6 +879,11 @@ export default function RegisterPage() {
                           )}
                         </Button>
                       </div>
+                      {!walletAddress && (
+                        <p className="text-xs text-muted-foreground text-center">
+                          Connect your wallet to enable registration
+                        </p>
+                      )}
                     </div>
                   )}
                 </form>
