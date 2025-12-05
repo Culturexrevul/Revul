@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -12,12 +11,26 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { Shield, ExternalLink, Eye, ThumbsUp, CheckCircle, Plus, Minus, Users, Info } from "lucide-react"
+import {
+  Shield,
+  ExternalLink,
+  Eye,
+  ThumbsUp,
+  CheckCircle,
+  Plus,
+  Minus,
+  Users,
+  Info,
+  Wallet,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAssets, type CoOwner } from "@/contexts/AssetContext"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Music } from "lucide-react"
+import { BrowserProvider, Contract } from "ethers"
 
 interface YouTubeVideoData {
   title: string
@@ -51,43 +64,107 @@ export default function RegisterPage() {
   const [currentStep, setCurrentStep] = useState(1)
   const totalSteps = 3
 
-  const extractVideoId = (url: string): string | null => {
-    const patterns = [
-      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-      /youtube\.com\/watch\?.*v=([^&\n?#]+)/,
-    ]
+  const [walletAddress, setWalletAddress] = useState<string | null>(null)
+  const [isConnectingWallet, setIsConnectingWallet] = useState(false)
+  const [isRegisteringOnChain, setIsRegisteringOnChain] = useState(false)
+  const [blockchainTxHash, setBlockchainTxHash] = useState<string | null>(null)
+  const [blockchainError, setBlockchainError] = useState<string | null>(null)
 
-    for (const pattern of patterns) {
-      const match = url.match(pattern)
-      if (match) return match[1]
-    }
-    return null
-  }
+  const STORY_TESTNET_CHAIN_ID = "0x523" // 1315 in hex
+  const STORY_RPC_URL = "https://testnet.storyrpc.io"
+  const REGISTRATION_WORKFLOWS_ADDRESS = "0xbe39E1C756e921BD25DF86e7AAa31106d1eb0424"
 
-  const fetchYouTubeData = async (videoId: string): Promise<YouTubeVideoData | null> => {
+  const REGISTRATION_WORKFLOWS_ABI = [
+    "function mintAndRegisterIp(address spgNftContract, address recipient, (string name, string hash, string registrationDate, string uri) ipMetadata) external returns (address ipId, uint256 tokenId)",
+  ]
+
+  const connectWallet = async () => {
+    setIsConnectingWallet(true)
+    setBlockchainError(null)
+
     try {
-      const apiKey = "AIzaSyAnxAKqYhWrlUWCw_mNz2ciRlnViYzImOw"
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`,
-      )
+      if (!window.ethereum) {
+        throw new Error("Please install MetaMask to register on-chain")
+      }
 
-      if (!response.ok) throw new Error("Failed to fetch YouTube data")
+      const provider = new BrowserProvider(window.ethereum)
+      const accounts = await provider.send("eth_requestAccounts", [])
 
-      const data = await response.json()
-      if (data.items && data.items.length > 0) {
-        const video = data.items[0]
-        return {
-          title: video.snippet.title,
-          thumbnail: video.snippet.thumbnails.medium.url,
-          viewCount: Number.parseInt(video.statistics.viewCount).toLocaleString(),
-          likeCount: Number.parseInt(video.statistics.likeCount).toLocaleString(),
-          videoId: videoId,
+      try {
+        await provider.send("wallet_switchEthereumChain", [{ chainId: STORY_TESTNET_CHAIN_ID }])
+      } catch (switchError: any) {
+        // Check if chain needs to be added (error code 4902)
+        const errorCode = switchError?.code || switchError?.error?.code
+        if (errorCode === 4902) {
+          try {
+            await provider.send("wallet_addEthereumChain", [
+              {
+                chainId: STORY_TESTNET_CHAIN_ID,
+                chainName: "Story Testnet (Aeneid)",
+                rpcUrls: [STORY_RPC_URL],
+                nativeCurrency: {
+                  name: "IP",
+                  symbol: "IP",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://aeneid.storyscan.io/"],
+              },
+            ])
+            // After adding, switch to it
+            await provider.send("wallet_switchEthereumChain", [{ chainId: STORY_TESTNET_CHAIN_ID }])
+          } catch (addError: any) {
+            throw new Error("Failed to add Story Testnet to wallet. Please add it manually.")
+          }
+        } else {
+          throw switchError
         }
       }
-      return null
-    } catch (error) {
-      console.error("Error fetching YouTube data:", error)
-      return null
+
+      setWalletAddress(accounts[0])
+    } catch (error: any) {
+      console.error("Wallet connection error:", error)
+      setBlockchainError(error.message || "Failed to connect wallet")
+    } finally {
+      setIsConnectingWallet(false)
+    }
+  }
+
+  const registerOnStoryBlockchain = async () => {
+    if (!walletAddress) return
+
+    setIsRegisteringOnChain(true)
+    setBlockchainError(null)
+
+    try {
+      const provider = new BrowserProvider(window.ethereum)
+      const signer = await provider.getSigner()
+
+      const contract = new Contract(REGISTRATION_WORKFLOWS_ADDRESS, REGISTRATION_WORKFLOWS_ABI, signer)
+
+      const ipMetadata = {
+        name: formData.title,
+        hash: `hash-${Date.now()}`,
+        registrationDate: new Date().toISOString(),
+        uri: `ipfs://metadata/${Date.now()}`,
+      }
+
+      const SPG_NFT_BEACON = "0xD2926B9ecaE85fF59B6FB0ff02f568a680c01218"
+
+      const tx = await contract.mintAndRegisterIp(SPG_NFT_BEACON, walletAddress, ipMetadata)
+
+      console.log("[v0] Transaction submitted:", tx.hash)
+      setBlockchainTxHash(tx.hash)
+
+      await tx.wait()
+      console.log("[v0] Transaction confirmed!")
+
+      return tx.hash
+    } catch (error: any) {
+      console.error("Blockchain registration error:", error)
+      setBlockchainError(error.message || "Failed to register on blockchain")
+      throw error
+    } finally {
+      setIsRegisteringOnChain(false)
     }
   }
 
@@ -121,6 +198,11 @@ export default function RegisterPage() {
         }
       }
 
+      let txHash = null
+      if (walletAddress) {
+        txHash = await registerOnStoryBlockchain()
+      }
+
       const assetId = addAsset({
         title: formData.title,
         description: formData.description,
@@ -132,6 +214,7 @@ export default function RegisterPage() {
         image: "",
         price: 0,
         available: "",
+        blockchainTxHash: txHash || undefined,
       })
 
       setIsLoadingYoutube(false)
@@ -210,6 +293,46 @@ export default function RegisterPage() {
     return formData.category
   }
 
+  const extractVideoId = (url: string): string | null => {
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+      /youtube\.com\/watch\?.*v=([^&\n?#]+)/,
+    ]
+
+    for (const pattern of patterns) {
+      const match = url.match(pattern)
+      if (match) return match[1]
+    }
+    return null
+  }
+
+  const fetchYouTubeData = async (videoId: string): Promise<YouTubeVideoData | null> => {
+    try {
+      const apiKey = "AIzaSyAnxAKqYhWrlUWCw_mNz2ciRlnViYzImOw"
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${apiKey}`,
+      )
+
+      if (!response.ok) throw new Error("Failed to fetch YouTube data")
+
+      const data = await response.json()
+      if (data.items && data.items.length > 0) {
+        const video = data.items[0]
+        return {
+          title: video.snippet.title,
+          thumbnail: video.snippet.thumbnails.medium.url,
+          viewCount: Number.parseInt(video.statistics.viewCount).toLocaleString(),
+          likeCount: Number.parseInt(video.statistics.likeCount).toLocaleString(),
+          videoId: videoId,
+        }
+      }
+      return null
+    } catch (error) {
+      console.error("Error fetching YouTube data:", error)
+      return null
+    }
+  }
+
   if (isSubmitted) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
@@ -243,7 +366,7 @@ export default function RegisterPage() {
                   <CardTitle className="text-lg sm:text-xl text-foreground">YouTube Track Details</CardTitle>
                 </CardHeader>
                 <CardContent className="px-4 sm:px-6">
-                  <div className="flex flex-col gap-4 items-start">
+                  <div className="flex flex-col gap-4 items-start sm:items-center">
                     <img
                       src={youtubeData.thumbnail || "/placeholder.svg"}
                       alt={youtubeData.title}
@@ -301,10 +424,10 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="container mx-auto px-4 py-8 pt-20">
+      <main className="container mx-auto px-4 py-6 sm:py-8 md:py-12">
         <div className="max-w-3xl mx-auto">
-          <Card className="border-border/50 shadow-lg">
-            <CardHeader className="space-y-1 pb-4">
+          <Card className="border-2">
+            <CardHeader className="space-y-2 sm:space-y-4">
               <div className="flex items-center gap-2">
                 <Shield className="h-6 w-6 text-accent" />
                 <CardTitle className="text-2xl sm:text-3xl font-bold">Register Your IP</CardTitle>
@@ -313,7 +436,6 @@ export default function RegisterPage() {
                 Protect your creative work on the blockchain
               </CardDescription>
 
-              {/* Step indicator */}
               <div className="pt-4">
                 <div className="flex items-center justify-between mb-2">
                   {[1, 2, 3].map((step) => (
@@ -337,6 +459,79 @@ export default function RegisterPage() {
                   <span>Ownership</span>
                 </div>
               </div>
+
+              {currentStep === 3 && (
+                <div className="mt-4 p-4 bg-accent/5 border border-accent/20 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <Wallet className="h-5 w-5 text-accent flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 space-y-3">
+                      <div>
+                        <h4 className="text-sm font-semibold mb-1">Story Protocol Blockchain Registration</h4>
+                        <p className="text-xs text-muted-foreground">
+                          Connect your wallet to register this IP on Story blockchain testnet for immutable proof of
+                          ownership
+                        </p>
+                      </div>
+
+                      {!walletAddress ? (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={connectWallet}
+                          disabled={isConnectingWallet}
+                          className="w-full sm:w-auto h-9 bg-transparent"
+                        >
+                          {isConnectingWallet ? (
+                            <>
+                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                              Connecting...
+                            </>
+                          ) : (
+                            <>
+                              <Wallet className="h-4 w-4 mr-2" />
+                              Connect Wallet
+                            </>
+                          )}
+                        </Button>
+                      ) : (
+                        <div className="flex items-center gap-2 text-xs">
+                          <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          <span className="font-mono">
+                            {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+                          </span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setWalletAddress(null)}
+                            className="h-6 px-2 text-xs"
+                          >
+                            Disconnect
+                          </Button>
+                        </div>
+                      )}
+
+                      {blockchainError && (
+                        <div className="text-xs text-red-600 dark:text-red-400">{blockchainError}</div>
+                      )}
+
+                      {blockchainTxHash && (
+                        <div className="text-xs">
+                          <a
+                            href={`https://aeneid.storyscan.io/tx/${blockchainTxHash}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:underline"
+                          >
+                            View transaction ↗
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </CardHeader>
 
             <CardContent>
@@ -593,9 +788,25 @@ export default function RegisterPage() {
                         <Button
                           type="submit"
                           className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground h-12 sm:h-14 text-base sm:text-lg"
-                          disabled={isLoadingYoutube || contextLoading || (hasCoOwners && ownershipError !== "")}
+                          disabled={
+                            isLoadingYoutube ||
+                            contextLoading ||
+                            (hasCoOwners && ownershipError !== "") ||
+                            isRegisteringOnChain
+                          }
                         >
-                          {isLoadingYoutube ? "Processing..." : contextLoading ? "Saving..." : "Register Asset"}
+                          {isRegisteringOnChain ? (
+                            <>
+                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                              Registering On-Chain...
+                            </>
+                          ) : isLoadingYoutube ? (
+                            "Processing..."
+                          ) : contextLoading ? (
+                            "Saving..."
+                          ) : (
+                            "Register Asset"
+                          )}
                         </Button>
                       </div>
                     </div>
