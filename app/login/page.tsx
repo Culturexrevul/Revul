@@ -9,9 +9,34 @@ import { Mail, Smartphone, MessageSquare, ArrowRight, Shield, Zap } from "lucide
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { usePrivy, useLogin } from '@privy-io/react-auth'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function LoginPage() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  return <LoginContent />
+}
+
+function LoginContent() {
   const router = useRouter()
   const { ready, authenticated } = usePrivy()
   const { login } = useLogin({
