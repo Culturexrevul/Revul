@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,7 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Send, User, Bot, Calendar, MapPin, DollarSign, Languages, FileText, Clock } from "lucide-react"
+import { Send, User, Bot, Calendar, MapPin, DollarSign, Languages, FileText, Clock, ChevronDown } from "lucide-react"
 
 interface Message {
   role: "user" | "assistant"
@@ -52,6 +51,8 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
   const [selectedLawyer, setSelectedLawyer] = useState<Lawyer | null>(null)
   const [bookingSuccess, setBookingSuccess] = useState<string | null>(null)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
+  const [showHowItWorks, setShowHowItWorks] = useState(true)
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   const quickPrompts = [
     "What's the difference between copyright and trademark?",
@@ -260,13 +261,13 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
         </p>
 
         {/* CTA Chips */}
-        <div className="flex flex-wrap justify-center gap-2 mt-6">
+        <div className="flex flex-wrap justify-center gap-1 mt-2">
           {quickPrompts.map((prompt, index) => (
             <Button
               key={index}
               variant="outline"
               size="sm"
-              className="text-sm bg-transparent"
+              className="text-[10px] h-6 px-2 bg-transparent"
               onClick={() => {
                 setInputMessage(prompt)
                 setActiveTab("ai")
@@ -290,41 +291,37 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
           <Card>
             <CardContent className="p-6">
               {/* Chat Messages */}
-              <div className="space-y-4 mb-6 min-h-[300px] max-h-[500px] overflow-y-auto">
+              <div className="flex-1 overflow-y-auto space-y-2 mb-2" ref={messagesEndRef}>
                 {messages.length === 0 ? (
-                  <div className="flex items-center justify-center h-[300px] text-muted-foreground">
-                    <div className="text-center space-y-2">
-                      <Bot className="h-12 w-12 mx-auto opacity-50" />
-                      <p>Ask a quick question about IP, licensing, or contracts.</p>
-                    </div>
+                  <div className="text-center text-muted-foreground py-4">
+                    <Bot className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-xs">Ask me anything about IP law, licensing, or contracts</p>
                   </div>
                 ) : (
                   messages.map((message, index) => (
                     <div
                       key={index}
-                      className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                      className={`flex gap-2 ${message.role === "user" ? "justify-end" : "justify-start"}`}
                     >
                       <div
-                        className={`flex gap-3 max-w-[80%] ${message.role === "user" ? "flex-row-reverse" : "flex-row"}`}
+                        className={`flex gap-2 max-w-[85%] ${message.role === "user" ? "flex-row-reverse" : "flex-row"}`}
                       >
                         <div className="flex-shrink-0">
                           {message.role === "user" ? (
-                            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                              <User className="h-4 w-4 text-primary-foreground" />
+                            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                              <User className="h-3 w-3 text-primary-foreground" />
                             </div>
                           ) : (
-                            <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                              <Bot className="h-4 w-4 text-accent-foreground" />
+                            <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center">
+                              <Bot className="h-3 w-3 text-accent-foreground" />
                             </div>
                           )}
                         </div>
                         <div
-                          className={`rounded-lg p-3 ${
-                            message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
-                          }`}
+                          className={`rounded-lg p-2 ${message.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
                         >
-                          <p className="text-sm">{message.content}</p>
-                          <p className="text-xs opacity-70 mt-1">{message.timestamp.toLocaleTimeString()}</p>
+                          <p className="text-xs">{message.content}</p>
+                          <p className="text-[10px] opacity-70 mt-0.5">{message.timestamp.toLocaleTimeString()}</p>
                         </div>
                       </div>
                     </div>
@@ -332,10 +329,10 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
                 )}
                 {isLoading && (
                   <div className="flex gap-3 justify-start">
-                    <div className="w-8 h-8 bg-accent rounded-full flex items-center justify-center">
-                      <Bot className="h-4 w-4 text-accent-foreground" />
+                    <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center">
+                      <Bot className="h-3 w-3 text-accent-foreground" />
                     </div>
-                    <div className="bg-muted rounded-lg p-3">
+                    <div className="bg-muted rounded-lg p-2">
                       <div className="flex space-x-1">
                         <div className="w-2 h-2 bg-current rounded-full animate-bounce"></div>
                         <div
@@ -353,13 +350,13 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
               </div>
 
               {/* Quick Prompts */}
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-1 mb-2">
                 {quickPrompts.map((prompt, index) => (
                   <Button
                     key={index}
                     variant="ghost"
                     size="sm"
-                    className="text-xs"
+                    className="text-[10px] h-6 px-2"
                     onClick={() => setInputMessage(prompt)}
                   >
                     {prompt.split(" ").slice(0, 3).join(" ")}...
@@ -368,14 +365,15 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
               </div>
 
               {/* Input Area */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <div className="flex gap-2">
                   <Input
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    placeholder="Ask about copyright, licensing, contracts..."
+                    placeholder="Ask about copyright, licensing..."
                     onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                     disabled={isLoading}
+                    className="text-xs h-8"
                   />
                   <Button onClick={sendMessage} disabled={isLoading || !inputMessage.trim()}>
                     <Send className="h-4 w-4" />
@@ -393,10 +391,12 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
                         Escalate to a Lawyer
                       </Button>
                     </SheetTrigger>
-                    <SheetContent className="w-full sm:max-w-md">
-                      <SheetHeader>
-                        <SheetTitle>Book a Lawyer</SheetTitle>
-                        <SheetDescription>Schedule a consultation with a licensed professional</SheetDescription>
+                    <SheetContent className="w-full sm:max-w-md overflow-y-auto max-h-[90vh]">
+                      <SheetHeader className="pb-3">
+                        <SheetTitle className="text-base">Book a Lawyer</SheetTitle>
+                        <SheetDescription className="text-xs">
+                          Schedule a consultation with a licensed professional
+                        </SheetDescription>
                       </SheetHeader>
                       <BookingForm onSubmit={bookConsultation} lawyers={lawyers} />
                     </SheetContent>
@@ -408,7 +408,7 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
         </TabsContent>
 
         {/* Consult a Lawyer Tab */}
-        <TabsContent value="book" className="space-y-6">
+        <TabsContent value="book" className="space-y-2">
           {bookingSuccess ? (
             <Card>
               <CardContent className="p-6 text-center space-y-4">
@@ -428,11 +428,11 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
             <>
               {/* Filter Toolbar */}
               <Card>
-                <CardContent className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <CardContent className="p-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     <div>
-                      <label className="text-sm font-medium">Practice Area</label>
-                      <select className="w-full mt-1 p-2 border rounded-md">
+                      <label className="text-[10px] font-medium">Area</label>
+                      <select className="w-full mt-0.5 p-1 text-xs border rounded-md h-7">
                         {practiceAreas.map((area) => (
                           <option key={area} value={area}>
                             {area}
@@ -441,8 +441,8 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium">Budget</label>
-                      <select className="w-full mt-1 p-2 border rounded-md">
+                      <label className="text-[10px] font-medium">Budget</label>
+                      <select className="w-full mt-0.5 p-1 text-xs border rounded-md h-7">
                         {budgetRanges.map((range) => (
                           <option key={range} value={range}>
                             {range}
@@ -451,62 +451,62 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
                       </select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium">Location</label>
-                      <Input placeholder="Any location" />
+                      <label className="text-[10px] font-medium">Location</label>
+                      <Input placeholder="Any" className="h-7 text-xs" />
                     </div>
                     <div>
-                      <label className="text-sm font-medium">Language</label>
-                      <Input placeholder="Any language" />
+                      <label className="text-[10px] font-medium">Language</label>
+                      <Input placeholder="Any" className="h-7 text-xs" />
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Lawyers Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 {lawyers.map((lawyer) => (
                   <Card key={lawyer.id} className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold">
+                    <CardContent className="p-3">
+                      <div className="flex items-start gap-2 mb-2">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-semibold">
                           {lawyer.name
                             .split(" ")
                             .map((n) => n[0])
                             .join("")}
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-semibold">{lawyer.name}</h3>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <MapPin className="h-3 w-3" />
+                          <h3 className="text-xs font-semibold">{lawyer.name}</h3>
+                          <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                            <MapPin className="h-2 w-2" />
                             {lawyer.location}
                           </div>
                         </div>
                       </div>
 
-                      <div className="space-y-3">
+                      <div className="space-y-2">
                         <div className="flex flex-wrap gap-1">
                           {lawyer.specialties.map((specialty) => (
-                            <Badge key={specialty} variant="secondary" className="text-xs">
+                            <Badge key={specialty} variant="secondary" className="text-[9px] px-1 py-0">
                               {specialty}
                             </Badge>
                           ))}
                         </div>
 
-                        <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center justify-between text-[10px]">
                           <div className="flex items-center gap-1">
-                            <DollarSign className="h-3 w-3" />
-                            {formatCurrency(lawyer.rate)}/hour
+                            <DollarSign className="h-2 w-2" />
+                            {formatCurrency(lawyer.rate)}/hr
                           </div>
                           <div className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            {lawyer.experience}+ years
+                            <Clock className="h-2 w-2" />
+                            {lawyer.experience}+ yrs
                           </div>
                         </div>
 
                         <p className="text-sm text-muted-foreground line-clamp-2">{lawyer.bio}</p>
 
-                        <div className="flex items-center gap-2 text-sm">
-                          <Languages className="h-3 w-3" />
+                        <div className="flex items-center gap-2 text-[10px]">
+                          <Languages className="h-2 w-2" />
                           {lawyer.language.join(", ")}
                         </div>
 
@@ -535,41 +535,43 @@ export default function LegalAssist({ mode = "ai", compact = false }: LegalAssis
       </Tabs>
 
       {/* How it Works Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>How it Works</CardTitle>
+      <Card className="mb-3">
+        <CardHeader className="p-3">
+          <CardTitle
+            className="text-sm flex items-center justify-between cursor-pointer"
+            onClick={() => setShowHowItWorks(!showHowItWorks)}
+          >
+            How it Works
+            <ChevronDown className={`h-4 w-4 transition-transform ${showHowItWorks ? "rotate-180" : ""}`} />
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold mx-auto">
-                1
+        {showHowItWorks && (
+          <CardContent className="p-3 pt-0">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="text-center space-y-1">
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-bold mx-auto">
+                  1
+                </div>
+                <h3 className="font-semibold text-xs">Ask</h3>
+                <p className="text-[10px] text-muted-foreground">Quick AI guidance</p>
               </div>
-              <h3 className="font-semibold">Ask</h3>
-              <p className="text-sm text-muted-foreground">
-                Start with our AI for quick guidance or browse our lawyer directory
-              </p>
-            </div>
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold mx-auto">
-                2
+              <div className="text-center space-y-1">
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-bold mx-auto">
+                  2
+                </div>
+                <h3 className="font-semibold text-xs">Review</h3>
+                <p className="text-[10px] text-muted-foreground">AI responses or profiles</p>
               </div>
-              <h3 className="font-semibold">Review</h3>
-              <p className="text-sm text-muted-foreground">
-                Get instant AI responses or review lawyer profiles and availability
-              </p>
-            </div>
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold mx-auto">
-                3
+              <div className="text-center space-y-1">
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-bold mx-auto">
+                  3
+                </div>
+                <h3 className="font-semibold text-xs">Book</h3>
+                <p className="text-[10px] text-muted-foreground">Schedule consultation</p>
               </div>
-              <h3 className="font-semibold">Book</h3>
-              <p className="text-sm text-muted-foreground">
-                Schedule a consultation with your chosen legal professional
-              </p>
             </div>
-          </div>
-        </CardContent>
+          </CardContent>
+        )}
       </Card>
 
       {/* For Lawyers Section */}
@@ -630,18 +632,20 @@ function BookingForm({ onSubmit, lawyers }: { onSubmit: (data: any) => void; law
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+    <form onSubmit={handleSubmit} className="space-y-3 mt-3">
       <div>
-        <label className="text-sm font-medium">Full Name</label>
+        <label className="text-xs font-medium">Full Name</label>
         <Input
+          className="h-9 text-sm"
           value={formData.name}
           onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
           required
         />
       </div>
       <div>
-        <label className="text-sm font-medium">Email</label>
+        <label className="text-xs font-medium">Email</label>
         <Input
+          className="h-9 text-sm"
           type="email"
           value={formData.email}
           onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
@@ -649,16 +653,18 @@ function BookingForm({ onSubmit, lawyers }: { onSubmit: (data: any) => void; law
         />
       </div>
       <div>
-        <label className="text-sm font-medium">Phone</label>
+        <label className="text-xs font-medium">Phone</label>
         <Input
+          className="h-9 text-sm"
           value={formData.phone}
           onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
           required
         />
       </div>
       <div>
-        <label className="text-sm font-medium">Matter Description</label>
+        <label className="text-xs font-medium">Matter Description</label>
         <Textarea
+          className="text-sm min-h-[60px]"
           value={formData.description}
           onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
           placeholder="Briefly describe your legal matter..."
@@ -666,9 +672,9 @@ function BookingForm({ onSubmit, lawyers }: { onSubmit: (data: any) => void; law
         />
       </div>
       <div>
-        <label className="text-sm font-medium">Preferred Format</label>
+        <label className="text-xs font-medium">Preferred Format</label>
         <select
-          className="w-full mt-1 p-2 border rounded-md"
+          className="w-full mt-1 p-2 border rounded-md text-sm h-9"
           value={formData.format}
           onChange={(e) => setFormData((prev) => ({ ...prev, format: e.target.value }))}
         >
@@ -678,10 +684,10 @@ function BookingForm({ onSubmit, lawyers }: { onSubmit: (data: any) => void; law
         </select>
       </div>
       <div>
-        <label className="text-sm font-medium">Attach Files (Optional)</label>
-        <div className="mt-1 p-4 border-2 border-dashed rounded-md text-center text-muted-foreground">
-          <FileText className="h-8 w-8 mx-auto mb-2 opacity-50" />
-          <p className="text-sm">TODO: File upload functionality</p>
+        <label className="text-xs font-medium">Attach Files (Optional)</label>
+        <div className="mt-1 p-3 border-2 border-dashed rounded-md text-center text-muted-foreground">
+          <FileText className="h-6 w-6 mx-auto mb-1 opacity-50" />
+          <p className="text-xs">TODO: File upload functionality</p>
         </div>
       </div>
       <div className="flex items-center space-x-2">
@@ -696,8 +702,8 @@ function BookingForm({ onSubmit, lawyers }: { onSubmit: (data: any) => void; law
           I consent to being contacted about this consultation
         </label>
       </div>
-      <Button type="submit" className="w-full" disabled={!formData.consent}>
-        Submit Request
+      <Button type="submit" className="w-full h-9 text-sm">
+        Book Consultation
       </Button>
     </form>
   )
