@@ -18,7 +18,6 @@ function Navigation() {
     { href: "/licensing", label: "Licensing Hub" },
     { href: "/hire-creators", label: "Creator Hub" },
     { href: "/legal", label: "Legal Assist" },
-    { href: "/merchlab", label: "MerchLab" },
   ]
 
   const isActivePath = (href: string) => {
@@ -139,15 +138,6 @@ function Navigation() {
                   </Link>
                 ))}
                 <div className="border-t border-border my-3" />
-                <a
-                  href="https://www.revulter.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Revulter Website
-                </a>
                 <Link
                   href="/login"
                   className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground"

@@ -1,40 +1,19 @@
 "use client"
 
-import { Navigation } from "@/components/navigation"
-import Footer from "@/components/footer"
 import { useState, useEffect, useRef } from "react"
+import { Search, MapPin, Star, Verified, Users, Palette, Upload, DollarSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Search,
-  MapPin,
-  Star,
-  Verified,
-  Users,
-  TrendingUp,
-  DollarSign,
-  ChevronDown,
-  Package,
-  Shirt,
-  ShoppingBag,
-  Zap,
-  Shield,
-  Sparkles,
-  ChevronRight,
-  ImageIcon,
-  Palette,
-} from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CommissionModal } from "@/components/creator/CommissionModal"
-// import Navigation from "@/components/navigation" // This import is now redundant
+import Navigation from "@/components/navigation"
 
 interface Creator {
   id: string
@@ -230,7 +209,7 @@ export default function HireCreatorsPage() {
   const [filteredCreators, setFilteredCreators] = useState<Creator[]>(mockCreators)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedCountry, setSelectedCountry] = useState("all") // Kept for potential legacy or other uses, but selectedLocation is used in filter
+  const [selectedCountry, setSelectedCountry] = useState("all")
   const [selectedSpecialty, setSelectedSpecialty] = useState("all")
   const [sortBy, setSortBy] = useState("rating")
   const [showCommissionModal, setShowCommissionModal] = useState(false)
@@ -245,19 +224,12 @@ export default function HireCreatorsPage() {
     email: "",
   })
   const creatorsRef = useRef<HTMLElement>(null)
-  const [activeTab, setActiveTab] = useState<"hire" | "merchlab" | "studios">("hire") // Removed "post" from tab options
+  const [activeTab, setActiveTab] = useState<"hire" | "post" | "studios">("hire")
 
   // Added state for new filters
   const [selectedLocation, setSelectedLocation] = useState("all")
   const [selectedBudget, setSelectedBudget] = useState("all")
   const [selectedExperience, setSelectedExperience] = useState("all")
-
-  const [selectedIP, setSelectedIP] = useState<string | null>(null)
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([])
-  const [royaltyRate, setRoyaltyRate] = useState("15")
-  const [itemLimit, setItemLimit] = useState("")
-  const [merchTab, setMerchTab] = useState("launch")
-  const [showPostProject, setShowPostProject] = useState(false) // This is for the dropdown, distinct from showPostProjectModal
 
   useEffect(() => {
     let filtered = creators
@@ -295,24 +267,10 @@ export default function HireCreatorsPage() {
     if (selectedBudget !== "all") {
       // Placeholder for budget filtering logic
       // For example: if selectedBudget is "high", filter creators with hourlyRate > 100
-      if (selectedBudget === "low") {
-        filtered = filtered.filter((creator) => creator.hourlyRate >= 0 && creator.hourlyRate <= 50)
-      } else if (selectedBudget === "medium") {
-        filtered = filtered.filter((creator) => creator.hourlyRate > 50 && creator.hourlyRate <= 150)
-      } else if (selectedBudget === "high") {
-        filtered = filtered.filter((creator) => creator.hourlyRate > 150)
-      }
     }
     if (selectedExperience !== "all") {
       // Placeholder for experience filtering logic
       // For example: if selectedExperience is "experienced", filter creators with completedProjects > 50
-      if (selectedExperience === "entry") {
-        filtered = filtered.filter((creator) => creator.completedProjects < 20)
-      } else if (selectedExperience === "mid") {
-        filtered = filtered.filter((creator) => creator.completedProjects >= 20 && creator.completedProjects <= 50)
-      } else if (selectedExperience === "experienced") {
-        filtered = filtered.filter((creator) => creator.completedProjects > 50)
-      }
     }
 
     // Sort
@@ -383,12 +341,6 @@ export default function HireCreatorsPage() {
   }
 
   const handlePostProject = async () => {
-    // Basic validation
-    if (!postProjectForm.title || !postProjectForm.category || !postProjectForm.description || !postProjectForm.email) {
-      alert("Please fill in all required fields.")
-      return
-    }
-
     try {
       const response = await fetch("/api/projects", {
         method: "POST",
@@ -397,8 +349,7 @@ export default function HireCreatorsPage() {
       })
 
       if (response.ok) {
-        setShowPostProjectModal(false) // This closes the modal if it were used
-        setShowPostProject(false) // This closes the dropdown menu
+        setShowPostProjectModal(false)
         setPostProjectForm({
           title: "",
           category: "",
@@ -408,101 +359,35 @@ export default function HireCreatorsPage() {
           email: "",
         })
         alert("Project posted successfully! Creators will be notified.")
-      } else {
-        // Handle error response
-        const errorData = await response.json()
-        alert(`Failed to post project: ${errorData.message || response.statusText}`)
       }
     } catch (error) {
       console.error("Failed to post project:", error)
-      alert("An error occurred while posting your project. Please try again later.")
     }
-  }
-
-  const creatorIPs = [
-    {
-      id: "ip-1",
-      name: "Cartoon Character IP",
-      category: "Animation",
-      image: "/colorful-cartoon-character-mascot-design.jpg",
-      verified: true,
-    },
-    {
-      id: "ip-2",
-      name: "Animated Art NFT",
-      category: "Digital Art",
-      image: "/animated-digital-art-nft-futuristic-design.jpg",
-      verified: true,
-    },
-    {
-      id: "ip-3",
-      name: "Abstract Painting IP",
-      category: "Fine Art",
-      image: "/abstract-modern-painting-colorful-art.jpg",
-      verified: true,
-    },
-    {
-      id: "ip-4",
-      name: "Rap Album Cover Art",
-      category: "Music",
-      image: "/hip-hop-rap-album-cover-urban-street-art.jpg",
-      verified: true,
-    },
-  ]
-
-  const productTypes = [
-    { id: "tshirt", name: "T-Shirt", icon: Shirt, basePrice: 25 },
-    { id: "hoodie", name: "Hoodie", icon: Package, basePrice: 45 },
-    { id: "cap", name: "Cap", icon: ShoppingBag, basePrice: 20 },
-    { id: "jacket", name: "Jacket", icon: Package, basePrice: 65 },
-    { id: "poster", name: "Poster", icon: ImageIcon, basePrice: 15 },
-    { id: "sticker", name: "Sticker Pack", icon: Sparkles, basePrice: 8 },
-  ]
-
-  const merchStats = [
-    { label: "Total Revenue", value: "$12,450", icon: DollarSign, trend: "+23%" },
-    { label: "Items Sold", value: "487", icon: Package, trend: "+18%" },
-    { label: "Active Drops", value: "12", icon: Zap, trend: "+5%" },
-    { label: "Avg. Rating", value: "4.8", icon: Star, trend: "+0.2" },
-  ]
-
-  const trendingProducts = [
-    { name: "Abstract Vibes Hoodie", sales: 142, revenue: "$6,390", serialRange: "001-142" },
-    { name: "Urban Street Tee", sales: 98, revenue: "$2,450", serialRange: "001-098" },
-    { name: "Character Cap", sales: 76, revenue: "$1,520", serialRange: "001-076" },
-  ]
-
-  const handleLaunchMerch = () => {
-    if (!selectedIP || selectedProducts.length === 0) {
-      alert("Please select an IP and at least one product type")
-      return
-    }
-    alert(`Merch launched for IP ${selectedIP} with products ${selectedProducts.join(", ")}!`)
-  }
-
-  const toggleProduct = (productId: string) => {
-    setSelectedProducts((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId],
-    )
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen bg-background">
       <Navigation />
 
-      <section className="py-4 sm:py-6 px-3 sm:px-4 bg-muted/30 border-b">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-xl sm:text-2xl font-bold mb-1">Creator Hub</h1>
-          <p className="text-xs sm:text-sm text-muted-foreground">Find verified talent for your projects</p>
+      {/* Hero Section */}
+      <section className="bg-foreground py-6 sm:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 text-center">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-background mb-2 sm:mb-3 uppercase tracking-tight">
+            Creator Hub
+          </h1>
+          <p className="text-xs sm:text-sm lg:text-base text-background/90 mb-3 sm:mb-4 max-w-3xl mx-auto px-2">
+            Hire verified creators, post projects, or book our professional studios with automatic IP registration.
+          </p>
         </div>
       </section>
 
-      <section className="bg-card border-b sticky top-16 sm:top-20 z-40">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4">
-          <div className="flex items-center gap-1 sm:gap-2 py-1.5 overflow-x-auto no-scrollbar">
+      {/* Tab navigation for three main sections */}
+      <section className="bg-card border-b border-border sticky top-16 sm:top-20 z-40">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+          <div className="flex gap-1 sm:gap-3 overflow-x-auto py-2 no-scrollbar">
             <button
               onClick={() => setActiveTab("hire")}
-              className={`px-2 sm:px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
+              className={`px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
                 activeTab === "hire"
                   ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
@@ -510,28 +395,25 @@ export default function HireCreatorsPage() {
             >
               Hire Creators
             </button>
-
             <button
-              onClick={() => setActiveTab("merchlab")}
-              className={`px-2 sm:px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
-                activeTab === "merchlab"
+              onClick={() => setActiveTab("post")}
+              className={`px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
+                activeTab === "post"
                   ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Package className="w-3 h-3 inline mr-1" />
-              MerchLab
+              Post Project
             </button>
-
             <button
               onClick={() => setActiveTab("studios")}
-              className={`px-2 sm:px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
+              className={`px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold uppercase tracking-wider whitespace-nowrap transition-all border-b-2 ${
                 activeTab === "studios"
                   ? "border-foreground text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              Studios
+              Studio Bookings
             </button>
           </div>
         </div>
@@ -540,457 +422,407 @@ export default function HireCreatorsPage() {
       {/* Hire Creators section */}
       {activeTab === "hire" && (
         <>
-          <div className="bg-card border-b">
-            <div className="max-w-7xl mx-auto px-2 sm:px-4">
-              <button
-                onClick={() => setShowPostProject(!showPostProject)}
-                className="w-full text-left px-2 py-2 text-xs font-medium text-muted-foreground hover:text-foreground flex items-center justify-between"
-              >
-                <span>Post Project</span>
-                <ChevronDown className={`w-3 h-3 transition-transform ${showPostProject ? "rotate-180" : ""}`} />
-              </button>
+          <section className="py-4 sm:py-8 bg-muted/50 border-b border-border">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
+                <div>
+                  <div className="text-xl sm:text-2xl md:text-3xl font-bold text-deep-green">500+</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Verified Creators</div>
+                </div>
+                <div>
+                  <div className="text-xl sm:text-2xl md:text-3xl font-bold text-deep-green">50+</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Countries</div>
+                </div>
+                <div>
+                  <div className="text-xl sm:text-2xl md:text-3xl font-bold text-deep-green">2M+</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Combined Reach</div>
+                </div>
+                <div>
+                  <div className="text-xl sm:text-2xl md:text-3xl font-bold text-deep-green">98%</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Success Rate</div>
+                </div>
+              </div>
             </div>
-          </div>
+          </section>
 
-          {showPostProject && (
-            <div className="bg-card border-b shadow-sm">
-              <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">
-                <div className="space-y-2">
-                  <Input
-                    placeholder="Project Title"
-                    className="h-8 text-xs"
-                    value={postProjectForm.title}
-                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, title: e.target.value }))}
-                  />
-                  <div className="grid grid-cols-2 gap-2">
-                    <Select
-                      value={postProjectForm.category}
-                      onValueChange={(value) => setPostProjectForm((prev) => ({ ...prev, category: value }))}
-                    >
-                      <SelectTrigger className="h-8 text-xs">
+          {/* Search and Filters */}
+          <section className="py-4 sm:py-6 bg-muted/50">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+              <div className="bg-card rounded-lg shadow-sm p-3 sm:p-4 border border-border">
+                <div className="space-y-3">
+                  {/* Search Bar */}
+                  <div className="relative">
+                    <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                    <Input
+                      placeholder="Search creators..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-9 h-10 text-sm"
+                    />
+                  </div>
+
+                  {/* Filter Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger className="h-10 text-xs sm:text-sm">
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="fashion">Fashion</SelectItem>
-                        <SelectItem value="beauty">Beauty</SelectItem>
-                        <SelectItem value="music">Music</SelectItem>
-                        <SelectItem value="artisan">Artisan</SelectItem>
-                        <SelectItem value="photography">Photography</SelectItem>
+                        {categories.map((category) => (
+                          <SelectItem key={category.value} value={category.value}>
+                            {category.label}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
-                    <Input
-                      placeholder="Budget ($)"
-                      type="number"
-                      className="h-8 text-xs"
-                      value={postProjectForm.budget}
-                      onChange={(e) => setPostProjectForm((prev) => ({ ...prev, budget: e.target.value }))}
-                    />
-                  </div>
-                  <Textarea
-                    placeholder="Description"
-                    rows={2}
-                    className="text-xs"
-                    value={postProjectForm.description}
-                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, description: e.target.value }))}
-                  />
-                  <div className="flex items-center gap-2">
-                    <Input
-                      placeholder="Contact Email"
-                      type="email"
-                      className="h-8 text-xs"
-                      value={postProjectForm.email}
-                      onChange={(e) => setPostProjectForm((prev) => ({ ...prev, email: e.target.value }))}
-                    />
-                    <Button onClick={handlePostProject} size="sm" className="h-8 text-xs">
-                      Post
+                    <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+                      <SelectTrigger className="h-10 text-xs sm:text-sm">
+                        <SelectValue placeholder="Location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country.value} value={country.value}>
+                            {country.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
+                      <SelectTrigger className="h-10 text-xs sm:text-sm">
+                        <SelectValue placeholder="Specialty" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {specialties.map((specialty) => (
+                          <SelectItem key={specialty.value} value={specialty.value}>
+                            {specialty.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="h-10 text-xs sm:text-sm">
+                        <SelectValue placeholder="Sort by" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rating">Highest Rated</SelectItem>
+                        <SelectItem value="followers">Most Followers</SelectItem>
+                        <SelectItem value="projects">Most Projects</SelectItem>
+                        <SelectItem value="price-low">Price: Low to High</SelectItem>
+                        <SelectItem value="price-high">Price: High to Low</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {/* New filters for budget and experience */}
+                    <Select value={selectedBudget} onValueChange={setSelectedBudget}>
+                      <SelectTrigger className="h-10 text-xs sm:text-sm">
+                        <SelectValue placeholder="Budget" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Budgets</SelectItem>
+                        <SelectItem value="low">Low ($0-$50/hr)</SelectItem>
+                        <SelectItem value="medium">Medium ($50-$150/hr)</SelectItem>
+                        <SelectItem value="high">High ($150+/hr)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select value={selectedExperience} onValueChange={setSelectedExperience}>
+                      <SelectTrigger className="h-10 text-xs sm:text-sm">
+                        <SelectValue placeholder="Experience" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Experience</SelectItem>
+                        <SelectItem value="entry">Entry-Level</SelectItem>
+                        <SelectItem value="mid">Mid-Level</SelectItem>
+                        <SelectItem value="experienced">Experienced</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setSelectedCategory("all")
+                        setSelectedLocation("all") // Reset to all locations
+                        setSelectedSpecialty("all")
+                        setSortBy("rating")
+                        setSelectedBudget("all") // Reset budget
+                        setSelectedExperience("all") // Reset experience
+                        setSearchTerm("")
+                      }}
+                      className="h-10 bg-transparent text-xs sm:text-sm"
+                    >
+                      Clear Filters
                     </Button>
                   </div>
                 </div>
               </div>
             </div>
-          )}
-
-          <section className="bg-muted/30 border-b">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4">
-              <div className="grid grid-cols-4 gap-2 text-center">
-                <div>
-                  <div className="text-base sm:text-lg font-bold">500+</div>
-                  <div className="text-[10px] sm:text-xs text-muted-foreground">Creators</div>
-                </div>
-                <div>
-                  <div className="text-base sm:text-lg font-bold">50+</div>
-                  <div className="text-[10px] sm:text-xs text-muted-foreground">Countries</div>
-                </div>
-                <div>
-                  <div className="text-base sm:text-lg font-bold">2M+</div>
-                  <div className="text-[10px] sm:text-xs text-muted-foreground">Reach</div>
-                </div>
-                <div>
-                  <div className="text-base sm:text-lg font-bold">98%</div>
-                  <div className="text-[10px] sm:text-xs text-muted-foreground">Success</div>
-                </div>
-              </div>
-            </div>
           </section>
 
-          <section className="py-2 bg-muted/50">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4">
-              <div className="space-y-1.5">
-                <div className="relative">
-                  <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-3 w-3" />
-                  <Input
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-7 h-7 text-xs"
-                  />
-                </div>
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="h-7 text-[10px] sm:text-xs">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.value} value={category.value} className="text-xs">
-                          {category.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                    <SelectTrigger className="h-7 text-[10px] sm:text-xs">
-                      <SelectValue placeholder="Location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {countries.map((country) => (
-                        <SelectItem key={country.value} value={country.value} className="text-xs">
-                          {country.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
-                    <SelectTrigger className="h-7 text-[10px] sm:text-xs">
-                      <SelectValue placeholder="Specialty" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {specialties.map((specialty) => (
-                        <SelectItem key={specialty.value} value={specialty.value} className="text-xs">
-                          {specialty.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="h-7 text-[10px] sm:text-xs">
-                      <SelectValue placeholder="Sort" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rating" className="text-xs">
-                        Top Rated
-                      </SelectItem>
-                      <SelectItem value="followers" className="text-xs">
-                        Most Followers
-                      </SelectItem>
-                      <SelectItem value="price-low" className="text-xs">
-                        Price Low
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select value={selectedBudget} onValueChange={setSelectedBudget}>
-                    <SelectTrigger className="h-7 text-[10px] sm:text-xs">
-                      <SelectValue placeholder="Budget" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all" className="text-xs">
-                        All Budgets
-                      </SelectItem>
-                      <SelectItem value="low" className="text-xs">
-                        Low ($0-$50/hr)
-                      </SelectItem>
-                      <SelectItem value="medium" className="text-xs">
-                        Medium ($50-$150/hr)
-                      </SelectItem>
-                      <SelectItem value="high" className="text-xs">
-                        High ($150+/hr)
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select value={selectedExperience} onValueChange={setSelectedExperience}>
-                    <SelectTrigger className="h-7 text-[10px] sm:text-xs">
-                      <SelectValue placeholder="Experience" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all" className="text-xs">
-                        All Experience
-                      </SelectItem>
-                      <SelectItem value="entry" className="text-xs">
-                        Entry-Level
-                      </SelectItem>
-                      <SelectItem value="mid" className="text-xs">
-                        Mid-Level
-                      </SelectItem>
-                      <SelectItem value="experienced" className="text-xs">
-                        Experienced
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setSelectedCategory("all")
-                      setSelectedLocation("all")
-                      setSelectedSpecialty("all")
-                      setSortBy("rating")
-                      setSearchTerm("")
-                      setSelectedBudget("all")
-                      setSelectedExperience("all")
-                    }}
-                    className="h-7 text-[10px] sm:text-xs"
-                  >
-                    Clear
-                  </Button>
-                </div>
+          {/* Creators Grid */}
+          <section ref={creatorsRef} className="py-4 sm:py-8">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 gap-2">
+                <h2 className="text-lg sm:text-xl font-bold text-foreground">
+                  {filteredCreators.length} Creators Found
+                </h2>
+                <div className="text-xs sm:text-sm text-muted-foreground">Showing verified creators</div>
               </div>
-            </div>
-          </section>
 
-          {/* Creator grid */}
-          <section ref={creatorsRef} className="py-3 sm:py-4">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-                {filteredCreators.map((creator) => (
-                  <Card key={creator.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                    <div className="relative h-24 sm:h-32">
-                      <Image
-                        src={creator.coverImage || "/placeholder.svg"}
-                        alt={creator.name}
-                        fill
-                        className="object-cover"
-                      />
-                      <Badge className="absolute top-1.5 left-1.5 text-[10px] h-5 px-1.5">{creator.category}</Badge>
-                    </div>
-                    <CardHeader className="p-2 sm:p-3 pb-1">
-                      <div className="flex items-center gap-2">
-                        <Avatar className="h-7 w-7 sm:h-8 sm:w-8">
-                          <AvatarImage src={creator.avatar || "/placeholder.svg"} />
-                          <AvatarFallback className="text-[10px]">
-                            {creator.name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-semibold text-xs flex items-center gap-1">
-                            <span className="truncate">{creator.name}</span>
-                            {creator.isVerified && <Verified className="h-2.5 w-2.5 text-blue-500" />}
-                          </h3>
-                          <p className="text-[10px] text-muted-foreground truncate">{creator.specialty}</p>
+              {filteredCreators.length === 0 ? (
+                <div className="text-center py-8">
+                  <div className="text-muted-foreground mb-3">
+                    <Search className="h-10 w-10 mx-auto" />
+                  </div>
+                  <h3 className="text-base font-medium text-foreground mb-2">No creators found</h3>
+                  <p className="text-muted-foreground text-sm px-2">Try adjusting your search criteria or filters.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+                  {filteredCreators.map((creator) => (
+                    <Card key={creator.id} className="overflow-hidden hover:shadow-lg transition-shadow border-border">
+                      <div className="relative h-32 sm:h-40">
+                        <Image
+                          src={creator.coverImage || "/placeholder.svg"}
+                          alt={`${creator.name}'s work`}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute top-2 left-2">
+                          <Badge className={`${getCategoryColor(creator.category)} text-xs`}>
+                            {getCategoryIcon(creator.category)}
+                            <span className="ml-1 capitalize">{creator.category}</span>
+                          </Badge>
                         </div>
+                        {creator.hasCreatorId && (
+                          <div className="absolute top-2 right-2">
+                            <Badge className="bg-primary text-primary-foreground text-xs">
+                              <Verified className="h-3 w-3 mr-0.5" />
+                              ID
+                            </Badge>
+                          </div>
+                        )}
                       </div>
-                    </CardHeader>
-                    <CardContent className="p-2 sm:p-3 pt-0 space-y-1.5">
-                      <div className="flex items-center justify-between text-[10px]">
-                        <div className="flex items-center gap-0.5">
-                          <Star className="h-2.5 w-2.5 text-yellow-400" />
-                          <span className="font-medium">{creator.rating}</span>
-                          <span className="text-muted-foreground ml-0.5">({creator.reviewCount})</span>
+                      <CardHeader className="pb-2 px-3 sm:px-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center space-x-2 min-w-0 flex-1">
+                            <Avatar className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0">
+                              <AvatarImage src={creator.avatar || "/placeholder.svg"} alt={creator.name} />
+                              <AvatarFallback className="text-xs">
+                                {creator.name
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="min-w-0 flex-1">
+                              <h3 className="font-semibold text-sm sm:text-base flex items-center">
+                                <span className="truncate">{creator.name}</span>
+                                {creator.isVerified && (
+                                  <Verified className="h-3 w-3 text-blue-500 ml-1 flex-shrink-0" />
+                                )}
+                              </h3>
+                              <p className="text-xs text-muted-foreground truncate">{creator.specialty}</p>
+                            </div>
+                          </div>
                         </div>
-                        <span className="text-muted-foreground">{creator.followers.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center justify-between pt-1">
-                        <div className="font-semibold text-xs">${creator.hourlyRate}/hr</div>
-                        <div className="text-[10px] text-muted-foreground">{creator.completedProjects} jobs</div>
-                      </div>
-                      <div className="flex gap-1.5 pt-1">
-                        <Link href={`/creator/${creator.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full h-7 text-[10px] bg-transparent">
-                            View
-                          </Button>
-                        </Link>
-                        <Button className="flex-1 h-7 text-[10px]" onClick={() => handleCommission(creator)}>
-                          Hire
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                      </CardHeader>
+                      <CardContent className="pt-0 px-3 sm:px-4 pb-3">
+                        <div className="space-y-2">
+                          <div className="flex items-center text-xs text-muted-foreground">
+                            <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                            <span className="truncate">{creator.location}</span>
+                          </div>
+
+                          <div className="flex items-center justify-between text-xs">
+                            <div className="flex items-center">
+                              <Star className="h-3 w-3 text-yellow-400 mr-0.5" />
+                              <span className="font-medium">{creator.rating}</span>
+                              <span className="text-muted-foreground ml-0.5">({creator.reviewCount})</span>
+                            </div>
+                            <div className="text-muted-foreground">{creator.followers.toLocaleString()} followers</div>
+                          </div>
+
+                          <div className="flex flex-wrap gap-1">
+                            {creator.skills.slice(0, 2).map((skill) => (
+                              <Badge key={skill} variant="secondary" className="text-xs py-0 px-1.5">
+                                {skill}
+                              </Badge>
+                            ))}
+                            {creator.skills.length > 2 && (
+                              <Badge variant="secondary" className="text-xs py-0 px-1.5">
+                                +{creator.skills.length - 2}
+                              </Badge>
+                            )}
+                          </div>
+
+                          <div className="flex items-center justify-between pt-1">
+                            <div>
+                              <div className="font-semibold text-sm sm:text-base">${creator.hourlyRate}/hr</div>
+                              <div className="text-xs text-muted-foreground">{creator.responseTime}</div>
+                            </div>
+                            <div className="text-right">
+                              <div className="text-xs font-medium">{creator.completedProjects} projects</div>
+                              <div className="text-xs text-muted-foreground">completed</div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row space-y-1.5 sm:space-y-0 sm:space-x-2 pt-2">
+                            <Link href={`/creator/${creator.id}`} className="flex-1">
+                              <Button variant="outline" className="w-full bg-transparent h-9 text-xs sm:text-sm">
+                                View Profile
+                              </Button>
+                            </Link>
+                            <Button className="flex-1 h-9 text-xs sm:text-sm" onClick={() => handleCommission(creator)}>
+                              Commission
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
         </>
       )}
 
-      {activeTab === "merchlab" && (
-        <section className="py-4 sm:py-6">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4">
-            <Tabs value={merchTab} onValueChange={setMerchTab} className="space-y-3">
-              <TabsList className="grid w-full grid-cols-3 h-auto p-0.5">
-                <TabsTrigger value="launch" className="text-[10px] sm:text-xs py-1.5">
-                  <Zap className="w-3 h-3 mr-1" />
-                  Launch
-                </TabsTrigger>
-                <TabsTrigger value="dashboard" className="text-[10px] sm:text-xs py-1.5">
-                  <TrendingUp className="w-3 h-3 mr-1" />
-                  Stats
-                </TabsTrigger>
-                <TabsTrigger value="store" className="text-[10px] sm:text-xs py-1.5">
-                  <ShoppingBag className="w-3 h-3 mr-1" />
-                  Store
-                </TabsTrigger>
-              </TabsList>
+      {/* Post Project section */}
+      {activeTab === "post" && (
+        <section className="py-4 sm:py-8">
+          <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-6">
+            <div className="bg-card rounded-lg border border-border p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold mb-2">Post a Project</h2>
+              <p className="text-sm text-muted-foreground mb-6">
+                Describe your project and connect with the perfect creator for your needs.
+              </p>
 
-              <TabsContent value="launch" className="space-y-3 mt-3">
-                <Card className="p-3">
-                  <h3 className="text-xs sm:text-sm font-bold mb-2 flex items-center gap-1.5">
-                    <Shield className="w-4 h-4" />
-                    Select Your IP
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {creatorIPs.map((ip) => (
-                      <button
-                        key={ip.id}
-                        onClick={() => setSelectedIP(ip.id)}
-                        className={`relative p-2 border-2 rounded-lg transition-all ${
-                          selectedIP === ip.id ? "border-foreground" : "border-border"
-                        }`}
-                      >
-                        <div className="aspect-square rounded bg-muted mb-1.5 overflow-hidden">
-                          <img
-                            src={ip.image || "/placeholder.svg"}
-                            alt={ip.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <p className="text-[10px] font-medium line-clamp-2">{ip.name}</p>
-                        <Badge variant="outline" className="text-[9px] mt-1 h-4 px-1">
-                          {ip.category}
-                        </Badge>
-                      </button>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card className="p-3">
-                  <h3 className="text-xs sm:text-sm font-bold mb-2 flex items-center gap-1.5">
-                    <Package className="w-4 h-4" />
-                    Select Products
-                  </h3>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                    {productTypes.map((product) => (
-                      <button
-                        key={product.id}
-                        onClick={() => toggleProduct(product.id)}
-                        className={`p-2 border-2 rounded-lg transition-all ${
-                          selectedProducts.includes(product.id) ? "border-foreground" : "border-border"
-                        }`}
-                      >
-                        <product.icon className="w-6 h-6 mx-auto mb-1" />
-                        <p className="text-[10px] font-medium">{product.name}</p>
-                        <p className="text-[9px] text-muted-foreground">${product.basePrice}</p>
-                      </button>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card className="p-3">
-                  <h3 className="text-xs sm:text-sm font-bold mb-2">Configure</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <Label className="text-[10px]">Royalty (%)</Label>
-                      <Input
-                        type="number"
-                        value={royaltyRate}
-                        onChange={(e) => setRoyaltyRate(e.target.value)}
-                        className="h-7 text-xs mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px]">Item Limit (optional)</Label>
-                      <Input
-                        type="number"
-                        value={itemLimit}
-                        onChange={(e) => setItemLimit(e.target.value)}
-                        placeholder="Unlimited"
-                        className="h-7 text-xs mt-1"
-                      />
-                    </div>
-                  </div>
-                </Card>
-
-                <Button onClick={handleLaunchMerch} className="w-full h-8 text-xs">
-                  Launch Merch
-                  <ChevronRight className="w-3 h-3 ml-1" />
-                </Button>
-              </TabsContent>
-
-              <TabsContent value="dashboard" className="space-y-3 mt-3">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {merchStats.map((stat, i) => (
-                    <Card key={i} className="p-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <stat.icon className="w-4 h-4 text-muted-foreground" />
-                        <Badge variant="outline" className="text-[9px] h-4 px-1 text-green-600">
-                          {stat.trend}
-                        </Badge>
-                      </div>
-                      <p className="text-base font-bold">{stat.value}</p>
-                      <p className="text-[9px] text-muted-foreground">{stat.label}</p>
-                    </Card>
-                  ))}
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="projectTitle" className="text-sm">
+                    Project Title *
+                  </Label>
+                  <Input
+                    id="projectTitle"
+                    placeholder="e.g., Need authentic African fashion content"
+                    value={postProjectForm.title}
+                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, title: e.target.value }))}
+                    className="h-10 text-sm mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="category" className="text-sm">
+                    Category *
+                  </Label>
+                  <Select
+                    value={postProjectForm.category}
+                    onValueChange={(value) => setPostProjectForm((prev) => ({ ...prev, category: value }))}
+                  >
+                    <SelectTrigger className="h-10 text-sm mt-1">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fashion">Fashion & Style</SelectItem>
+                      <SelectItem value="beauty">Beauty & Skincare</SelectItem>
+                      <SelectItem value="food">Food & Culture</SelectItem>
+                      <SelectItem value="pottery">Pottery & Ceramics</SelectItem>
+                      <SelectItem value="textiles">Textiles & Tie-Dye</SelectItem>
+                      <SelectItem value="woodwork">Wood Carving & Sculpture</SelectItem>
+                      <SelectItem value="photography">Photography</SelectItem>
+                      <SelectItem value="music">Music & Entertainment</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                <Card className="p-3">
-                  <h3 className="text-xs font-bold mb-2">Top Selling</h3>
-                  <div className="space-y-2">
-                    {trendingProducts.map((product, i) => (
-                      <div key={i} className="flex items-center justify-between p-2 bg-accent/5 rounded text-[10px]">
-                        <div>
-                          <p className="font-medium">{product.name}</p>
-                          <p className="text-muted-foreground">{product.serialRange}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold">{product.revenue}</p>
-                          <p className="text-muted-foreground">{product.sales} sold</p>
-                        </div>
-                      </div>
-                    ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="budget" className="text-sm">
+                      Budget (USD) *
+                    </Label>
+                    <div className="relative mt-1">
+                      <DollarSign className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="budget"
+                        type="number"
+                        placeholder="1000"
+                        className="pl-9 h-10 text-sm"
+                        value={postProjectForm.budget}
+                        onChange={(e) => setPostProjectForm((prev) => ({ ...prev, budget: e.target.value }))}
+                      />
+                    </div>
                   </div>
-                </Card>
-              </TabsContent>
+                  <div>
+                    <Label htmlFor="timeline" className="text-sm">
+                      Timeline
+                    </Label>
+                    <Input
+                      id="timeline"
+                      placeholder="e.g., 2 weeks"
+                      value={postProjectForm.timeline}
+                      onChange={(e) => setPostProjectForm((prev) => ({ ...prev, timeline: e.target.value }))}
+                      className="h-10 text-sm mt-1"
+                    />
+                  </div>
+                </div>
 
-              <TabsContent value="store" className="space-y-3 mt-3">
-                <Card className="p-3">
-                  <h3 className="text-xs font-bold mb-2">My Store</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <Label className="text-[10px]">Store URL</Label>
-                      <Input value="revulter.com/store/username" readOnly className="h-7 text-[10px] mt-1" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="p-2 border rounded">
-                        <p className="text-[10px] text-muted-foreground mb-1">Active Drops</p>
-                        <p className="text-lg font-bold">8</p>
-                      </div>
-                      <div className="p-2 border rounded">
-                        <p className="text-[10px] text-muted-foreground mb-1">Sold Out</p>
-                        <p className="text-lg font-bold">4</p>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </TabsContent>
-            </Tabs>
+                <div>
+                  <Label htmlFor="description" className="text-sm">
+                    Project Description *
+                  </Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Describe your project, goals, and what you're looking for in a creator..."
+                    rows={3}
+                    value={postProjectForm.description}
+                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, description: e.target.value }))}
+                    className="text-sm mt-1"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="email" className="text-sm">
+                    Contact Email *
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={postProjectForm.email}
+                    onChange={(e) => setPostProjectForm((prev) => ({ ...prev, email: e.target.value }))}
+                    className="h-10 text-sm mt-1"
+                  />
+                </div>
+
+                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center">
+                  <Upload className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
+                  <p className="text-xs text-muted-foreground mb-2">Upload reference files (optional)</p>
+                  <Button variant="outline" size="sm" className="bg-transparent text-xs">
+                    Choose Files
+                  </Button>
+                </div>
+
+                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-2">
+                  <Button
+                    onClick={handlePostProject}
+                    disabled={
+                      !postProjectForm.title ||
+                      !postProjectForm.category ||
+                      !postProjectForm.description ||
+                      !postProjectForm.email
+                    }
+                    className="h-10 text-sm"
+                  >
+                    Post Project
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       )}
 
+      {/* Studio Bookings section */}
       {activeTab === "studios" && (
-        <section className="py-4 sm:py-6">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4">
+        <section className="py-4 sm:py-8">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
             {/* Studio Intro */}
             <div className="mb-6">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Professional Studio Access</h2>
@@ -1182,7 +1014,7 @@ export default function HireCreatorsPage() {
         </section>
       )}
 
-      {/* Commission Modal */}
+      {/* Commission Modal (moved outside conditional renders) */}
       {showCommissionModal && selectedCreator && (
         <CommissionModal
           creator={selectedCreator}
@@ -1193,8 +1025,6 @@ export default function HireCreatorsPage() {
           }}
         />
       )}
-
-      <Footer />
     </div>
   )
 }
