@@ -17,17 +17,9 @@ import {
   Star,
   Verified,
   Users,
-  TrendingUp,
-  DollarSign,
   ChevronDown,
-  Package,
-  Shirt,
-  ShoppingBag,
-  Zap,
   Shield,
-  Sparkles,
   ChevronRight,
-  ImageIcon,
   Palette,
 } from "lucide-react"
 import Link from "next/link"
@@ -245,18 +237,12 @@ export default function HireCreatorsPage() {
     email: "",
   })
   const creatorsRef = useRef<HTMLElement>(null)
-  const [activeTab, setActiveTab] = useState<"hire" | "merchlab" | "studios">("hire") // Removed "post" from tab options
+  const [activeTab, setActiveTab] = useState<"hire" | "studios">("hire") // Removed "post" from tab options
 
   // Added state for new filters
   const [selectedLocation, setSelectedLocation] = useState("all")
   const [selectedBudget, setSelectedBudget] = useState("all")
   const [selectedExperience, setSelectedExperience] = useState("all")
-
-  const [selectedIP, setSelectedIP] = useState<string | null>(null)
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([])
-  const [royaltyRate, setRoyaltyRate] = useState("15")
-  const [itemLimit, setItemLimit] = useState("")
-  const [merchTab, setMerchTab] = useState("launch")
   const [showPostProject, setShowPostProject] = useState(false) // This is for the dropdown, distinct from showPostProjectModal
 
   useEffect(() => {
@@ -419,72 +405,7 @@ export default function HireCreatorsPage() {
     }
   }
 
-  const creatorIPs = [
-    {
-      id: "ip-1",
-      name: "Cartoon Character IP",
-      category: "Animation",
-      image: "/colorful-cartoon-character-mascot-design.jpg",
-      verified: true,
-    },
-    {
-      id: "ip-2",
-      name: "Animated Art NFT",
-      category: "Digital Art",
-      image: "/animated-digital-art-nft-futuristic-design.jpg",
-      verified: true,
-    },
-    {
-      id: "ip-3",
-      name: "Abstract Painting IP",
-      category: "Fine Art",
-      image: "/abstract-modern-painting-colorful-art.jpg",
-      verified: true,
-    },
-    {
-      id: "ip-4",
-      name: "Rap Album Cover Art",
-      category: "Music",
-      image: "/hip-hop-rap-album-cover-urban-street-art.jpg",
-      verified: true,
-    },
-  ]
 
-  const productTypes = [
-    { id: "tshirt", name: "T-Shirt", icon: Shirt, basePrice: 25 },
-    { id: "hoodie", name: "Hoodie", icon: Package, basePrice: 45 },
-    { id: "cap", name: "Cap", icon: ShoppingBag, basePrice: 20 },
-    { id: "jacket", name: "Jacket", icon: Package, basePrice: 65 },
-    { id: "poster", name: "Poster", icon: ImageIcon, basePrice: 15 },
-    { id: "sticker", name: "Sticker Pack", icon: Sparkles, basePrice: 8 },
-  ]
-
-  const merchStats = [
-    { label: "Total Revenue", value: "$12,450", icon: DollarSign, trend: "+23%" },
-    { label: "Items Sold", value: "487", icon: Package, trend: "+18%" },
-    { label: "Active Drops", value: "12", icon: Zap, trend: "+5%" },
-    { label: "Avg. Rating", value: "4.8", icon: Star, trend: "+0.2" },
-  ]
-
-  const trendingProducts = [
-    { name: "Abstract Vibes Hoodie", sales: 142, revenue: "$6,390", serialRange: "001-142" },
-    { name: "Urban Street Tee", sales: 98, revenue: "$2,450", serialRange: "001-098" },
-    { name: "Character Cap", sales: 76, revenue: "$1,520", serialRange: "001-076" },
-  ]
-
-  const handleLaunchMerch = () => {
-    if (!selectedIP || selectedProducts.length === 0) {
-      alert("Please select an IP and at least one product type")
-      return
-    }
-    alert(`Merch launched for IP ${selectedIP} with products ${selectedProducts.join(", ")}!`)
-  }
-
-  const toggleProduct = (productId: string) => {
-    setSelectedProducts((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId],
-    )
-  }
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -509,18 +430,6 @@ export default function HireCreatorsPage() {
               }`}
             >
               Hire Creators
-            </button>
-
-            <button
-              onClick={() => setActiveTab("merchlab")}
-              className={`px-2 sm:px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all border-b-2 ${
-                activeTab === "merchlab"
-                  ? "border-foreground text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Package className="w-3 h-3 inline mr-1" />
-              MerchLab
             </button>
 
             <button
@@ -822,170 +731,6 @@ export default function HireCreatorsPage() {
             </div>
           </section>
         </>
-      )}
-
-      {activeTab === "merchlab" && (
-        <section className="py-4 sm:py-6">
-          <div className="max-w-7xl mx-auto px-3 sm:px-4">
-            <Tabs value={merchTab} onValueChange={setMerchTab} className="space-y-3">
-              <TabsList className="grid w-full grid-cols-3 h-auto p-0.5">
-                <TabsTrigger value="launch" className="text-[10px] sm:text-xs py-1.5">
-                  <Zap className="w-3 h-3 mr-1" />
-                  Launch
-                </TabsTrigger>
-                <TabsTrigger value="dashboard" className="text-[10px] sm:text-xs py-1.5">
-                  <TrendingUp className="w-3 h-3 mr-1" />
-                  Stats
-                </TabsTrigger>
-                <TabsTrigger value="store" className="text-[10px] sm:text-xs py-1.5">
-                  <ShoppingBag className="w-3 h-3 mr-1" />
-                  Store
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="launch" className="space-y-3 mt-3">
-                <Card className="p-3">
-                  <h3 className="text-xs sm:text-sm font-bold mb-2 flex items-center gap-1.5">
-                    <Shield className="w-4 h-4" />
-                    Select Your IP
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {creatorIPs.map((ip) => (
-                      <button
-                        key={ip.id}
-                        onClick={() => setSelectedIP(ip.id)}
-                        className={`relative p-2 border-2 rounded-lg transition-all ${
-                          selectedIP === ip.id ? "border-foreground" : "border-border"
-                        }`}
-                      >
-                        <div className="aspect-square rounded bg-muted mb-1.5 overflow-hidden">
-                          <img
-                            src={ip.image || "/placeholder.svg"}
-                            alt={ip.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <p className="text-[10px] font-medium line-clamp-2">{ip.name}</p>
-                        <Badge variant="outline" className="text-[9px] mt-1 h-4 px-1">
-                          {ip.category}
-                        </Badge>
-                      </button>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card className="p-3">
-                  <h3 className="text-xs sm:text-sm font-bold mb-2 flex items-center gap-1.5">
-                    <Package className="w-4 h-4" />
-                    Select Products
-                  </h3>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                    {productTypes.map((product) => (
-                      <button
-                        key={product.id}
-                        onClick={() => toggleProduct(product.id)}
-                        className={`p-2 border-2 rounded-lg transition-all ${
-                          selectedProducts.includes(product.id) ? "border-foreground" : "border-border"
-                        }`}
-                      >
-                        <product.icon className="w-6 h-6 mx-auto mb-1" />
-                        <p className="text-[10px] font-medium">{product.name}</p>
-                        <p className="text-[9px] text-muted-foreground">${product.basePrice}</p>
-                      </button>
-                    ))}
-                  </div>
-                </Card>
-
-                <Card className="p-3">
-                  <h3 className="text-xs sm:text-sm font-bold mb-2">Configure</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <Label className="text-[10px]">Royalty (%)</Label>
-                      <Input
-                        type="number"
-                        value={royaltyRate}
-                        onChange={(e) => setRoyaltyRate(e.target.value)}
-                        className="h-7 text-xs mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label className="text-[10px]">Item Limit (optional)</Label>
-                      <Input
-                        type="number"
-                        value={itemLimit}
-                        onChange={(e) => setItemLimit(e.target.value)}
-                        placeholder="Unlimited"
-                        className="h-7 text-xs mt-1"
-                      />
-                    </div>
-                  </div>
-                </Card>
-
-                <Button onClick={handleLaunchMerch} className="w-full h-8 text-xs">
-                  Launch Merch
-                  <ChevronRight className="w-3 h-3 ml-1" />
-                </Button>
-              </TabsContent>
-
-              <TabsContent value="dashboard" className="space-y-3 mt-3">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {merchStats.map((stat, i) => (
-                    <Card key={i} className="p-2">
-                      <div className="flex items-center justify-between mb-1">
-                        <stat.icon className="w-4 h-4 text-muted-foreground" />
-                        <Badge variant="outline" className="text-[9px] h-4 px-1 text-green-600">
-                          {stat.trend}
-                        </Badge>
-                      </div>
-                      <p className="text-base font-bold">{stat.value}</p>
-                      <p className="text-[9px] text-muted-foreground">{stat.label}</p>
-                    </Card>
-                  ))}
-                </div>
-
-                <Card className="p-3">
-                  <h3 className="text-xs font-bold mb-2">Top Selling</h3>
-                  <div className="space-y-2">
-                    {trendingProducts.map((product, i) => (
-                      <div key={i} className="flex items-center justify-between p-2 bg-accent/5 rounded text-[10px]">
-                        <div>
-                          <p className="font-medium">{product.name}</p>
-                          <p className="text-muted-foreground">{product.serialRange}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold">{product.revenue}</p>
-                          <p className="text-muted-foreground">{product.sales} sold</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="store" className="space-y-3 mt-3">
-                <Card className="p-3">
-                  <h3 className="text-xs font-bold mb-2">My Store</h3>
-                  <div className="space-y-2">
-                    <div>
-                      <Label className="text-[10px]">Store URL</Label>
-                      <Input value="revulter.com/store/username" readOnly className="h-7 text-[10px] mt-1" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="p-2 border rounded">
-                        <p className="text-[10px] text-muted-foreground mb-1">Active Drops</p>
-                        <p className="text-lg font-bold">8</p>
-                      </div>
-                      <div className="p-2 border rounded">
-                        <p className="text-[10px] text-muted-foreground mb-1">Sold Out</p>
-                        <p className="text-lg font-bold">4</p>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </section>
       )}
 
       {activeTab === "studios" && (

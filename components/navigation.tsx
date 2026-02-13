@@ -18,7 +18,6 @@ function Navigation() {
     { href: "/licensing", label: "Licensing Hub" },
     { href: "/hire-creators", label: "Creator Hub" },
     { href: "/legal", label: "Legal Assist" },
-    { href: "/merchlab", label: "MerchLab" },
   ]
 
   const isActivePath = (href: string) => {
