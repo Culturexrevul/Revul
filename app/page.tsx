@@ -31,7 +31,7 @@ export default function HomePage() {
 
   const quickAccessItems = [
     { href: "/register", label: "Register IP", icon: Shield },
-    { href: "/ip-reputation", label: "IP Market", icon: BarChart3 },
+    { href: "/licensing", label: "IP Market", icon: BarChart3 },
     { href: "/hire-creators", label: "Creator Hub", icon: Globe },
     { href: "/legal", label: "Legal Assist", icon: Scale },
   ]
