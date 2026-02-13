@@ -27,15 +27,7 @@ export default function HomePage() {
     return () => observer.disconnect()
   }, [])
 
-  const playClickSound = () => {
-    try {
-      const audio = new Audio("https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mixkit-on-or-off-light-switch-tap-2585-9r0FDWj4cHZwRtJhuTU9q6VKyUgoYh.wav")
-      audio.volume = 1.0
-      audio.play().catch(() => {})
-    } catch (error) {
-      console.error("Failed to play click sound:", error)
-    }
-  }
+
 
   const quickAccessItems = [
     { href: "/register", label: "Register IP", icon: Shield },
@@ -59,7 +51,6 @@ export default function HomePage() {
                       key={item.href}
                       href={item.href}
                       className="group flex flex-col items-center justify-center"
-                      onClick={playClickSound}
                     >
                       <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-2 rounded-full bg-gradient-to-br from-white to-white shadow-[inset_-2px_-2px_8px_rgba(255,255,255,0.9),inset_2px_2px_8px_rgba(0,0,0,0.1),0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300 group-hover:shadow-[inset_-3px_-3px_10px_rgba(255,255,255,1),inset_3px_3px_10px_rgba(0,0,0,0.15),0_6px_16px_rgba(0,0,0,0.12)]">
                         <div className="absolute inset-0 flex items-center justify-center">
